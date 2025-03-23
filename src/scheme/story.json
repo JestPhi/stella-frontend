@@ -1,0 +1,16 @@
+{
+    "title": "string",
+    "authorId": "string",
+    "createdAt": "date",
+    "storyId": "string",
+    "pages": {
+        "1": {
+            "graphic": "string",
+            "caption": "string"
+        },
+        "2": {
+            "graphic": "string",
+            "caption": "string"
+        }
+    }
+}

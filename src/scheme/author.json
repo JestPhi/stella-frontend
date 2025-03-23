@@ -1,0 +1,7 @@
+{
+    "userId": "string",
+    "stories": [
+        "story1",
+        "story2"
+    ]
+}
