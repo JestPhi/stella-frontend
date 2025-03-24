@@ -1,29 +1,33 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { slideUpMenuState } from '../../../state.svelte';
+	import {isSlideUpVisible} from './state.svelte'
 
 	onMount(() => {
-		if (!!slideUpMenuState.content) {
+		if (isSlideUpVisible.value) {
+			console.log('fire')
 			document.getElementsByTagName('body')[0].classList.add('noScroll');
-		}
+		} 
 	});
 
 	let { children } = $props();
 </script>
 
-{#if slideUpMenuState.content}
+{#if isSlideUpVisible.value}
 	<div
 		class="background"
-		on:click={() => {
-			slideUpMenuState.content = null;
+		onclick={() => {
+			isSlideUpVisible.value = false
+			document.getElementsByTagName('body')[0].classList.remove('noScroll');
 		}}
 	></div>
 	<div class="menu">{@render children()}</div>
 {/if}
 
 <style>
+
 	:global(.noScroll) {
 		overflow: hidden;
+	
 	}
 
 	@keyframes fadeIn {
@@ -41,6 +45,7 @@
 		position: fixed;
 		width: 100%;
 		animation: fadeIn 0.25s forwards;
+		z-index: 1;
 	}
 
 	@keyframes slideIn {
@@ -63,5 +68,6 @@
 		width: calc(100% - 24px);
 		animation: slideIn 0.25s forwards;
 		transform: translateY(100%);
+		z-index: 1;
 	}
 </style>

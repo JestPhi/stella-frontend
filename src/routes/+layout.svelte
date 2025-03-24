@@ -12,7 +12,16 @@
 <ActionBar />
 
 <style>
+	:global(html) {
+		scrollbar-width: none;
+	}
+	:global(body) {
+		overflow-x: hidden;
+		margin: 0;
+		
+	}
 	.content {
 		margin-bottom: 44px;
+		padding: 12px
 	}
 </style>
