@@ -1,3 +1,7 @@
+<script>
+	import Action from './Action.svelte';
+</script>
+
 <div class="page">
 	<figure>
 		<img
@@ -13,7 +17,10 @@
 			non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 		</figcaption>
 	</figure>
-	<div class="pageNumber">pg 1</div>
+	<div class="pageFooter">
+		<div class="pageNumber">1</div>
+		<Action />
+	</div>
 </div>
 
 <style>
@@ -22,5 +29,10 @@
 	}
 	.pageNumber {
 		text-align: center;
+	}
+	.pageFooter {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
 	}
 </style>
