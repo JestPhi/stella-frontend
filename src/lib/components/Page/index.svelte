@@ -1,8 +1,14 @@
 <script>
-	import Action from './Action.svelte';
+	import Action from '../Action/index.svelte';
+	import Menu from './Menu.svelte';
+	import Trigger from './Trigger.svelte';
 </script>
 
 <div class="page">
+	<div class="pageFooter">
+		<div class="pageNumber">pg 1</div>
+		<Action trigger={Trigger} menu={Menu} />
+	</div>
 	<figure>
 		<img
 			class="graphic"
@@ -17,10 +23,6 @@
 			non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 		</figcaption>
 	</figure>
-	<div class="pageFooter">
-		<div class="pageNumber">1</div>
-		<Action />
-	</div>
 </div>
 
 <style>
@@ -29,6 +31,7 @@
 	}
 	.pageNumber {
 		text-align: center;
+		margin-right: 12px;
 	}
 	.pageFooter {
 		display: flex;

@@ -1,5 +1,9 @@
+<script lang="ts">
+	import Action from './Action/index.svelte';
+</script>
+
 <div class="actionBar">
-	<button>Edit Mode</button>
+	<Action trigger="Add new" />
 	<div class="avatar"></div>
 </div>
 

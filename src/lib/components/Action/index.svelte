@@ -1,33 +1,44 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import {isSlideUpVisible} from './state.svelte'
+	import { isSlideUpVisible } from './state.svelte';
+
+	const props = $props();
 
 	onMount(() => {
 		if (isSlideUpVisible.value) {
-			console.log('fire')
+			console.log('fire');
 			document.getElementsByTagName('body')[0].classList.add('noScroll');
-		} 
+		}
 	});
-
-	let { children } = $props();
 </script>
 
-{#if isSlideUpVisible.value}
-	<div
-		class="background"
+<div class="action">
+	<button
 		onclick={() => {
-			isSlideUpVisible.value = false
-			document.getElementsByTagName('body')[0].classList.remove('noScroll');
-		}}
-	></div>
-	<div class="menu">{@render children()}</div>
-{/if}
+			isSlideUpVisible.value = true;
+		}}>{@render props.trigger()}</button
+	>
+	{#if isSlideUpVisible.value}
+		<div
+			role="presentation"
+			class="background"
+			onclick={() => {
+				isSlideUpVisible.value = false;
+				document.getElementsByTagName('body')[0].classList.remove('noScroll');
+			}}
+		></div>
+		<div class="menu">{@render props.menu()}</div>
+	{/if}
+</div>
 
 <style>
+	.action {
+		display: flex;
+		flex-direction: column;
+	}
 
 	:global(.noScroll) {
 		overflow: hidden;
-	
 	}
 
 	@keyframes fadeIn {
