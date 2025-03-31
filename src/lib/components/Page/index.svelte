@@ -1,39 +1,71 @@
-<script>
-	import Action from '../Action/index.svelte';
+<script lang="ts">
+	import Action from '../Action/Action.svelte';
 	import Menu from './Menu.svelte';
 	import Trigger from './Trigger.svelte';
+	import Button from '../Button.svelte';
+
+	let isVisible = $state(false);
+
+	const props = $props();
+
+	const {
+		caption,
+		text,
+		EXIF: { F, SS, ISO },
+		src,
+		pg
+	} = $state.snapshot(props);
 </script>
 
 <div class="page">
-	<div class="pageFooter">
-		<div class="pageNumber">pg 1</div>
-		<Action trigger={Trigger} menu={Menu} />
-	</div>
-	<figure>
-		<img
-			class="graphic"
-			src="https://a32d5790-fb8c-4145-a825-c1fa2a2e4eb2.mdnplay.dev/shared-assets/images/examples/elephant.jpg"
-			alt="Elephant"
+	<div class="bar">
+		<Button>Up</Button>
+		<Button>Down</Button>
+		<Action
+			trigger={Trigger}
+			menu={Menu}
+			{isVisible}
+			onclick={(isVisibleBool: boolean) => {
+				isVisible = isVisibleBool;
+			}}
 		/>
+	</div>
+	<figure class="content">
+		<img class="graphic" {src} alt={caption} />
+		<span class="meta">{F}f/2.8 1/{SS} ISO{ISO}</span>
 		<figcaption>
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-			labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-			laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-			voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-			non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			{caption}
 		</figcaption>
 	</figure>
+	<p>{text}</p>
+	<div class="bar">
+		<div class="pageNumber">pg {pg}</div>
+	</div>
 </div>
 
 <style>
+	.content {
+		margin: 0;
+	}
+	.meta {
+		display: flex;
+		font-size: 12px;
+		margin-bottom: 12px;
+		color: #999;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+	}
 	.graphic {
+		margin-bottom: 4px;
+		margin-top: 12px;
 		width: 100%;
 	}
 	.pageNumber {
 		text-align: center;
 		margin-right: 12px;
 	}
-	.pageFooter {
+	.bar {
 		display: flex;
 		align-items: center;
 		justify-content: flex-end;

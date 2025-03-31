@@ -1,12 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { isSlideUpVisible } from './state.svelte';
 
 	const props = $props();
 
 	onMount(() => {
-		if (isSlideUpVisible.value) {
-			console.log('fire');
+		if (props.isVisible) {
 			document.getElementsByTagName('body')[0].classList.add('noScroll');
 		}
 	});
@@ -15,15 +13,15 @@
 <div class="action">
 	<button
 		onclick={() => {
-			isSlideUpVisible.value = true;
+			props.onclick(!props.isVisible);
 		}}>{@render props.trigger()}</button
 	>
-	{#if isSlideUpVisible.value}
+	{#if props.isVisible}
 		<div
 			role="presentation"
 			class="background"
 			onclick={() => {
-				isSlideUpVisible.value = false;
+				props.onclick(!props.isVisible);
 				document.getElementsByTagName('body')[0].classList.remove('noScroll');
 			}}
 		></div>

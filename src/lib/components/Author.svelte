@@ -9,6 +9,7 @@
 		align-items: center;
 		flex-direction: column;
 		justify-self: center;
+		margin-bottom: 12px;
 	}
 	.graphic {
 		background: black;

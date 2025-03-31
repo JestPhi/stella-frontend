@@ -1,10 +1,8 @@
 <script>
-	let buttonProps = {
-		class: [$$restProps.class]
-	};
+	const props = $props();
 </script>
 
-<button {...buttonProps}> <slot /> </button>
+<button {...props}> {@render props.children()}</button>
 
 <style>
 	.primary {
