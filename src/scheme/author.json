@@ -3,5 +3,7 @@
     "stories": [
         "story1",
         "story2"
-    ]
+    ],
+    "version": 1,
+    "createdAt": "date"
 }

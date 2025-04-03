@@ -1,42 +1,84 @@
 {
     "title": "The Great Safari",
-    "authorId": "abcd1234",
+    "userId": "abcd1234",
     "createdAt": 1743128165284,
     "storyId": "123abc",
+    "version": 1,
     "pages": {
-        "001": {
-            "graphic": "photo",
-            "src": "https://a32d5790-fb8c-4145-a825-c1fa2a2e4eb2.mdnplay.dev/shared-assets/images/examples/elephant.jpg",
-            "EXIF": {
-                "F": "2",
-                "ISO": "100",
-                "FL": "24",
-                "SS": "1000",
-                "coord": "123, 342",
-                "date": "12/01/2025",
-                "time": "9:00",
-                "camera": "Lumix S9",
-                "lens": "Sigma 24mm f2"
-            },
-            "caption": "Duis aute irure dolor in reprehenderit in voluptate velit esse.",
-            "text": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. "
-        },
         "002": {
-            "graphic": "photo",
-            "src": "https://a32d5790-fb8c-4145-a825-c1fa2a2e4eb2.mdnplay.dev/shared-assets/images/examples/elephant.jpg",
-            "EXIF": {
-                "F": "2",
-                "ISO": "100",
-                "FL": "24",
-                "SS": "1000",
-                "coord": "123, 342",
-                "date": "12/01/2025",
-                "time": "9:00",
-                "camera": "Lumix S9",
-                "lens": "Sigma 24mm f2"
-            },
-            "caption": "Duis aute irure dolor in reprehenderit in voluptate velit esse.",
-            "text": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. "
+            "layout": [
+                {
+                    "rows": 1,
+                    "col": 3,
+                    "src": "https://a32d5790-fb8c-4145-a825-c1fa2a2e4eb2.mdnplay.dev/shared-assets/images/examples/elephant.jpg",
+                    "EXIF": {
+                        "F": "2",
+                        "ISO": "100",
+                        "FL": "24",
+                        "SS": "1000",
+                        "coord": "123, 342",
+                        "date": "12/01/2025",
+                        "time": "9:00",
+                        "camera": "Lumix S9",
+                        "lens": "Sigma 24mm f2"
+                    },
+                    "extension": "jpg",
+                    "caption": "Duis aute irure dolor in reprehenderit in voluptate velit esse.",
+                    "text": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. "
+                }
+            ]
+        },
+        "003": {
+            "layout": [
+                {
+                    "height": "1",
+                    "width": ".5",
+                    "src": "https://a32d5790-fb8c-4145-a825-c1fa2a2e4eb2.mdnplay.dev/shared-assets/images/examples/elephant.jpg",
+                    "mediums": [
+                        "Mixed",
+                        "Watercolor"
+                    ],
+                    "imageProfile": "",
+                    "EXIF": {
+                        "F": "2",
+                        "ISO": "100",
+                        "FL": "24",
+                        "SS": "1000",
+                        "coord": "123, 342",
+                        "date": "12/01/2025",
+                        "time": "9:00",
+                        "camera": "Lumix S9",
+                        "lens": "Sigma 24mm f2"
+                    },
+                    "extension": "jpg",
+                    "caption": "Duis aute irure dolor in reprehenderit in voluptate velit esse.",
+                    "text": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. "
+                },
+                {
+                    "height": "1",
+                    "width": ".5",
+                    "src": "https://a32d5790-fb8c-4145-a825-c1fa2a2e4eb2.mdnplay.dev/shared-assets/images/examples/elephant.jpg",
+                    "mediums": [
+                        "Film",
+                        "Digital"
+                    ],
+                    "imageProfile": "",
+                    "EXIF": {
+                        "F": "2",
+                        "ISO": "100",
+                        "FL": "24",
+                        "SS": "1000",
+                        "coord": "123, 342",
+                        "date": "12/01/2025",
+                        "time": "9:00",
+                        "camera": "Lumix S9",
+                        "lens": "Sigma 24mm f2"
+                    },
+                    "extension": "jpg",
+                    "caption": "Duis aute irure dolor in reprehenderit in voluptate velit esse.",
+                    "text": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. "
+                }
+            ]
         }
     },
     "order": [
