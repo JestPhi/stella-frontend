@@ -8,6 +8,8 @@
 			document.getElementsByTagName('body')[0].classList.add('noScroll');
 		}
 	});
+
+	console.log(props);
 </script>
 
 <div class="action">
@@ -22,7 +24,7 @@
 				document.getElementsByTagName('body')[0].classList.remove('noScroll');
 			}}
 		></div>
-		<div class="menu">{@render props.menu()}</div>
+		<div class="menu"><props.menu {...props.menuProps} /></div>
 	{/if}
 </div>
 

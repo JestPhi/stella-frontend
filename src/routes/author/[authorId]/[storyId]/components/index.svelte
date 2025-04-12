@@ -15,9 +15,7 @@
 		{#each layout as item}
 			<img class="graphic" src={item.src} alt={item.caption} />
 			<!-- <span class="meta">{F}f/2.8 1/{SS} ISO{ISO}</span> -->
-			<Caption>
-				{item.caption}
-			</Caption>
+			<Caption text={item.caption} />
 		{/each}
 	</figure>
 	<p>{text}</p>

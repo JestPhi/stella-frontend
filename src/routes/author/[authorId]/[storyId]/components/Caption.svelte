@@ -1,11 +1,11 @@
 <script lang="ts">
-	import Action from '$lib/components/Action/Action.svelte';
+	import Action from '$lib/components/Action.svelte';
 	import appState from '../../../../../lib/state/appState.svelte';
 	import EditCaption from './EditCaption.svelte';
 
 	let isVisible = $state(false);
 
-	const { children } = $props();
+	const { text } = $props();
 </script>
 
 <!-- svelte-ignore a11y_figcaption_parent -->
@@ -13,6 +13,12 @@
 	{#if appState.isEditMode}
 		<Action
 			menu={EditCaption}
+			menuProps={{
+				text: text,
+				onchange: () => {
+					console.log('hello');
+				}
+			}}
 			{isVisible}
 			onClose={(isVisibleBool: boolean) => {
 				isVisible = isVisibleBool;
@@ -25,10 +31,10 @@
 					isVisible = !isVisible;
 				}}
 			>
-				{@render children()}
+				{text}
 			</div>
 		</Action>
 	{:else}
-		{@render children()}
+		{text}
 	{/if}
 </figcaption>

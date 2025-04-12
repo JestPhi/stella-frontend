@@ -1,7 +1,7 @@
 <script lang="ts">
 	import storyState from '../state/storyState.svelte';
 	import appState from '../../../../../lib/state/appState.svelte';
-	import Action from '$lib/components/Action/Action.svelte';
+	import Action from '$lib/components/Action.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Menu from './Menu.svelte';
 	import { moveItemUp, moveItemDown } from './helpers';
@@ -10,8 +10,6 @@
 
 	const props = $props();
 	const { pg } = $state.snapshot(props);
-
-	console.log(pg, storyState.story.pages.length);
 </script>
 
 {#if appState.isEditMode}
