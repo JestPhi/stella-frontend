@@ -1,7 +1,13 @@
-<div class="insert">
-	<hr class="divider" />
-	<button class="insertButton">Insert Page</button>
-</div>
+<script lang="ts">
+	import appState from '$lib/state/appState.svelte';
+</script>
+
+{#if appState.isEditMode}
+	<div class="insert">
+		<hr class="divider" />
+		<button class="insertButton">Insert Page</button>
+	</div>
+{/if}
 
 <style>
 	.divider {

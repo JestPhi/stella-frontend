@@ -11,17 +11,14 @@
 </script>
 
 <div class="action">
-	<button
-		onclick={() => {
-			props.onclick(!props.isVisible);
-		}}>{@render props.trigger()}</button
-	>
+	{@render props.children()}
+
 	{#if props.isVisible}
 		<div
 			role="presentation"
 			class="background"
 			onclick={() => {
-				props.onclick(!props.isVisible);
+				props.onClose(!props.isVisible);
 				document.getElementsByTagName('body')[0].classList.remove('noScroll');
 			}}
 		></div>
