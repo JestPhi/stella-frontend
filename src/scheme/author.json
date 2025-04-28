@@ -1,9 +1,22 @@
 {
-    "userId": "string",
+    "authorId": "string",
+    "createdAt": "date",
     "stories": [
-        "story1",
-        "story2"
+        {
+            "id": "abc",
+            "title": "1 How to catch a dragon",
+            "src": "https://a32d5790-fb8c-4145-a825-c1fa2a2e4eb2.mdnplay.dev/shared-assets/images/examples/elephant.jpg"
+        },
+        {
+            "id": "dfg",
+            "title": "2 How to catch a dragon",
+            "src": "https://a32d5790-fb8c-4145-a825-c1fa2a2e4eb2.mdnplay.dev/shared-assets/images/examples/elephant.jpg"
+        },
+        {
+            "id": "hij",
+            "title": "3 How to catch a dragon",
+            "src": "https://a32d5790-fb8c-4145-a825-c1fa2a2e4eb2.mdnplay.dev/shared-assets/images/examples/elephant.jpg"
+        }
     ],
-    "version": 1,
-    "createdAt": "date"
+
 }

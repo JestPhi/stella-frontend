@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import feather from 'feather-icons';
+	import Button from './Button.svelte';
 
 	const props = $props();
 
@@ -8,32 +10,28 @@
 			document.getElementsByTagName('body')[0].classList.add('noScroll');
 		}
 	});
-
-	console.log(props);
 </script>
 
-<div class="action">
-	{@render props.children()}
+{@render props.children()}
 
-	{#if props.isVisible}
-		<div
-			role="presentation"
-			class="background"
-			onclick={() => {
-				props.onClose(!props.isVisible);
-				document.getElementsByTagName('body')[0].classList.remove('noScroll');
-			}}
-		></div>
-		<div class="menu"><props.menu {...props.menuProps} /></div>
-	{/if}
-</div>
+{#if props.isVisible}
+	<div
+		role="presentation"
+		class="background"
+		onclick={() => {
+			props.onClose(!props.isVisible);
+			document.getElementsByTagName('body')[0].classList.remove('noScroll');
+		}}
+	></div>
+	<div class="menu">
+		<div class="actions">
+			<span>{props.label}</span>
+		</div>
+		<props.menu {...props.menuProps} />
+	</div>
+{/if}
 
 <style>
-	.action {
-		display: flex;
-		flex-direction: column;
-	}
-
 	:global(.noScroll) {
 		overflow: hidden;
 	}
@@ -58,7 +56,7 @@
 
 	@keyframes slideIn {
 		100% {
-			transform: translateY(0%);
+			transform: translateY(44px);
 		}
 	}
 
@@ -67,15 +65,25 @@
 		box-sizing: border-box;
 		border-radius: 12px;
 		display: block;
-		padding: 12px;
+		align-items: flex-end;
 		position: fixed;
 		bottom: 0;
 		left: 0;
-		height: 400px;
-		margin: 12px;
-		width: calc(100% - 24px);
+		height: 100vh;
+		width: 100%;
 		animation: slideIn 0.25s forwards;
 		transform: translateY(100%);
 		z-index: 1;
+	}
+	.menu :global(.close) {
+		position: absolute;
+		right: 0;
+		margin-right: 6px;
+	}
+	.actions {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 12px;
 	}
 </style>

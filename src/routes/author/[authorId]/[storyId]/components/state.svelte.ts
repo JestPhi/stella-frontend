@@ -1,1 +1,1 @@
-export const isSlideUpVisible = $state({ value: false});
+export const isSlideUpVisible = $state({ value: false });
