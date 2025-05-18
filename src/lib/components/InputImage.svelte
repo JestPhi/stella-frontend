@@ -57,14 +57,14 @@
 </div>
 
 <style>
-	.inputImage {
-		height: 60vh;
-	}
 	input {
 		display: none;
 	}
 	img {
-		height: 100%;
+		width: 100%;
+	}
+	.inputImage {
+		padding: 16px;
 	}
 	.actions {
 		color: white;

@@ -6,12 +6,17 @@
 
 <style>
 	button {
+		align-items: center;
 		cursor: pointer;
+		display: flex;
+		justify-content: center;
+		min-width: 48px;
 	}
 	.minimal {
 		background: none;
 		border: none;
 		padding: 0;
+		height: 48px;
 	}
 	.outline {
 		background: none;

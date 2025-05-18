@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import feather from 'feather-icons';
-	import Button from './Button.svelte';
 
 	const props = $props();
 
@@ -11,8 +9,6 @@
 		}
 	});
 </script>
-
-{@render props.children()}
 
 {#if props.isVisible}
 	<div
@@ -24,10 +20,7 @@
 		}}
 	></div>
 	<div class="menu">
-		<div class="actions">
-			<span>{props.label}</span>
-		</div>
-		<props.menu {...props.menuProps} />
+		{@render props.children()}
 	</div>
 {/if}
 
@@ -56,7 +49,7 @@
 
 	@keyframes slideIn {
 		100% {
-			transform: translateY(44px);
+			transform: translateY(0px);
 		}
 	}
 
@@ -69,21 +62,10 @@
 		position: fixed;
 		bottom: 0;
 		left: 0;
-		height: 100vh;
+		height: calc(100vh - 44px);
 		width: 100%;
 		animation: slideIn 0.25s forwards;
 		transform: translateY(100%);
 		z-index: 1;
-	}
-	.menu :global(.close) {
-		position: absolute;
-		right: 0;
-		margin-right: 6px;
-	}
-	.actions {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 12px;
 	}
 </style>

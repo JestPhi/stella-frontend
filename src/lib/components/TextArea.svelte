@@ -1,16 +1,17 @@
 <script lang="ts">
 	const props = $props();
-	let text = $state(props.value);
 </script>
 
 <textarea
 	id="story"
 	name="story"
-	bind:value={text}
+	value={props.value}
 	class={props.class}
-	onchange={(event) => props.onchange(event.target.value)}
-	placeholder={props.placeholder}>{props.text}</textarea
->
+	onkeyup={(event) => {
+		props.onchange(event.target.value);
+	}}
+	placeholder={props.placeholder}
+></textarea>
 
 <style>
 	textarea {

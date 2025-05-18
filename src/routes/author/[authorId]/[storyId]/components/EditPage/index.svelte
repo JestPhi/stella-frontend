@@ -8,45 +8,34 @@
 	let isVisible = $state(false);
 </script>
 
-<div class="action">
-	<Action
-		{isVisible}
-		label={page?.label}
-		menu={Menu}
-		menuProps={{
-			blob: page?.blob,
-			src: page?.src,
-			title: page?.text,
-			onImageChange: (file: any, blob: any) => {
-				page.src = file?.name;
-				page.blob = blob;
-			},
-			onTextChange: (value: string) => {
-				page.text = value;
-			}
+<Action
+	{isVisible}
+	label={page?.label}
+	onClose={(isVisibleBool: boolean) => {
+		isVisible = isVisibleBool;
+	}}
+>
+	<Menu
+		blob={page?.blob}
+		src={page?.src}
+		title={page?.text}
+		onImageChange={(file: any, blob: any) => {
+			page.src = file?.name;
+			page.blob = blob;
 		}}
-		onClose={(isVisibleBool: boolean) => {
-			isVisible = isVisibleBool;
+		onTextChange={(value: string) => {
+			page.text = value;
 		}}
-	>
-		<Button
-			class="minimal"
-			onclick={() => {
-				isVisible = !isVisible;
-			}}
-			>{@html feather.icons['edit-2'].toSvg({
-				stroke: '#888',
-				width: 18,
-				height: 18
-			})}</Button
-		>
-	</Action>
-</div>
-
-<style>
-	.action {
-		display: flex;
-		justify-content: flex-end;
-		padding: 12px;
-	}
-</style>
+	/>
+</Action>
+<Button
+	class="minimal"
+	onclick={() => {
+		isVisible = !isVisible;
+	}}
+	>{@html feather.icons['edit-2'].toSvg({
+		stroke: '#888',
+		width: 18,
+		height: 18
+	})}</Button
+>

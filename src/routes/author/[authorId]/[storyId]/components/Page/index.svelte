@@ -7,40 +7,38 @@
 	const imageURL = blobURL || page?.src;
 </script>
 
-<figure class="content">
+<div class="content">
 	<img id={`page-${pg}`} class="graphic" src={imageURL} alt={'caption'} />
-</figure>
-<p>{page?.text}</p>
-
-{#if pg !== 'cover'}
-	<div class="bar">
-		<div class="pageNumber">{pg}</div>
-	</div>
-{/if}
+	<p>{page?.text}</p>
+	{#if pg !== 'cover'}
+		<div class="bar">
+			<div class="pageNumber">{pg}</div>
+		</div>
+	{/if}
+</div>
 
 <style>
-	p {
-		padding: 0 12px;
-		text-indent: 24px;
-	}
 	.content {
+		box-sizing: border-box;
+		flex-direction: column;
 		margin: 0;
 		display: flex;
-		align-items: center;
-		justify-content: center;
+		padding: 0 16px;
+	}
+	.content :global(p) {
+		padding: 16px;
+		margin: 0;
 	}
 	.graphic {
-		height: 60vh;
-		width: fit-content;
 	}
 	.pageNumber {
 		color: #888;
-		text-align: center;
 		margin-right: 12px;
 	}
 	.bar {
 		display: flex;
 		align-items: center;
-		justify-content: flex-end;
+		justify-content: center;
+		padding: 16px 0 32px;
 	}
 </style>

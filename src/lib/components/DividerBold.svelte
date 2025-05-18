@@ -2,14 +2,13 @@
 	const props = $props();
 </script>
 
-<hr class="divider" />
+<hr class={['dividerBold', props.class]} />
 
 <style>
-	.divider {
-		background-color: #ccc;
+	.dividerBold {
+		background-color: #222;
 		border: 0;
 		width: 100%;
-		height: 1px;
-		margin: 0;
+		height: 4px;
 	}
 </style>

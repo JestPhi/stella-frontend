@@ -1,68 +1,71 @@
 <script lang="ts">
 	import feather from 'feather-icons';
 	import Button from '$lib/components/Button.svelte';
-	import { moveItemUp, moveItemDown, removeItem } from './helpers';
+	import { moveItemUp, moveItemDown, removeItem } from '$lib/util';
 	import EditPage from '../EditPage/index.svelte';
+	import StoryActions from '$lib/components/StoryActions.svelte';
 
-	const { pg, pages } = $props();
+	const { isReadOnly, pg, pages } = $props();
 </script>
 
-<div class="bar">
-	<div class="left">
-		{#if pg !== 'cover'}
+<StoryActions>
+	{#if !isReadOnly}
+		<div class="left"></div>
+		<div class="right">
+			{#if pg !== 'cover'}
+				<Button
+					class="minimal trash"
+					onclick={() => {
+						removeItem(pages, pg);
+					}}
+				>
+					{@html feather.icons['trash-2'].toSvg({
+						stroke: '#888',
+						width: 18,
+						height: 18
+					})}
+				</Button>
+			{/if}
 			<Button
-				class="minimal trash ml12"
+				class="minimal"
+				disabled={pg === 0}
 				onclick={() => {
-					removeItem(pages, pg);
+					moveItemUp(pages, pg);
 				}}
 			>
-				{@html feather.icons['trash-2'].toSvg({
+				{@html feather.icons['arrow-up'].toSvg({
 					stroke: '#888',
 					width: 18,
 					height: 18
-				})}
-			</Button>
-		{/if}
-	</div>
-	<div class="right">
-		<Button
-			class="minimal"
-			disabled={pg === 0}
-			onclick={() => {
-				moveItemUp(pages, pg);
-			}}
-		>
-			{@html feather.icons['arrow-up'].toSvg({
-				stroke: '#888',
-				width: 18,
-				height: 18
-			})}</Button
-		>
-		<Button
-			class="minimal ml12"
-			disabled={pg === pages.length - 1}
-			onclick={() => {
-				moveItemDown(pages, pg);
-			}}
-		>
-			{@html feather.icons['arrow-down'].toSvg({
-				stroke: '#888',
-				width: 18,
-				height: 18
-			})}</Button
-		>
-		<EditPage page={pages[pg]} />
-	</div>
-</div>
+				})}</Button
+			>
+			<Button
+				class="minimal"
+				disabled={pg === pages.length - 1}
+				onclick={() => {
+					moveItemDown(pages, pg);
+				}}
+			>
+				{@html feather.icons['arrow-down'].toSvg({
+					stroke: '#888',
+					width: 18,
+					height: 18
+				})}</Button
+			>
+			<EditPage page={pages[pg]} />
+		</div>
+	{/if}
+</StoryActions>
 
 <style>
-	.bar {
+	.left {
 		display: flex;
-		justify-content: space-between;
-		padding: 0 12px;
+		flex: 1;
 	}
-	.left,
+
 	.right {
 		display: flex;
+		flex: 1;
+		justify-content: flex-end;
 	}
 </style>

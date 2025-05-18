@@ -4,8 +4,9 @@
 	import Button from '$lib/components/Button.svelte';
 	import Divider from '$lib/components/Divider.svelte';
 	import EditPageMenu from '../EditPage/Menu.svelte';
+	import feather from 'feather-icons';
 
-	const { story, pg } = $props();
+	const { isReadOnly, story, pg } = $props();
 	let isVisible = $state(false);
 	let newPageState = $state({
 		blob: null,
@@ -16,36 +17,46 @@
 </script>
 
 <div class="insert">
-	<Divider />
 	<Action
 		{isVisible}
 		label={`Insert Page @ ${pg + 1}`}
-		menu={EditPageMenu}
-		menuProps={{
-			blob: newPageState?.blob,
-			placeholder: 'Enter Text',
-			src: newPageState?.src,
-			onImageChange: (file: any, blob: any) => {
-				newPageState.src = file?.name;
-				newPageState.blob = blob;
-			},
-			onTextChange: (value: string) => {
-				newPageState.text = value;
-			}
-		}}
 		onClose={(isVisibleBool: boolean) => {
-			const updatedPages = story.pages.toSpliced(pg, 0, newPageState);
+			const updatedPages = Array.isArray(story?.pages)
+				? story?.pages?.toSpliced(pg, 0, newPageState)
+				: [newPageState];
 			story.pages = updatedPages;
 			isVisible = isVisibleBool;
 		}}
 	>
+		<EditPageMenu
+			blob={newPageState?.blob}
+			placeholder="Enter Text"
+			src={newPageState?.src}
+			onImageChange={(file: any, blob: any) => {
+				newPageState.src = file?.name;
+				newPageState.blob = blob;
+			}}
+			onTextChange={(value: string) => {
+				newPageState.text = value;
+			}}
+		/>
+	</Action>
+	{#if !isReadOnly}
 		<Button
-			class="insertButton"
+			class="minimal"
 			onclick={() => {
 				isVisible = !isVisible;
-			}}>Insert Page</Button
-		>
-	</Action>
+			}}
+			><span class="insertPageButton"
+				>Insert Page {@html feather.icons['plus'].toSvg({
+					stroke: '#888',
+					height: '16px',
+					width: '16px'
+				})}</span
+			>
+		</Button>
+	{/if}
+	<Divider />
 </div>
 
 <style>
@@ -53,19 +64,31 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		height: 48px;
 		width: 100%;
-		margin-bottom: 12px;
-		margin-top: 12px;
+		position: relative;
 	}
-
 	.insert :global(.insertButton) {
 		font-family: sans-serif;
 		border: none;
-		margin-top: -21px;
-		width: 100px;
 		background: whitesmoke;
-		padding: 4px;
+		padding: 4px 8px;
 		border-radius: 4px;
 		letter-spacing: 1px;
+		height: 48px;
+	}
+
+	.insert :global(.divider) {
+		position: absolute;
+		bottom: 0;
+	}
+
+	.insertPageButton {
+		background: whitesmoke;
+		border-radius: 4px 4px 0px 0px;
+		color: #888;
+		display: flex;
+		padding: 4px 8px;
+		margin-top: 20px;
 	}
 </style>

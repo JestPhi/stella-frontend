@@ -12,12 +12,12 @@
 		bottom: 0;
 		box-sizing: border-box;
 		font-size: 14px;
-		padding: 0 12px;
-		position: sticky;
+		padding: 0 16px;
+		position: fixed;
 		align-items: center;
 		display: flex;
 		justify-content: flex-end;
-		height: 44px;
+		height: 56px;
 		width: 100%;
 	}
 </style>

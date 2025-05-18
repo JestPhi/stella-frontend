@@ -4,7 +4,7 @@
 	.avatar {
 		background: black;
 		border-radius: 50%;
-		height: 24px;
-		width: 24px;
+		height: 32px;
+		width: 32px;
 	}
 </style>

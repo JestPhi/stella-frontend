@@ -1,32 +1,46 @@
 <script>
+	import { page } from '$app/state';
 	import Button from './Button.svelte';
 	import Avatar from './Avatar.svelte';
 	import feather from 'feather-icons';
 </script>
 
 <nav class="navigation">
-	<Button class="minimal">{@html feather.icons['arrow-left'].toSvg({ stroke: '#888' })}</Button>
+	<button onclick={() => history.back()}
+		>{@html feather.icons['arrow-left'].toSvg({
+			height: 24,
+			width: 24,
+			stroke: '#888',
+			viewBox: '0 0 24 24'
+		})}</button
+	>
 	<span class="stella">Stella</span>
 	<Avatar />
 </nav>
 
 <style>
-	.navigation :global(.minimal) {
+	.navigation button {
+		background: none;
+		border: none;
+		height: 48px;
+		width: 48px;
 		position: absolute;
-		left: 12px;
+		left: 0;
+		padding: 0;
 	}
 	.navigation :global(.avatar) {
 		position: absolute;
-		right: 12px;
+		right: 16px;
 	}
 	.navigation {
+		align-items: center;
 		background: white;
 		position: sticky;
 		box-sizing: border-box;
 		display: flex;
-		height: 44px;
+		height: 56px;
 		justify-content: center;
-		padding: 12px;
 		top: 0;
+		z-index: 2;
 	}
 </style>
