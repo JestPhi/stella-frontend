@@ -1,7 +1,6 @@
 <script lang="ts">
 	import feather from 'feather-icons';
 	import Button from '$lib/components/Button.svelte';
-	import Switch from '$lib/components/Switch.svelte';
 	import Author from '$lib/components/Author.svelte';
 	import CoverPage from './components/CoverPage.svelte';
 	import AuthorActions from '$lib/components/AuthorActions.svelte';
@@ -56,7 +55,7 @@
 		<CoverPage {index} story={storiesState?.stories[index]} stories={storiesState?.stories} />
 	{/key}
 {/each}
-
+<!-- TODO re-archetecht this ish -->
 <AuthorActions>
 	<Action
 		{isVisible}

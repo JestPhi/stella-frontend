@@ -11,7 +11,7 @@
 	<TextArea
 		placeholder={'Add a title...'}
 		type="text"
-		class="textArea"
+		class="addTitle"
 		onkeypress={props.onkeypress}
 		onchange={props.onTextChange}
 		label="Title"
@@ -35,7 +35,7 @@
 		flex-direction: column;
 		align-items: center;
 	}
-	.form :global(.textArea) {
+	.form :global(.addTitle) {
 		box-sizing: border-box;
 		padding: 16px;
 		max-width: 420px;
