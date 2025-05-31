@@ -8,16 +8,15 @@
 
 <style>
 	.actionBar {
-		background: white;
 		bottom: 0;
 		box-sizing: border-box;
 		font-size: 14px;
-		padding: 0 16px;
 		position: fixed;
 		align-items: center;
 		display: flex;
 		justify-content: flex-end;
-		height: 56px;
+		height: 48px;
 		width: 100%;
+		z-index: 2;
 	}
 </style>

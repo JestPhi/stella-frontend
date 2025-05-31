@@ -6,7 +6,7 @@
 	import EditPageMenu from '../EditPage/Menu.svelte';
 	import feather from 'feather-icons';
 
-	const { isReadOnly, story, pg } = $props();
+	const { story, pg } = $props();
 	let isVisible = $state(false);
 	let newPageState = $state({
 		blob: null,
@@ -30,7 +30,7 @@
 	>
 		<EditPageMenu
 			blob={newPageState?.blob}
-			placeholder="Enter Text"
+			placeholder="Enter Text..."
 			src={newPageState?.src}
 			onImageChange={(file: any, blob: any) => {
 				newPageState.src = file?.name;
@@ -41,22 +41,19 @@
 			}}
 		/>
 	</Action>
-	{#if !isReadOnly}
-		<Button
-			class="minimal"
-			onclick={() => {
-				isVisible = !isVisible;
-			}}
-			><span class="insertPageButton"
-				>Insert Page {@html feather.icons['plus'].toSvg({
-					stroke: '#888',
-					height: '16px',
-					width: '16px'
-				})}</span
-			>
-		</Button>
-	{/if}
-	<Divider />
+
+	<Button
+		class="insertPageButton"
+		variant="standard"
+		onclick={() => {
+			isVisible = !isVisible;
+		}}
+		>Insert Page {@html feather.icons['plus'].toSvg({
+			stroke: '#888',
+			height: '16px',
+			width: '16px'
+		})}
+	</Button>
 </div>
 
 <style>
@@ -68,22 +65,13 @@
 		width: 100%;
 		position: relative;
 	}
-	.insert :global(.insertButton) {
-		font-family: sans-serif;
-		border: none;
-		background: whitesmoke;
-		padding: 4px 8px;
-		border-radius: 4px;
-		letter-spacing: 1px;
-		height: 48px;
-	}
 
 	.insert :global(.divider) {
 		position: absolute;
 		bottom: 0;
 	}
 
-	.insertPageButton {
+	.insert :global(.insertPageButton) {
 		background: whitesmoke;
 		border-radius: 4px 4px 0px 0px;
 		color: #888;

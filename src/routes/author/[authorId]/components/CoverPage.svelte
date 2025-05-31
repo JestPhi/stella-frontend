@@ -9,34 +9,38 @@
 	const imageURL = blobURL || story?.cover?.src;
 </script>
 
-<a href={`${page.url.pathname}/${story._id}`} class="story">
-	<div class="graphic">
-		<img src={imageURL} alt="Elephant" />
-	</div>
-	<div class="title">
-		{story.cover.text}
-		<div class="meta">March 3rd 2025 - 54 pages</div>
-	</div>
-</a>
+<div class="story">
+	<a href={`${page.url.pathname}/${story._id}`}>
+		<img class="graphic" src={imageURL} alt="Elephant" />
+		<div class="title">
+			{story.cover.text}
+			<div class="meta">March 3rd 2025 - 54 pages</div>
+		</div>
+	</a>
+</div>
 
 <style>
 	.story {
 		align-items: center;
 		box-sizing: border-box;
 		color: #222;
+		height: 100vh;
+		padding: 96px 0 0;
+		width: 100%;
+	}
+	.story a {
 		display: flex;
 		flex-direction: column;
-		padding: 0 16px;
 		width: 100%;
 	}
 	.graphic {
+		aspect-ratio: 1/1;
 		align-items: center;
 		display: flex;
+		height: 60vh;
 		justify-content: center;
-		width: 100%;
-	}
-	.graphic img {
-		width: 100%;
+		object-fit: contain;
+		padding: 0 16px;
 	}
 
 	.title {
@@ -45,6 +49,7 @@
 		font-weight: 600;
 		padding: 12px;
 		width: 100%;
+		text-align: center;
 	}
 	.meta {
 		color: #666;

@@ -2,15 +2,15 @@
 	const { children } = $props();
 </script>
 
-<div class="pageActions">
+<div class="storyActions">
 	{@render children()}
 </div>
 
 <style>
-	.pageActions {
+	.storyActions {
 		display: flex;
 		height: 48px;
 		justify-content: flex-end;
-		padding: 0 16px;
+		width: 100%;
 	}
 </style>

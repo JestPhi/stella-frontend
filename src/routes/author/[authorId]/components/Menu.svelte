@@ -2,22 +2,23 @@
 	import TextArea from '$lib/components/TextArea.svelte';
 	import InputImage from '$lib/components/InputImage.svelte';
 	import Divider from '$lib/components/Divider.svelte';
-	import Button from '$lib/components/Button.svelte';
 	const props = $props();
 </script>
 
 <div class="form">
-	<span class="label">Create New Story</span>
 	<InputImage onchange={props.onImageChange} src={props.src} blob={props.blob} />
 	<Divider />
 	<TextArea
-		placeholder={props.placeholder}
+		placeholder={'Add a title...'}
 		type="text"
 		class="textArea"
 		onkeypress={props.onkeypress}
 		onchange={props.onTextChange}
 		label="Title"
 		value={props.text}
+		rows={6}
+		wrap="hard"
+		maxlength={280}
 	/>
 </div>
 
@@ -36,10 +37,7 @@
 	}
 	.form :global(.textArea) {
 		box-sizing: border-box;
-		padding: 12px;
-		height: calc(40vh - 66px);
-	}
-	.form :global(.inputImage) {
-		height: calc(60vh - 66px);
+		padding: 16px;
+		max-width: 420px;
 	}
 </style>

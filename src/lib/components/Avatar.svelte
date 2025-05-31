@@ -3,8 +3,7 @@
 <style>
 	.avatar {
 		background: black;
-		border-radius: 50%;
-		height: 32px;
-		width: 32px;
+		height: 48px;
+		width: 48px;
 	}
 </style>

@@ -29,7 +29,7 @@
 	/>
 </Action>
 <Button
-	class="minimal"
+	variant="fill"
 	onclick={() => {
 		isVisible = !isVisible;
 	}}

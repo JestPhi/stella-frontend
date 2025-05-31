@@ -2,15 +2,29 @@
 	const props = $props();
 </script>
 
-<button {...props}>{@render props.children()}</button>
+<button onclick={props.onclick} class={props.class}
+	><div class={['inner', props.variant ? props.variant : 'default'].join(' ')}>
+		{@render props.children()}
+	</div></button
+>
 
 <style>
 	button {
 		align-items: center;
+		background: none;
+		border: none;
+		box-sizing: border-box;
 		cursor: pointer;
 		display: flex;
+		height: 48px;
 		justify-content: center;
 		min-width: 48px;
+		padding: 0;
+	}
+	.inner {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 	.minimal {
 		background: none;
@@ -18,16 +32,21 @@
 		padding: 0;
 		height: 48px;
 	}
+	.default {
+		background: white;
+		border-radius: 4px;
+		padding: 6px 12px;
+	}
 	.outline {
-		background: none;
+		background: white;
 		border: solid 1px;
 		border-radius: 4px;
 		padding: 6px 12px;
 	}
-	.primary {
-		color: red;
-	}
-	.secondary {
-		color: blue;
+	.fill {
+		background: white;
+		border: solid 1px white;
+		height: 48px;
+		width: 48px;
 	}
 </style>

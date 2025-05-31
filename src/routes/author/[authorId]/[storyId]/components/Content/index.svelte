@@ -23,13 +23,20 @@
 		flex-direction: column;
 		margin: 0;
 		display: flex;
-		padding: 0 16px;
+		height: calc(100vh - 144px);
+		justify-content: center;
 	}
 	.content :global(p) {
 		padding: 16px;
-		margin: 0;
+		margin: 0 auto;
+		white-space: pre-wrap;
+		max-width: 420px;
 	}
 	.graphic {
+		aspect-ratio: 1/1;
+		object-fit: contain;
+		padding: 0 16px;
+		max-height: 66.666vh;
 	}
 	.pageNumber {
 		color: #888;

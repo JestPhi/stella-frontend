@@ -11,6 +11,9 @@
 		props.onchange(event.target.value);
 	}}
 	placeholder={props.placeholder}
+	rows={props.rows}
+	wrap={props.wrap}
+	maxlength={props.maxlength}
 ></textarea>
 
 <style>

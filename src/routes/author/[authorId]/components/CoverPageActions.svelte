@@ -37,6 +37,3 @@
 		})}</Button
 	>
 </StoryActions>
-
-<style>
-</style>

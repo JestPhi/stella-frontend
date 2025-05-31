@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-
+	import Button from '$lib/components/Button.svelte';
+	import feather from 'feather-icons';
 	const props = $props();
 
 	onMount(() => {
@@ -20,6 +21,20 @@
 		}}
 	></div>
 	<div class="menu">
+		<div class="close">
+			<Button
+				variant="minimal"
+				onclick={() => {
+					props.onClose(!props.isVisible);
+				}}
+			>
+				{@html feather.icons['x'].toSvg({
+					stroke: '#888',
+					width: 18,
+					height: 18
+				})}
+			</Button>
+		</div>
 		{@render props.children()}
 	</div>
 {/if}
@@ -44,7 +59,13 @@
 		position: fixed;
 		width: 100%;
 		animation: fadeIn 0.25s forwards;
-		z-index: 1;
+		z-index: 3;
+	}
+
+	.close {
+		display: flex;
+		flex-direction: flex-end;
+		justify-content: flex-end;
 	}
 
 	@keyframes slideIn {
@@ -62,10 +83,10 @@
 		position: fixed;
 		bottom: 0;
 		left: 0;
-		height: calc(100vh - 44px);
+		height: calc(100vh - 48px);
 		width: 100%;
 		animation: slideIn 0.25s forwards;
 		transform: translateY(100%);
-		z-index: 1;
+		z-index: 3;
 	}
 </style>

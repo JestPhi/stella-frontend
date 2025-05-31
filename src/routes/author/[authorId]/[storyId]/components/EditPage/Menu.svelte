@@ -15,6 +15,9 @@
 		onchange={props.onTextChange}
 		label="Title"
 		value={props.title}
+		rows={12}
+		wrap="hard"
+		maxlength="280"
 	/>
 </div>
 
@@ -27,10 +30,9 @@
 		align-items: center;
 	}
 	.form :global(.textArea) {
-		padding: 12px;
-		height: 40vh;
-	}
-	.form :global(.inputImage) {
-		height: 60vh;
+		box-sizing: border-box;
+		padding: 0 16px;
+		margin: 16px 0 0 0;
+		width: 420px;
 	}
 </style>

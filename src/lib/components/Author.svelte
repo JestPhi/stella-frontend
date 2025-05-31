@@ -10,7 +10,7 @@
 		flex-direction: column;
 		justify-self: center;
 		margin-bottom: 12px;
-		margin-top: 12px;
+		padding-top: 12px;
 	}
 	.author span {
 		font-weight: 600;
@@ -18,8 +18,8 @@
 	.graphic {
 		background: black;
 		border-radius: 50%;
-		height: 64px;
-		width: 64px;
+		height: 96px;
+		width: 96px;
 		margin-bottom: 12px;
 	}
 </style>
