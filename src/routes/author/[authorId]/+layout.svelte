@@ -1,9 +1,14 @@
-<script>
-	import { setContext } from 'svelte';
+<script lang="ts">
 	import '$lib/styles.css';
+	import Navigation from '$lib/components/Navigation.svelte';
+
+	let { children } = $props();
+
+	import '$lib/styles.css';
+	import { GoogleAuthProvider } from 'firebase/auth';
 	import { initializeApp } from 'firebase/app';
-	import { getAuth, onAuthStateChanged } from 'firebase/auth';
-	import { goto } from '$app/navigation';
+	import { getAuth, signInWithRedirect, getRedirectResult, signInWithPopup } from 'firebase/auth';
+	import FaceBookIcon from '$lib/components/icons/Facebook.svelte';
 
 	const firebaseConfig = {
 		apiKey: 'AIzaSyCjax-slr22hK8fhz4UH8TPdwPFBspnCos',
@@ -16,7 +21,10 @@
 	};
 
 	const app = initializeApp(firebaseConfig);
+	const provider = new GoogleAuthProvider();
 	const auth = getAuth(app);
+
+	import { onAuthStateChanged } from 'firebase/auth';
 
 	onAuthStateChanged(auth, (user) => {
 		if (user) {
@@ -24,17 +32,12 @@
 			const uid = user.uid;
 			// Access other user properties as needed.
 			console.log('User is signed in:', uid);
-			goto('/author/test');
 		} else {
 			// User is signed out.
 			console.log('User is signed out');
-			goto('/signin');
 		}
 	});
-
-	let { children } = $props();
-
-	setContext('AUTH', auth);
 </script>
 
+<Navigation />
 {@render children()}

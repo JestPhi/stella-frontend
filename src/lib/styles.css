@@ -8,8 +8,8 @@ html {
 }
 body {
 	color: #333;
+	font-size: 16px;
 	overflow-x: hidden;
-
 	margin: 0;
 }
 p {
@@ -35,14 +35,24 @@ button {
 .ml6 {
 	margin-left: 6px;
 }
+.ml8 {
+	margin-left: 8px;
+}
 .ml12 {
 	margin-left: 12px;
 }
+.ml16 {
+	margin-left: 16px;
+}
+
 .mb6 {
 	margin-bottom: 6px;
 }
 .mb12 {
 	margin-bottom: 12px;
+}
+.mb16 {
+	margin-bottom: 16px;
 }
 .mr6 {
 	margin-right: 6px;
@@ -84,4 +94,11 @@ button {
 	scroll-snap-align: start;
 	scroll-snap-stop: always;
 	padding-top: 48px;
+}
+
+.fw600 {
+	font-weight: 600;
+}
+.fw800 {
+	font-weight: 800;
 }

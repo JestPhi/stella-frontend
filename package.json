@@ -35,8 +35,10 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"@clerk/clerk-js": "^5.67.5",
 		"events": "^3.3.0",
 		"feather-icons": "^4.29.2",
+		"firebase": "^11.8.1",
 		"lodash": "^4.17.21",
 		"pouchdb": "^9.0.0",
 		"pouchdb-browser": "^9.0.0",
