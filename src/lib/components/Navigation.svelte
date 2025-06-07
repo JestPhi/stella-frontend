@@ -1,9 +1,11 @@
 <script>
 	import { getContext } from 'svelte';
+	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import Button from './Button.svelte';
 	import Avatar from './Avatar.svelte';
 	import feather from 'feather-icons';
+	import Profile from './Profile.svelte';
 	import { signOut } from 'firebase/auth';
 
 	const auth = getContext('AUTH');
@@ -18,7 +20,7 @@
 			viewBox: '0 0 24 24'
 		})}</Button
 	>
-	<button
+	<!-- <button
 		class="stella"
 		onclick={() => {
 			signOut(auth)
@@ -31,8 +33,8 @@
 					console.log(error);
 				});
 		}}>Sign out</button
-	>
-	<Avatar />
+	> -->
+	<Profile />
 </nav>
 
 <style>

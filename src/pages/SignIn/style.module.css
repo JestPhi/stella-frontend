@@ -1,0 +1,29 @@
+.signIn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 96px auto 0;
+  width: 420px;
+}
+
+.signInOptions {
+  background: whitesmoke;
+  padding: 12px 16px;
+  width: 100%;
+}
+
+.signInOption {
+  background: white;
+  margin: 4px 0;
+  width: 100%;
+}
+.signInWidth {
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.stella {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}

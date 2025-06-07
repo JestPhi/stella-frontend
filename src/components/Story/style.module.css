@@ -1,0 +1,22 @@
+.story {
+  background: white;
+  border: none;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 8px;
+  width: 50%;
+}
+
+.image {
+  aspect-ratio: 1/1;
+  height: 25dvh;
+  margin: 0 auto;
+  object-fit: contain;
+  object-position: bottom;
+}
+
+.title {
+  font-size: 12px;
+  margin-top: 16px;
+}

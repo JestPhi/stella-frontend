@@ -1,0 +1,12 @@
+.wrapper {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.insertPage {
+  background: whitesmoke;
+  border-radius: 4px 4px 0 0;
+  height: 24px;
+  padding: 4px 12px;
+}

@@ -1,0 +1,14 @@
+.meta {
+  color: #444;
+  display: flex;
+  font-size: 12px;
+  width: fit-content;
+  margin-left: 8px;
+}
+.attribute {
+  width: auto;
+}
+.count {
+  font-weight: 600;
+  margin-right: 8px;
+}

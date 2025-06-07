@@ -1,0 +1,26 @@
+.input {
+  display: none;
+}
+.img {
+  aspect-ratio: 1/1;
+  object-fit: contain;
+  height: 100%;
+  margin: 0 auto;
+}
+.inputImage {
+  align-items: center;
+  display: flex;
+  height: 50vh;
+  position: relative;
+  width: 100%;
+}
+.removeImage {
+  position: absolute;
+  bottom: 0;
+}
+.buttonAddImage {
+  height: 100%;
+  position: absolute;
+  right: 0;
+  width: 100%;
+}

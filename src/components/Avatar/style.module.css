@@ -1,0 +1,10 @@
+.image {
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  object-fit: cover;
+  height: 100px;
+  width: 100px;
+  border: solid 2px #444;
+  padding: 2px;
+  box-sizing: border-box;
+}

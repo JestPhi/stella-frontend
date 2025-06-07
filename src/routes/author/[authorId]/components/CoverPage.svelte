@@ -37,7 +37,7 @@
 		aspect-ratio: 1/1;
 		align-items: center;
 		display: flex;
-		height: 60vh;
+		height: 66.666vh;
 		justify-content: center;
 		object-fit: contain;
 		padding: 0 16px;
@@ -45,11 +45,11 @@
 
 	.title {
 		box-sizing: border-box;
-		font-size: 16px;
+		font-size: 20px;
 		font-weight: 600;
-		padding: 12px;
-		width: 100%;
-		text-align: center;
+		padding: 16px 0 0;
+		margin: 0 auto;
+		max-width: 420px;
 	}
 	.meta {
 		color: #666;

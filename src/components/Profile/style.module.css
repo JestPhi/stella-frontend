@@ -1,0 +1,39 @@
+.profile {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 16px;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 16px;
+}
+
+.bio {
+  font-size: 14px;
+  line-height: 1.5em;
+  max-width: 420px;
+}
+
+.links {
+  margin-right: 4px;
+}
+
+.meta {
+  font-size: 12px;
+}
+
+.storiesCount {
+  font-weight: 600;
+  margin-right: 8px;
+}
+.followersCount {
+  font-weight: 600;
+}

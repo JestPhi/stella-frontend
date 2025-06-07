@@ -77,7 +77,6 @@
 	.menu {
 		background: white;
 		box-sizing: border-box;
-		border-radius: 12px;
 		display: block;
 		align-items: flex-end;
 		position: fixed;

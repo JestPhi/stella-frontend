@@ -1,0 +1,29 @@
+.bar {
+  align-items: center;
+  background: white;
+  display: flex;
+  height: 48px;
+  width: 100%;
+}
+
+.top {
+  position: fixed;
+  top: 0;
+}
+
+.bottom {
+  position: fixed;
+  bottom: 0;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.none {
+  background: none;
+}

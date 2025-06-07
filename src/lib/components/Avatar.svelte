@@ -1,4 +1,8 @@
-<div class="avatar"></div>
+<script lang="ts">
+	const props = $props();
+</script>
+
+<div class="avatar" {...props}></div>
 
 <style>
 	.avatar {

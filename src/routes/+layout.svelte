@@ -4,6 +4,7 @@
 	import { initializeApp } from 'firebase/app';
 	import { getAuth, onAuthStateChanged } from 'firebase/auth';
 	import { goto } from '$app/navigation';
+	import Menu from '$lib/components/Menu.svelte';
 
 	const firebaseConfig = {
 		apiKey: 'AIzaSyCjax-slr22hK8fhz4UH8TPdwPFBspnCos',
@@ -38,3 +39,4 @@
 </script>
 
 {@render children()}
+<Menu />

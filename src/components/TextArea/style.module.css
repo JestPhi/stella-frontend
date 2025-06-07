@@ -1,0 +1,12 @@
+.textarea {
+  border: 0;
+  padding: 16px;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  font-size: 16px;
+  overflow: none;
+  width: 100%;
+  outline: none;
+  resize: none;
+  line-height: 1.5em;
+}

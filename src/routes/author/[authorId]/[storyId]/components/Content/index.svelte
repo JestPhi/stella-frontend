@@ -36,7 +36,7 @@
 		aspect-ratio: 1/1;
 		object-fit: contain;
 		padding: 0 16px;
-		max-height: 66.666vh;
+		max-height: 50vh;
 	}
 	.pageNumber {
 		color: #888;

@@ -1,0 +1,18 @@
+.story {
+  height: calc(100dvh - 96px);
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+}
+.bottomBar,
+.topBar {
+  justify-content: space-between;
+}
+.topBar {
+  position: sticky;
+  top: 0;
+}
+.bottomBar {
+  position: fixed;
+  bottom: 0;
+}

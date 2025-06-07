@@ -1,0 +1,38 @@
+.title {
+  box-sizing: border-box;
+  font-weight: 600;
+  width: 420px;
+  padding: 0 16px;
+}
+.image {
+  aspect-ratio: 1/1;
+  box-sizing: border-box;
+  height: calc(50dvh - 48px);
+  object-fit: contain;
+  object-position: bottom;
+  padding: 0 16px;
+  width: 100%;
+}
+.pageCover {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: calc(100dvh - 96px);
+  align-items: center;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+.topBar {
+  justify-content: flex-end;
+}
+.content {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: calc(50dvh - 48px);
+}
+.meta {
+  justify-content: center;
+  display: flex;
+  font-size: 12px;
+}
