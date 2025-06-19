@@ -2,6 +2,7 @@ import style from "./style.module.css";
 import Bar from "../Bar";
 import ButtonDeletePage from "../ButtonDeletePage";
 import ButtonEditPage from "../ButtonEditPage";
+import ButtonPageMore from "../ButtonPageMore";
 import InsertPage from "../InsertPage";
 import image from "./image.jpg";
 
@@ -9,10 +10,9 @@ const Page = () => {
   return (
     <div className={style.page}>
       <Bar className={style.bar}>
-        <ButtonEditPage />
-        <ButtonDeletePage />
+        <ButtonPageMore />
       </Bar>
-      <img className={style.image} src={image} />
+      <img className={style.image} src={image} loading="lazy" />
       <div className={style.content}>
         <p className={style.text}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -24,7 +24,6 @@ const Page = () => {
         </p>
         <div className={style.pageNumber}>1</div>
       </div>
-      <InsertPage />
     </div>
   );
 };

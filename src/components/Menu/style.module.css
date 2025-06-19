@@ -39,5 +39,11 @@
 }
 
 .topBar {
-  justify-content: flex-end;
+  box-sizing: border-box;
+  justify-content: space-between;
+  padding-left: 16px;
+}
+
+.heading {
+  font-weight: 600;
 }

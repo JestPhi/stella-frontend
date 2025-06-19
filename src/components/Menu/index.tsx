@@ -22,6 +22,7 @@ const Menu = () => {
         ,
         <div className={style.menu}>
           <Bar className={style.topBar}>
+            <span className={style.heading}>Page 4</span>
             <Button
               onClick={() => {
                 dispatch({ type: "SET_MENU", template: null });

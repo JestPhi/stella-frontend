@@ -1,7 +1,7 @@
 import style from "./style.module.css";
 import image from "./image.jpg";
 import Bar from "../Bar";
-import ButtonEditPage from "../ButtonEditPage";
+import ButtonPageMore from "../ButtonPageMore";
 import InsertPage from "../InsertPage";
 import Meta from "../Meta";
 
@@ -9,9 +9,9 @@ const PageCover = ({ isStory = false }) => {
   return (
     <div className={style.pageCover}>
       <Bar className={style.topBar}>
-        <ButtonEditPage />
+        <ButtonPageMore isCoverPage={true} />
       </Bar>
-      <img className={style.image} src={image} />
+      <img className={style.image} src={image} loading="lazy" />
       <div className={style.content}>
         <p className={style.title}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -19,7 +19,6 @@ const PageCover = ({ isStory = false }) => {
         </p>
         <Meta />
       </div>
-      {isStory && <InsertPage />}
     </div>
   );
 };

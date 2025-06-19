@@ -19,12 +19,14 @@
   align-items: center;
   box-sizing: border-box;
   display: flex;
+  flex: none;
   flex-direction: column;
   height: calc(100dvh - 96px);
   padding: 0 0 0;
   position: relative;
   scroll-snap-align: start;
   scroll-snap-stop: always;
+  width: 100dvw;
 }
 .content {
   height: calc(50dvh - 48px);

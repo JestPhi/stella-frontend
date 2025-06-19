@@ -1,7 +1,8 @@
 .story {
-  height: calc(100dvh - 96px);
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
+  display: flex;
+  height: calc(100dvh - 48px);
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
   scrollbar-width: none;
 }
 .bottomBar,

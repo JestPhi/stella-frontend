@@ -16,8 +16,8 @@ const Story = () => {
         <ButtonBack />
         <ButtonMenu />
       </Bar>
+      <Profile />
       <div className={style.story}>
-        <Profile />
         <PageCover isStory={true} />
         <Page />
         <Page />
