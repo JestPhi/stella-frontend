@@ -11,7 +11,10 @@ const ButtonMenu = () => {
   return (
     <Button
       onClick={() => {
-        dispatch({ type: "SET_MENU", payload: <MenuProfile /> });
+        dispatch({
+          type: "SET_MENU",
+          payload: { template: <MenuProfile />, heading: "" },
+        });
       }}
     >
       <img className={style.image} src={image} />

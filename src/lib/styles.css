@@ -1,106 +1,106 @@
 figure {
-	margin: 0;
+  margin: 0;
 }
 html {
-	font-family: 'Noto Sans', sans-serif;
-	scrollbar-width: none;
-	overflow: hidden;
+  font-family: "Noto Sans", sans-serif;
+  scrollbar-width: none;
+  overflow: hidden;
 }
 body {
-	color: #333;
-	font-size: 16px;
-	overflow-x: hidden;
-	margin: 0;
+  color: #333;
+  font-size: 16px;
+  overflow-x: hidden;
+  margin: 0;
 }
 
 p {
-	font-size: 16px;
-	line-height: 24px;
+  font-size: 16px;
+  line-height: 24px;
 }
 a {
-	color: #333;
-	text-decoration: none;
+  color: #333;
+  text-decoration: none;
 }
 a:visited {
-	color: #333;
+  color: #333;
 }
 hr {
-	margin: 0;
+  margin: 0;
 }
 a:visited {
-	color: #222;
+  color: #222;
 }
 button {
-	cursor: pointer;
+  cursor: pointer;
 }
 .ml6 {
-	margin-left: 6px;
+  margin-left: 6px;
 }
 .ml8 {
-	margin-left: 8px;
+  margin-left: 8px;
 }
 .ml12 {
-	margin-left: 12px;
+  margin-left: 12px;
 }
 .ml16 {
-	margin-left: 16px;
+  margin-left: 16px;
 }
 
 .mb6 {
-	margin-bottom: 6px;
+  margin-bottom: 6px;
 }
 .mb12 {
-	margin-bottom: 12px;
+  margin-bottom: 12px;
 }
 .mb16 {
-	margin-bottom: 16px;
+  margin-bottom: 16px;
 }
 .mr6 {
-	margin-right: 6px;
+  margin-right: 6px;
 }
 .mr8 {
-	margin-right: 8px;
+  margin-right: 8px;
 }
 .mr16 {
-	margin-right: 16px;
+  margin-right: 16px;
 }
 
 .mt6 {
-	margin-top: 6px;
+  margin-top: 6px;
 }
 
 .mt16 {
-	margin-top: 16px;
+  margin-top: 16px;
 }
 .mt32 {
-	margin-top: 32px;
+  margin-top: 32px;
 }
 
 .test {
-	height: 100vh;
-	overflow-y: scroll;
-	scroll-snap-type: y mandatory;
-	scrollbar-width: none;
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
 }
 
 .author {
-	scroll-snap-align: start;
-	scroll-snap-stop: always;
-	scroll-margin-top: 48px;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  scroll-margin-top: 44px;
 }
 
 .story,
 .page {
-	box-sizing: border-box;
-	height: 100vh;
-	scroll-snap-align: start;
-	scroll-snap-stop: always;
-	padding-top: 48px;
+  box-sizing: border-box;
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  padding-top: 44px;
 }
 
 .fw600 {
-	font-weight: 600;
+  font-weight: 600;
 }
 .fw800 {
-	font-weight: 800;
+  font-weight: 800;
 }

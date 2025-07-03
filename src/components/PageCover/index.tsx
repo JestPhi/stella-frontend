@@ -5,19 +5,16 @@ import ButtonPageMore from "../ButtonPageMore";
 import InsertPage from "../InsertPage";
 import Meta from "../Meta";
 
-const PageCover = ({ isStory = false }) => {
+const PageCover = ({ pageCount, src, text }) => {
   return (
     <div className={style.pageCover}>
       <Bar className={style.topBar}>
         <ButtonPageMore isCoverPage={true} />
       </Bar>
-      <img className={style.image} src={image} loading="lazy" />
+      <img className={style.image} src={src} loading="lazy" />
       <div className={style.content}>
-        <p className={style.title}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p>
-        <Meta />
+        <p className={style.title}>{text}</p>
+        <Meta pageCount={pageCount} />
       </div>
     </div>
   );

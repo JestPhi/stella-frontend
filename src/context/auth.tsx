@@ -1,12 +1,15 @@
+import { useEffect } from "react";
 import { createContext, useContext, useState, ReactNode } from "react";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
   GoogleAuthProvider,
-  onAuthStateChanged,
   signOut as signOutAuth,
   signInWithPopup,
 } from "firebase/auth";
+import { getUserByFirebaseId } from "../api";
+import { useGlobalContext } from "./context";
+import MenuSignUp from "../components/MenuSignUp";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCjax-slr22hK8fhz4UH8TPdwPFBspnCos",
@@ -25,14 +28,8 @@ const provider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [authState, setAuthState] = useState(null);
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setAuthState(user);
-    } else {
-      setAuthState(null);
-    }
-  });
+  const { dispatch } = useGlobalContext();
+  const user = auth.currentUser;
 
   const signOut = () => {
     signOutAuth(auth)
@@ -50,14 +47,36 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     signInWithPopup(auth, provider)
       .then((result) => {
         // User signed in successfully
-        const user = result.user;
-        console.log("User signed in:", user);
+
+        setAuthState((prev) => {
+          return {
+            ...prev,
+            firebaseId: result?.user?.uid,
+          };
+        });
       })
       .catch((error) => {
         // Handle errors
         console.error("Error signing in:", error);
       });
   };
+
+  useEffect(() => {
+    console.log(authState);
+    if (!!authState?.firebaseId) {
+      getUserByFirebaseId(authState?.firebaseId).then((doc) => {
+        if (!doc) {
+          dispatch({
+            type: "SET_MENU",
+            payload: {
+              template: <MenuSignUp />,
+              heading: "Sign Up / Sign In",
+            },
+          });
+        }
+      });
+    }
+  }, [authState?.firebaseId]);
 
   return (
     <AuthContext.Provider value={{ auth: authState, signOut, signIn }}>

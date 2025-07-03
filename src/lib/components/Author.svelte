@@ -18,8 +18,8 @@
 	.graphic {
 		background: black;
 		border-radius: 50%;
-		height: 96px;
-		width: 96px;
+		height: 88px;
+		width: 88px;
 		margin-bottom: 12px;
 	}
 </style>

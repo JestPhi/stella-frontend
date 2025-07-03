@@ -1,31 +1,37 @@
+import { useEffect, useState } from "react";
 import { Menu } from "react-feather";
 import Bar from "../../components/Bar";
 import Button from "../../components/Button";
 import ButtonBack from "../../components/ButtonBack";
 import ButtonMenu from "../../components/ButtonMenu";
-import ButtonAddStory from "../../components/ButtonAddStory";
+import ButtonAddPage from "../../components/ButtonAddPage";
 import PageCover from "../../components/PageCover";
 import Page from "../../components/Page";
 import Profile from "../../components/Profile";
 import style from "./style.module.css";
+import storyData from "../../scheme/story.json";
+import Logo from "../../components/Logo";
 
 const Story = () => {
+  const { coverPage, pages } = storyData;
   return (
     <>
       <Bar className={style.topBar}>
         <ButtonBack />
         <ButtonMenu />
       </Bar>
-      <Profile />
       <div className={style.story}>
-        <PageCover isStory={true} />
-        <Page />
-        <Page />
-        <Page />
+        <Profile />
+        <PageCover isStory={true} {...coverPage} pageCount={pages.length} />
+        {pages.map((page, index) => {
+          return <Page {...page} pageNumber={index} />;
+        })}
       </div>
       <Bar className={style.bottomBar}>
-        <Button>S</Button>
-        <ButtonAddStory />
+        <Button>
+          <Logo />
+        </Button>
+        <ButtonAddPage />
       </Bar>
     </>
   );

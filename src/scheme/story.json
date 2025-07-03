@@ -4,10 +4,10 @@
 	"storyId": "123abc",
 	"type": "story",
 	"schema": "stella.v.1.0.0",
-	"cover": {
+	"coverPage": {
 		"blob": null,
-		"src": "https://a32d5790-fb8c-4145-a825-c1fa2a2e4eb2.mdnplay.dev/shared-assets/images/examples/elephant.jpg",
-		"text": "The Great Forest"
+		"src": "/src/components/PageCover/image.jpg",
+		"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 	},
 	"pages": [
 		{
@@ -15,7 +15,7 @@
 			"type": "photograph",
 			"createdAt": "1232434",
 			"blob": null,
-			"src": "https://a32d5790-fb8c-4145-a825-c1fa2a2e4eb2.mdnplay.dev/shared-assets/images/examples/elephant.jpg",
+			"src": "/src/components/Page/image.jpg",
 			"exif": {
 				"F": "",
 				"ISO": "",
@@ -30,7 +30,7 @@
 			"type": "photograph",
 			"createdAt": "1232434",
 			"blob": null,
-			"src": "https://a32d5790-fb8c-4145-a825-c1fa2a2e4eb2.mdnplay.dev/shared-assets/images/examples/elephant.jpg",
+			"src": "/src/components/Page/image.jpg",
 			"caption": "caption 2",
 			"exif": {
 				"F": "",
@@ -45,7 +45,7 @@
 			"type": "photograph",
 			"createdAt": "1232434",
 			"blob": null,
-			"src": "https://a32d5790-fb8c-4145-a825-c1fa2a2e4eb2.mdnplay.dev/shared-assets/images/examples/elephant.jpg",
+			"src": "/src/components/Page/image.jpg",
 			"caption": "caption 3",
 			"exif": {
 				"F": "",

@@ -7,7 +7,7 @@
 <style>
 	.avatar {
 		background: black;
-		height: 48px;
-		width: 48px;
+		height: 44px;
+		width: 44px;
 	}
 </style>

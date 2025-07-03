@@ -16,7 +16,7 @@
 		align-items: center;
 		display: flex;
 		justify-content: space-between;
-		height: 48px;
+		height: 44px;
 		width: 100%;
 		z-index: 2;
 	}

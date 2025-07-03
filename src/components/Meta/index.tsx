@@ -1,16 +1,12 @@
 import style from "./style.module.css";
 
-const Meta = () => {
+const Meta = ({ className, pageCount }) => {
   return (
-    <div className={style.meta}>
-      {[
-        { attribute: "Pages", count: 10 },
-        { attribute: "Followers", count: 10 },
-        { attribute: "Likes", count: 10 },
-      ].map((item) => {
+    <div className={[className, style.meta].join(" ")}>
+      {[{ attribute: "Pages", value: pageCount }].map((item) => {
         return (
           <div className={style.attribute}>
-            {item.attribute} <span className={style.count}>{item.count}</span>
+            {item.attribute} <span className={style.count}>{item.value}</span>
           </div>
         );
       })}

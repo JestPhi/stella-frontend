@@ -87,7 +87,7 @@
 		border-radius: 8px;
 		border: none;
 		justify-content: center;
-		height: 48px;
+		height: 44px;
 		width: 100%;
 		margin: 4px 0;
 	}

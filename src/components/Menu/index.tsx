@@ -5,10 +5,10 @@ import Button from "../Button";
 import { useGlobalContext } from "../../context/context";
 import { useAuthContext } from "../../context/auth";
 
-const Menu = () => {
+const Menu = ({ heading, template }) => {
   const { dispatch, state } = useGlobalContext();
-  const isOpen = !!state.menu;
-
+  const isOpen = !!state?.menu?.template;
+  console.log(state);
   return (
     isOpen && (
       <>
@@ -19,19 +19,18 @@ const Menu = () => {
             dispatch({ type: "SET_MENU", template: null });
           }}
         ></div>
-        ,
         <div className={style.menu}>
           <Bar className={style.topBar}>
-            <span className={style.heading}>Page 4</span>
+            <span className={style.heading}>{state?.menu?.heading}</span>
             <Button
               onClick={() => {
-                dispatch({ type: "SET_MENU", template: null });
+                dispatch({ type: "SET_MENU", heading: null, template: null });
               }}
             >
               <X height={18} color="#444" />
             </Button>
           </Bar>
-          {state.menu}
+          {state?.menu?.template}
         </div>
       </>
     )

@@ -10,9 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/pouchdb": "^6.4.2",
+    "@types/pouchdb-browser": "^6.1.5",
+    "events": "^3.3.0",
     "feather-icons": "^4.29.2",
     "firebase": "^11.8.1",
     "pouchdb": "^9.0.0",
+    "pouchdb-browser": "^9.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-feather": "^2.0.10",

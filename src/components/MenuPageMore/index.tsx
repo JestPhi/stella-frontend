@@ -7,8 +7,8 @@ import { useGlobalContext } from "../../context/context";
 
 const MenuPageMore = ({ isCoverPage }) => {
   const { auth, signOut } = useAuthContext();
-  const { dispatch } = useGlobalContext();
-  console.log(isCoverPage);
+  const { dispatch, state } = useGlobalContext();
+
   return (
     <div className={style.MenuPageMore}>
       <div className={style.actions}>

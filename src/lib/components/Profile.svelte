@@ -22,8 +22,8 @@
 	.profile {
 		align-items: center;
 		display: flex;
-		height: 48px;
+		height: 44px;
 		justify-content: center;
-		width: 48px;
+		width: 44px;
 	}
 </style>

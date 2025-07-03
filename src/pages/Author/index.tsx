@@ -3,7 +3,7 @@ import Bar from "../../components/Bar";
 import Button from "../../components/Button";
 import ButtonBack from "../../components/ButtonBack";
 import ButtonMenu from "../../components/ButtonMenu";
-import ButtonUser from "../../components/ButtonUser";
+import ButtonUser from "../../components/ButtonProfile";
 import ButtonAddStory from "../../components/ButtonAddStory";
 import PageCover from "../../components/PageCover";
 import style from "./style.module.css";

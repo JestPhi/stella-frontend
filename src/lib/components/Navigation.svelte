@@ -44,7 +44,7 @@
 		position: sticky;
 		box-sizing: border-box;
 		display: flex;
-		height: 48px;
+		height: 44px;
 		justify-content: space-between;
 		top: 0;
 		z-index: 2;

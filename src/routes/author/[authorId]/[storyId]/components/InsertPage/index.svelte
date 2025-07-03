@@ -61,7 +61,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		height: 48px;
+		height: 44px;
 		width: 100%;
 		position: relative;
 	}

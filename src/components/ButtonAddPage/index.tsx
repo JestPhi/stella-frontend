@@ -9,7 +9,10 @@ const ButtonAddPage = () => {
   return (
     <Button
       onClick={() => {
-        dispatch({ type: "SET_MENU", payload: MenuAddPage });
+        dispatch({
+          type: "SET_MENU",
+          payload: { template: <MenuAddPage />, heading: "Add New Page" },
+        });
       }}
     >
       <Plus />

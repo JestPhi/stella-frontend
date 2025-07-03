@@ -2,20 +2,20 @@ figure {
   margin: 0;
 }
 html {
-  font-family: "Noto Sans", sans-serif;
+  font-family: "Lato", sans-serif;
   scrollbar-width: none;
 }
 
 body {
   color: #333;
-  font-size: 16px;
+  font-size: 14px;
   overflow-x: hidden;
   margin: 0;
   scrollbar-width: none;
 }
 
 p {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 24px;
 }
 a {
@@ -80,7 +80,7 @@ button {
 .author {
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  scroll-margin-top: 48px;
+  scroll-margin-top: 44px;
 }
 
 .story,
@@ -89,7 +89,7 @@ button {
   height: 100vh;
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  padding-top: 48px;
+  padding-top: 44px;
 }
 
 .fw600 {

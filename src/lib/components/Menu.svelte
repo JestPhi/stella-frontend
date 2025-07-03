@@ -85,7 +85,7 @@
 		position: fixed;
 		bottom: 0;
 		left: 0;
-		height: calc(100vh - 48px);
+		height: calc(100vh - 44px);
 		width: 100%;
 		animation: slideIn 0.25s forwards;
 		transform: translateY(100%);

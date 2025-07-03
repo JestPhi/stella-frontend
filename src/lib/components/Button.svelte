@@ -16,9 +16,9 @@
 		box-sizing: border-box;
 		cursor: pointer;
 		display: flex;
-		height: 48px;
+		height: 44px;
 		justify-content: center;
-		min-width: 48px;
+		min-width: 44px;
 		padding: 0;
 	}
 	.inner {
@@ -30,7 +30,7 @@
 		background: none;
 		border: none;
 		padding: 0;
-		height: 48px;
+		height: 44px;
 	}
 	.default {
 		background: white;
@@ -46,7 +46,7 @@
 	.fill {
 		background: white;
 		border: solid 1px white;
-		height: 48px;
-		width: 48px;
+		height: 44px;
+		width: 44px;
 	}
 </style>

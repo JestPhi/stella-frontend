@@ -4,7 +4,7 @@ import InputImage from "../InputImage";
 import Textarea from "../TextArea";
 import Divider from "../Divider";
 
-const MenuAddStory = () => {
+const MenuAddStory = ({ heading }) => {
   const { dispatch, state } = useGlobalContext();
 
   return (

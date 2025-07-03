@@ -9,7 +9,13 @@ const Author = () => {
   return (
     <Button
       onClick={() => {
-        dispatch({ type: "SET_MENU", payload: <MenuAddStory /> });
+        dispatch({
+          type: "SET_MENU",
+          payload: {
+            heading: "Add New Story",
+            template: <MenuAddStory />,
+          },
+        });
       }}
     >
       <Plus height={18} color="#444" />

@@ -25,7 +25,7 @@
 		box-sizing: border-box;
 		color: #222;
 		height: 100vh;
-		padding: 96px 0 0;
+		padding: 88px 0 0;
 		width: 100%;
 	}
 	.story a {

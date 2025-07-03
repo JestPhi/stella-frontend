@@ -9,7 +9,7 @@
 <style>
 	.storyActions {
 		display: flex;
-		height: 48px;
+		height: 44px;
 		justify-content: flex-end;
 		width: 100%;
 	}

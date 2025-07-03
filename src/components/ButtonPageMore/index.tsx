@@ -12,7 +12,10 @@ const ButtonPageMore = ({ isCoverPage }) => {
       onClick={() => {
         dispatch({
           type: "SET_MENU",
-          payload: <MenuPageMore isCoverPage={isCoverPage} />,
+          payload: {
+            template: <MenuPageMore isCoverPage={isCoverPage} />,
+            heading: "Page 4 Actions",
+          },
         });
       }}
     >

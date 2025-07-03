@@ -5,6 +5,7 @@ import style from "./style.module.css";
 import Button from "../../components/Button";
 import ButtonMenu from "../../components/ButtonMenu";
 import ButtonAddStory from "../../components/ButtonAddStory";
+import Logo from "../../components/Logo";
 
 const Home = () => {
   return (
@@ -28,7 +29,9 @@ const Home = () => {
         <Story />
       </div>
       <Bar className={style.bottomBar}>
-        <Button>S</Button>
+        <Button>
+          <Logo />
+        </Button>
         <ButtonAddStory />
       </Bar>
     </div>
