@@ -1,16 +1,31 @@
+import { useState } from "react";
 import { useAuthContext } from "../../context/auth";
+import { setUser } from "../../api";
 import style from "./style.module.css";
 import Button from "../Button";
 
 import { useGlobalContext } from "../../context/context";
 
 const MenuSignUp = () => {
-  const { auth, signOut } = useAuthContext();
-  const { dispatch } = useGlobalContext();
+  const [nameState, setNameState] = useState();
+  const { firebaseAuth } = useAuthContext();
 
   return (
     <div className={style.signUp}>
-      <Button>Sign Up</Button>
+      <input
+        type="text"
+        onChange={(event) => {
+          setNameState(event.target.value);
+        }}
+        value={nameState}
+      />
+      <Button
+        onClick={() => {
+          setUser(nameState, firebaseAuth.uid);
+        }}
+      >
+        Sign Up
+      </Button>
     </div>
   );
 };

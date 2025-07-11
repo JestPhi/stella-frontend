@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { createContext, useContext, useState, ReactNode } from "react";
 import { initializeApp } from "firebase/app";
+import { useNavigate } from "react-router";
 import {
   getAuth,
+  onAuthStateChanged,
   GoogleAuthProvider,
   signOut as signOutAuth,
   signInWithPopup,
@@ -22,49 +24,45 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const AuthContext = createContext(null);
 const provider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [authState, setAuthState] = useState(null);
+  const navigate = useNavigate();
+  const [firebaseAuthState, setFirebaseAuthState] = useState();
   const { dispatch } = useGlobalContext();
-  const user = auth.currentUser;
 
   const signOut = () => {
+    const auth = getAuth(app);
     signOutAuth(auth)
-      .then(() => {
-        setAuthState(null);
-        // Sign-out successful.
-      })
-      .catch((error) => {
-        console.log(error);
-        // An error happened.
-      });
+      .then(() => {})
+      .catch((error) => {});
   };
 
   const signIn = () => {
+    const auth = getAuth(app);
     signInWithPopup(auth, provider)
-      .then((result) => {
-        // User signed in successfully
-
-        setAuthState((prev) => {
-          return {
-            ...prev,
-            firebaseId: result?.user?.uid,
-          };
-        });
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error("Error signing in:", error);
-      });
+      .then((result) => {})
+      .catch((error) => {});
   };
 
   useEffect(() => {
-    console.log(authState);
-    if (!!authState?.firebaseId) {
-      getUserByFirebaseId(authState?.firebaseId).then((doc) => {
+    const auth = getAuth(app);
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setFirebaseAuthState(user);
+      } else {
+        setFirebaseAuthState(null);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (firebaseAuthState === null) {
+      navigate("/signin");
+    }
+    if (firebaseAuthState) {
+      getUserByFirebaseId(firebaseAuthState?.uid).then((doc) => {
         if (!doc) {
           dispatch({
             type: "SET_MENU",
@@ -74,12 +72,17 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
             },
           });
         }
+        if (doc) {
+          navigate("/");
+        }
       });
     }
-  }, [authState?.firebaseId]);
+  }, [firebaseAuthState]);
 
   return (
-    <AuthContext.Provider value={{ auth: authState, signOut, signIn }}>
+    <AuthContext.Provider
+      value={{ firebaseAuth: firebaseAuthState, signOut, signIn }}
+    >
       {children}
     </AuthContext.Provider>
   );

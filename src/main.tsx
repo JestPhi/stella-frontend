@@ -7,7 +7,6 @@ import Story from "./pages/Story";
 import SignIn from "./pages/SignIn";
 import Home from "./pages/Home";
 import Menu from "./components/Menu";
-import Auth from "./components/Auth";
 
 import { AuthProvider } from "./context/auth";
 import { GlobalProvider } from "./context/context";
@@ -17,15 +16,13 @@ createRoot(document.getElementById("root")!).render(
     <GlobalProvider>
       <BrowserRouter>
         <AuthProvider>
-          <Auth>
-            <Routes>
-              <Route path="/Author/:authorId" element={<Author />} />
-              <Route path="/Author/:authorId/:storyId" element={<Story />} />
-              <Route path="signin" element={<SignIn />} />
-              <Route path="/" element={<Home />} />
-            </Routes>
-            <Menu />
-          </Auth>
+          <Routes>
+            <Route path="/Author/:authorId" element={<Author />} />
+            <Route path="/Author/:authorId/:storyId" element={<Story />} />
+            <Route path="signin" element={<SignIn />} />
+            <Route path="/" element={<Home />} />
+          </Routes>
+          <Menu />
         </AuthProvider>
       </BrowserRouter>
     </GlobalProvider>

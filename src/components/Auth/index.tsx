@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useAuthContext } from "../../context/auth";
 import { useGlobalContext } from "../../context/context";
-import { getUser } from "../../api";
+import { getUserByFirebaseId } from "../../api";
 import MenuSignUp from "../MenuSignUp";
 
 const Auth = ({ children }) => {
@@ -10,6 +10,7 @@ const Auth = ({ children }) => {
   const authState = useAuthContext();
   const { dispatch } = useGlobalContext();
 
+  // const user = getUser();
   const hasAuth = false; //!!authState?.auth;
 
   useEffect(() => {

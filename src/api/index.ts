@@ -2,7 +2,8 @@ import PouchDb from "pouchdb-browser";
 import storyData from "../scheme/story.json";
 
 export const getUserByFirebaseId = async (firebaseId: string) => {
-  const db = new PouchDb("firebaseIds");
+  const db = new PouchDb("users");
+
   try {
     const doc = await db.get(firebaseId);
     return doc;
@@ -12,46 +13,28 @@ export const getUserByFirebaseId = async (firebaseId: string) => {
 };
 
 export const getUser = async () => {
-  const db = new PouchDb("testUser");
+  const db = new PouchDb("users");
   try {
     const doc = db.get("userProfile");
     return doc;
   } catch {}
 };
 
-export const setUser = async (user: any) => {
-  const db = await new PouchDb("testUser");
-
+export const setUser = async (username: string, firebaseId: string) => {
+  const db = await new PouchDb("users");
   // user has db and user is not signed in
   try {
-    const doc = await db.get("userProfile");
-
-    if (!user && doc._rev) {
-      db.put(
+    if (username && firebaseId) {
+      const response = await db.put(
         {
-          _id: "userProfile",
-          _rev: doc._rev,
+          _id: firebaseId,
+          username: username,
         },
         { force: true }
       );
     }
-
-    if (user && doc._rev) {
-      const updatedDoc = {
-        ...userData,
-        _id: "userProfile",
-        _rev: doc._rev,
-      };
-
-      db.put(updatedDoc, { force: true });
-    }
   } catch {
-    db.put(
-      {
-        _id: "userProfile",
-      },
-      { force: true }
-    );
+    console.log("setUser error");
   }
 };
 
