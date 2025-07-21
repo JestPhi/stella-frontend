@@ -7,7 +7,6 @@ import InsertPage from "../InsertPage";
 import image from "./image.jpg";
 
 const Page = (props) => {
-  console.log(props);
   const { pageNumber, src, text } = props;
   return (
     <div className={style.page}>

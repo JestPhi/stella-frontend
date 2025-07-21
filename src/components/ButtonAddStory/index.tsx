@@ -12,7 +12,7 @@ const Author = () => {
         dispatch({
           type: "SET_MENU",
           payload: {
-            heading: "Add New Story",
+            heading: "Create New Story",
             template: <MenuAddStory />,
           },
         });

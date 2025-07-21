@@ -1,3 +1,4 @@
+import firebase from "firebase/compat/app";
 import React, {
   createContext,
   useReducer,
@@ -15,8 +16,30 @@ const GlobalContext = createContext();
 
 function globalReducer(state: State, action: Action): State {
   switch (action.type) {
+    case "CLEAR_PROFILE":
+      return {
+        ...state,
+        firebaseId: "",
+        stellaId: "",
+        username: "",
+        bio: "",
+      };
+    case "SET_FIREBASE_ID":
+      return {
+        ...state,
+        firebaseId: action.payload,
+      };
+    case "SET_STELLA_ID":
+      return {
+        ...state,
+        stellaId: action.payload,
+      };
     case "SET_MENU":
       return { ...state, menu: action.payload };
+    case "SET_USERNAME":
+      return { ...state, username: action.payload };
+    case "SET_BIO":
+      return { ...state, username: action.payload };
     default:
       throw new Error(`Unhandled action type: ${(action as any).type}`);
   }

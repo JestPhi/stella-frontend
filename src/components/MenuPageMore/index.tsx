@@ -1,4 +1,3 @@
-import { useAuthContext } from "../../context/auth";
 import globalStyle from "../../../src/style.module.css";
 import style from "./style.module.css";
 import Avatar from "../Avatar";
@@ -6,7 +5,6 @@ import Button from "../Button";
 import { useGlobalContext } from "../../context/context";
 
 const MenuPageMore = ({ isCoverPage }) => {
-  const { auth, signOut } = useAuthContext();
   const { dispatch, state } = useGlobalContext();
 
   return (

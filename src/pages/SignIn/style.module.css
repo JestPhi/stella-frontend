@@ -2,8 +2,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 88px auto 0;
-  width: 420px;
 }
 
 .signInOptions {

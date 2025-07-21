@@ -3,38 +3,45 @@
 }
 .img {
   aspect-ratio: 1/1;
-  object-fit: contain;
+  object-fit: cover;
   object-position: bottom;
   height: 100%;
   margin: 0 auto;
   width: 100%;
 }
 .inputImage {
-  align-items: center;
-  display: flex;
+  margin-bottom: 16px;
   position: relative;
-  width: 100%;
 }
 .removeImage {
   position: absolute;
   bottom: 0;
 }
 .buttonAddImage {
-  height: 100%;
+  height: 96px;
   position: absolute;
-  right: 0;
-  width: 100%;
+  width: 96px;
 }
 .buttonAddImage :global(.inner) {
   display: flex;
   flex-direction: column;
-  border: solid 1px #222;
-  height: 20dvh;
-  width: 20dvh;
 }
 .buttonAddImage svg {
   margin-bottom: 4px;
 }
+.buttonRemoveImage {
+  padding: 0;
+  position: absolute;
+  bottom: -16px;
+  position: absolute;
+  right: -22px;
+}
+
+.buttonRemoveImage :global(.inner) {
+  background: none;
+  padding: 0;
+}
+
 .bar {
   align-items: center;
   background: none;
@@ -42,4 +49,11 @@
   display: flex;
   justify-content: center;
   position: absolute;
+}
+.imageWrapper {
+  border: solid 2px #222;
+  border-radius: 68px;
+  height: 96px;
+  width: 96px;
+  overflow: hidden;
 }

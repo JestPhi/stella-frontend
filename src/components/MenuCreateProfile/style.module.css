@@ -1,0 +1,15 @@
+.signUp {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  align-items: center;
+}
+
+.inputText {
+  width: 100%;
+}
+
+.inputTextarea {
+  padding: 0;
+  border-bottom: solid 1px #222;
+}

@@ -3,12 +3,11 @@ import { X } from "react-feather";
 import Bar from "../Bar";
 import Button from "../Button";
 import { useGlobalContext } from "../../context/context";
-import { useAuthContext } from "../../context/auth";
 
 const Menu = ({ heading, template }) => {
   const { dispatch, state } = useGlobalContext();
   const isOpen = !!state?.menu?.template;
-  console.log(state);
+
   return (
     isOpen && (
       <>
@@ -21,6 +20,7 @@ const Menu = ({ heading, template }) => {
         ></div>
         <div className={style.menu}>
           <Bar className={style.topBar}>
+            <div className={style.empty} />
             <span className={style.heading}>{state?.menu?.heading}</span>
             <Button
               onClick={() => {

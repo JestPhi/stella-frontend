@@ -1,3 +1,19 @@
-.buttonBack {
-  background: black;
+.image {
+  object-fit: cover;
+  height: 30px;
+  position: absolute;
+  width: 30px;
+}
+
+.avatar {
+  align-items: center;
+  border: solid 1px #444;
+  border-radius: 15px;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  height: 30px;
+  justify-content: center;
+  margin-left: 8px;
+  width: 30px;
 }

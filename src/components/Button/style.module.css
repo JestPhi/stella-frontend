@@ -12,21 +12,19 @@
 
 .inner {
   align-items: center;
+  border-radius: 4px;
   display: flex;
   justify-content: center;
   width: 100%;
+  padding: 4px 12px;
+  box-sizing: border-box;
 }
 
 .outline {
   background: white;
-  border-radius: 4px;
   border: solid 1px black;
-  box-sizing: border-box;
-  padding: 8px;
 }
 
-.contained {
-  background: whitesmoke;
-  box-sizing: border-box;
-  padding: 4px 12px;
+.fill {
+  background: white;
 }

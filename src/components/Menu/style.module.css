@@ -43,9 +43,12 @@
 .topBar {
   box-sizing: border-box;
   justify-content: space-between;
-  padding-left: 16px;
 }
 
 .heading {
   font-weight: 600;
+}
+
+.empty {
+  width: 44px;
 }

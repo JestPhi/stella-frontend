@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { X } from "react-feather";
+import { useEffect, useRef, useState } from "react";
+import { Image } from "react-feather";
 import style from "./style.module.css";
 import Button from "../Button";
 import Bar from "../Bar";
@@ -12,30 +12,29 @@ const getImage = (image: any) => {
   return image;
 };
 
-const InputImage = ({}) => {
+const InputImage = ({ className, onChange }) => {
   const [imageFileState, setImageFileState] = useState(null);
   const inputRef = useRef(null);
 
+  useEffect(() => {
+    onChange(imageFileState);
+  }, [imageFileState]);
+
   return (
-    <div className={style.inputImage}>
+    <div className={[style.inputImage, className].join(" ")}>
       {imageFileState && (
         <img className={style.img} src={getImage(imageFileState)} alt="" />
       )}
       {imageFileState && (
-        <Bar
-          background="none"
-          variant="bottom"
-          justifyContent="center"
-          position="absolute"
-        >
+        <Bar className={style.bar} position="absolute">
           <Button
             className={style.buttonRemoveImage}
             onClick={() => {
               setImageFileState(null);
             }}
-            variant="outline"
+            variant="fill"
           >
-            Remove Image <X />
+            Remove Image
           </Button>
         </Bar>
       )}
@@ -44,7 +43,8 @@ const InputImage = ({}) => {
           className={style.buttonAddImage}
           onClick={() => inputRef.current.click()}
         >
-          Add Image
+          <Image color="#222" />
+          Select Cover Image
         </Button>
       )}
       <input
@@ -55,7 +55,6 @@ const InputImage = ({}) => {
         onChange={(event) => {
           const file = event.target.files[0];
           const blob = new Blob([file], { type: "image/png" });
-          console.log(blob);
           setImageFileState(blob);
         }}
         ref={inputRef}
