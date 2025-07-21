@@ -7,12 +7,29 @@ import React, {
   Dispatch,
 } from "react";
 
-type State = {};
-type Action = { type: "increment" } | { type: "decrement" };
+// Define the shape of your state
+type State = {
+  menu: any;
+  firebaseId?: string;
+  stellaId?: string;
+  username?: string;
+  bio?: string;
+};
+
+// Define all possible actions
+type Action =
+  | { type: "CLEAR_PROFILE" }
+  | { type: "SET_FIREBASE_ID"; payload: string }
+  | { type: "SET_STELLA_ID"; payload: string }
+  | { type: "SET_MENU"; payload: any }
+  | { type: "SET_PROFILE"; payload: Partial<State> };
+
+// Context type
 type ContextType = { state: State; dispatch: Dispatch<Action> };
 
-const initalState = { menu: null };
-const GlobalContext = createContext();
+const initalState: State = { menu: null };
+
+const GlobalContext = createContext<ContextType | undefined>(undefined);
 
 function globalReducer(state: State, action: Action): State {
   switch (action.type) {
@@ -36,10 +53,8 @@ function globalReducer(state: State, action: Action): State {
       };
     case "SET_MENU":
       return { ...state, menu: action.payload };
-    case "SET_USERNAME":
-      return { ...state, username: action.payload };
-    case "SET_BIO":
-      return { ...state, username: action.payload };
+    case "SET_PROFILE":
+      return { ...state, ...action.payload };
     default:
       throw new Error(`Unhandled action type: ${(action as any).type}`);
   }

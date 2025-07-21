@@ -6,7 +6,7 @@
 		"checkJs": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
-		"jsx": "react",
+		"jsx": "react-jsx",
 		"module":"es2015",
 		"resolveJsonModule": true,
 		"skipLibCheck": true,

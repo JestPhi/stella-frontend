@@ -29,7 +29,7 @@
 .buttonAddImage svg {
   margin-bottom: 4px;
 }
-.buttonRemoveImage {
+.buttonImageAction {
   padding: 0;
   position: absolute;
   bottom: -16px;
@@ -37,7 +37,7 @@
   right: -22px;
 }
 
-.buttonRemoveImage :global(.inner) {
+.buttonImageAction :global(.inner) {
   background: none;
   padding: 0;
 }

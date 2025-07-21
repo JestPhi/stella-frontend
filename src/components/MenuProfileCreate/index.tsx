@@ -1,20 +1,24 @@
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import useAuth from "../../hooks/useAuth";
-import { postFirebaseId, postUsername } from "../../api";
-import style from "./style.module.css";
+
+import { createProfile } from "../../api";
 import Button from "../Button";
 import InputAvatar from "../InputAvatar";
 import InputText from "../InputText";
-import InputTextarea from "../InputTextarea";
+
+import style from "./style.module.css";
 
 import { useGlobalContext } from "../../context/context";
 
-const MenuEditProfile = () => {
+const MenuCreateProfile = () => {
   const navigate = useNavigate();
-  const [usernameState, setUsernameState] = useState();
   const { dispatch, state } = useGlobalContext();
-  console.log(state);
+  const [usernameState, setUsernameState] = useState<string | undefined>("");
+
+  useEffect(() => {
+    setUsernameState(state.username);
+  }, [state.username]);
+
   return (
     <div className={style.signUp}>
       <InputAvatar onChange={() => {}} className={style.avatar} />
@@ -22,42 +26,44 @@ const MenuEditProfile = () => {
         className={style.inputText}
         type="text"
         placeholder="Enter Username"
-        onChange={(event) => {
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           setUsernameState(event.target.value);
         }}
-        value={state.username}
+        value={usernameState}
       />
       <Button
+        variant={"primary"}
         disabled={!usernameState}
         onClick={async () => {
-          const firebaseIdDoc = await postFirebaseId(
-            usernameState,
-            state.firebaseId
-          );
-          // Remove menu
+          // Create Profile
+          const profileDoc = await createProfile({
+            username: usernameState,
+            firebaseId: state.firebaseId,
+          });
+
           try {
+            // Remove menu
             dispatch({
               type: "SET_MENU",
               payload: null,
             });
-          } catch (error) {
-            console.log(error);
-          }
 
-          // Save username
-          await postUsername(state.firebaseId, usernameState);
+            // Update global state and navigate
+            dispatch({
+              type: "SET_PROFILE",
+              payload: profileDoc,
+            });
 
-          try {
             navigate("/");
           } catch (error) {
-            console.log(error);
+            console.error("Error creating profile:", error);
           }
         }}
       >
-        {state.username ? "Update Profile" : "Create Profile"}
+        Create Profile
       </Button>
     </div>
   );
 };
 
-export default MenuEditProfile;
+export default MenuCreateProfile;

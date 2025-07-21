@@ -3,7 +3,7 @@ import { Image } from "react-feather";
 import style from "./style.module.css";
 import Button from "../Button";
 import Bar from "../Bar";
-import { Trash } from "react-feather";
+import { Plus, Trash } from "react-feather";
 
 const getImage = (image: any) => {
   if (typeof image === "object") {
@@ -50,13 +50,24 @@ const InputAvatar = ({ className, onChange }) => {
       </div>
       {imageFileState && (
         <Button
-          className={style.buttonRemoveImage}
+          className={style.buttonImageAction}
           onClick={() => {
             setImageFileState(null);
           }}
           variant="fill"
         >
           <Trash height={16} />
+        </Button>
+      )}
+      {!imageFileState && (
+        <Button
+          className={style.buttonImageAction}
+          onClick={() => {
+            setImageFileState(null);
+          }}
+          variant="fill"
+        >
+          <Plus height={16} />
         </Button>
       )}
     </div>

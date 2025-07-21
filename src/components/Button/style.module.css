@@ -28,3 +28,16 @@
 .fill {
   background: white;
 }
+
+.primary {
+  background: rgb(1, 127, 230, 1);
+  border-radius: 32px;
+  color: white;
+  font-weight: 600;
+  height: 32px;
+  padding: 0 16px;
+}
+
+.button:disabled .primary {
+  background: rgb(1, 127, 230, 0.75);
+}

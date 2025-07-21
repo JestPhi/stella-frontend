@@ -1,18 +1,16 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 import { User } from "react-feather";
-import { Menu } from "react-feather";
+
 import style from "./style.module.css";
 import MenuProfile from "../MenuProfile";
-import MenuEditProfile from "../MenuCreateProfile";
 import Button from "../Button";
 import { useGlobalContext } from "../../context/context";
 import useAuth from "../../hooks/useAuth";
-import image from "./image.jpg";
-import { getProfile, getStellaIdByFirebaseId } from "../../api";
+import type { ProfileDoc, FirebaseIdDoc } from "../../api";
+import { getProfile, getProfileByFirebaseId } from "../../api";
 
-const ButtonMenu = () => {
-  const location = useLocation();
+const ButtonMenu: React.FC = () => {
   const navigate = useNavigate();
   const { firebaseId } = useAuth();
   const { dispatch, state } = useGlobalContext();
@@ -24,32 +22,25 @@ const ButtonMenu = () => {
         payload: firebaseId,
       });
     }
-  }, [firebaseId]);
+  }, [firebaseId, dispatch]);
 
   useEffect(() => {
-    getStellaIdByFirebaseId(state.firebaseId)
+    if (!state.firebaseId) return;
+    getProfileByFirebaseId(state.firebaseId)
       .then((response) => {
-        if (response.stellaId) {
+        if (response && typeof response !== "object") return;
+        const doc = response as FirebaseIdDoc | ProfileDoc | null;
+        if (doc && "stellaId" in doc) {
           dispatch({
-            type: "SET_STELLA_ID",
-            payload: response.stellaId,
+            type: "SET_PROFILE",
+            payload: doc,
           });
-          return;
         }
       })
-      .catch((error) => {});
-  }, [state.firebaseId]);
-
-  useEffect(() => {
-    if (state.stellaId) {
-      getProfile(state.stellaId).then((profile) => {
-        dispatch({
-          type: "SET_USERNAME",
-          payload: profile.username,
-        });
+      .catch((error: unknown) => {
+        // TODO error handling
       });
-    }
-  }, [state.stellaId]);
+  }, [state.firebaseId, dispatch]);
 
   return (
     <Button
@@ -65,10 +56,15 @@ const ButtonMenu = () => {
         }
       }}
     >
-      {state.username ? state.username : "Sign in"}
-      <div className={style.avatar}>
-        {!state.stellaId && <User height={20} />}
-        {state.stellaId && <img className={style.image} src={image} />}
+      {state.username ? "" : "Sign in"}
+      <div
+        className={[style.avatar, state.stellaId ? style.signedIn : ""]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        <User height={20} color={state.stellaId ? "white" : "black"} />
+
+        {/* {state.stellaId && <img className={style.image} src={image} />} */}
       </div>
     </Button>
   );

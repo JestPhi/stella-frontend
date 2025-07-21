@@ -6,8 +6,8 @@ import { useGlobalContext } from "../../context/context";
 import Bar from "../../components/Bar";
 import ButtonBack from "../../components/ButtonBack";
 import ButtonMenu from "../../components/ButtonProfile";
-import MenuEditProfile from "../../components/MenuCreateProfile";
-import { getStellaIdByFirebaseId } from "../../api";
+import MenuEditProfile from "../../components/MenuProfileCreate";
+import { getProfileByFirebaseId } from "../../api";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const SignIn = () => {
               payload: signInData.user.uid,
             });
 
-            const firebaseIdDoc = await getStellaIdByFirebaseId(
+            const firebaseIdDoc = await getProfileByFirebaseId(
               signInData.user.uid
             );
 

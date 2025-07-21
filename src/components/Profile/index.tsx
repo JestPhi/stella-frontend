@@ -7,7 +7,7 @@ import Bar from "../Bar";
 import style from "./style.module.css";
 
 import { useGlobalContext } from "../../context/context";
-import MenuEditProfile from "../MenuCreateProfile";
+import MenuProfileEdit from "../MenuProfileEdit";
 
 const Profile = () => {
   const { dispatch, state } = useGlobalContext();
@@ -21,7 +21,7 @@ const Profile = () => {
               type: "SET_MENU",
               payload: {
                 heading: "Edit Profile",
-                template: <MenuEditProfile />,
+                template: <MenuProfileEdit />,
               },
             });
           }}
@@ -29,12 +29,12 @@ const Profile = () => {
           <Edit2 height={24} />
         </Button>
       </Bar>
-      <Avatar src={avatarSrc} />
+      <Avatar src={state.profileImageSrc} />
       <div className={style.name}>{state.username}</div>
       {/* <Button className={style.meta} variant="fill">
         <span class={style.links}>Links</span> <Link height="12" width="12" />
       </Button> */}
-      <div className={style.bio}>{state.text}</div>
+      <div className={style.bio}>{state.bio}</div>
     </div>
   );
 };

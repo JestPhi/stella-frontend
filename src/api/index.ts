@@ -2,32 +2,162 @@ import PouchDb from "pouchdb-browser";
 import { v4 as uuidv4 } from "uuid";
 import storyData from "../scheme/story.json";
 
-export const getStellaIdByFirebaseId = async (firebaseId: string) => {
+// Types
+export type FirebaseIdDoc = {
+  _id: string;
+  stellaId: string;
+};
+
+export type ProfileDoc = {
+  _id: string;
+  _rev?: string;
+  bio?: string;
+  imageBlob?: string;
+  username: string;
+  stellaId?: string;
+};
+
+export type CreateProfileParams = {
+  firebaseId?: string;
+  imageBlob?: string;
+  username?: string;
+  stellaId?: string;
+};
+
+export type UpdateProfileParams = {
+  bio?: string;
+  imageBlob?: string;
+  stellaId?: string;
+  username?: string;
+};
+
+export const getProfileByFirebaseId = async (
+  firebaseId?: string
+): Promise<ProfileDoc | Error> => {
+  if (!firebaseId) {
+    console.log("getProfileByFirebaseId missing firebaseId");
+    return new Error();
+  }
+
   const db = new PouchDb("firebaseIds");
+  let firebaseIdDoc: FirebaseIdDoc;
+  try {
+    firebaseIdDoc = (await db.get(firebaseId)) as FirebaseIdDoc;
+  } catch (error) {
+    return error as Error;
+  }
+
+  const profileDoc = await getProfile(firebaseIdDoc.stellaId);
 
   try {
-    const doc = await db.get(firebaseId);
-    return doc;
+    return {
+      stellaId: firebaseIdDoc.stellaId,
+      ...profileDoc,
+    };
   } catch (error) {
-    return error;
+    return error as Error;
   }
 };
 
-export const getUser = async () => {
-  const db = new PouchDb("users");
-  // try {
-  //   const doc = db.get("userProfile");
-  //   return doc;
-  // } catch {}
+export const createStellaProfile = async ({
+  imageBlob,
+  username,
+  stellaId,
+}: CreateProfileParams): Promise<any> => {
+  if (!username || !stellaId) {
+    console.log("setProfile Error");
+    return;
+  }
+
+  const db = new PouchDb(stellaId);
+
+  try {
+    const response = await db.post({
+      _id: "profile",
+      imageBlob: imageBlob,
+      username: username,
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createProfile = async ({
+  imageBlob,
+  username,
+  firebaseId,
+}: CreateProfileParams): Promise<FirebaseIdDoc | Error> => {
+  if (!username || !firebaseId) {
+    return new Error("Missing username or firebaseId");
+  }
+
+  const stellaId = uuidv4();
+  const db = new PouchDb("firebaseIds");
+
+  await db.post({
+    _id: firebaseId,
+    stellaId: stellaId,
+  });
+
+  const stellaProfileDoc = await createStellaProfile({
+    firebaseId: firebaseId,
+    imageBlob: imageBlob,
+    username: username,
+    stellaId: stellaId,
+  });
+
+  return stellaProfileDoc;
+};
+
+export const updateProfile = async ({
+  bio,
+  imageBlob,
+  stellaId,
+  username,
+}: UpdateProfileParams): Promise<any> => {
+  if (!username || stellaId) {
+    console.log("setProfile Error", stellaId, username);
+    return;
+  }
+
+  try {
+    const db = new PouchDb(stellaId);
+    const doc = await db.get("profile");
+    const response = await db.put(
+      {
+        _id: "profile",
+        _rev: doc._rev,
+        bio: bio,
+        imageBlob: imageBlob,
+        username: username,
+      },
+      { force: true }
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getProfile = async (
+  stellaId: string
+): Promise<ProfileDoc | Error> => {
+  const db = new PouchDb(stellaId);
+  try {
+    const doc = await db.get("profile");
+    return doc as ProfileDoc;
+  } catch (error) {
+    return error as Error;
+  }
 };
 
 export const createCoverPage = async (
   username: string,
   imageBlob: string,
   title: string
-) => {
+): Promise<any> => {
   const db = new PouchDb("stellaId");
-
   try {
     if (!!username) {
       const response = await db.post({
@@ -44,61 +174,25 @@ export const createCoverPage = async (
   }
 };
 
-export const postFirebaseId = async (username: string, firebaseId: string) => {
-  const db = await new PouchDb("firebaseIds");
-
+export const getStory = async (
+  profileId: string,
+  storyId: string
+): Promise<any> => {
+  const db = new PouchDb(profileId);
   try {
-    if (username && firebaseId) {
-      const response = await db.post({
-        _id: firebaseId,
-        stellaId: uuidv4(),
-      });
-      return response;
-    }
+    const doc = await db.get(storyId);
+    return doc;
   } catch (error) {
-    console.log("postUserId error");
     return error;
   }
 };
 
-export const postUsername = async (firebaseId: string, username: string) => {
-  const firebaseIdDoc = await getStellaIdByFirebaseId(firebaseId);
-
-  const db = await new PouchDb(firebaseIdDoc.stellaId);
-
-  try {
-    if (username) {
-      const response = await db.post({
-        _id: "profile",
-        username: username,
-      });
-      return response;
-    }
-  } catch {
-    console.log("postUsername error");
-  }
-};
-
-export const getStory = async (profileId, storyId) => {
-  const db = new PouchDb(profileId);
-  const doc = db.get(storyId);
-
-  return doc;
-};
-
-export const setStory = async () => {
+export const setStory = async (): Promise<any> => {
   const db = new PouchDb("stellaId");
   return storyData;
 };
 
-export const getStories = async () => {
+export const getStories = async (): Promise<any> => {
   const db = new PouchDb("stellaId");
   return storyData;
-};
-
-export const getProfile = async (stellaId: string) => {
-  console.log(stellaId);
-  const db = new PouchDb(stellaId);
-  const doc = db.get("profile");
-  return doc;
 };
