@@ -1,0 +1,11 @@
+.gridSelect {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 12px;
+  width: 100%;
+}
+
+.gridSelect :global(.grid) {
+  aspect-ratio: 3/4;
+  gap: 2px;
+}

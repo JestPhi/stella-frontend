@@ -205,12 +205,25 @@ export const getStories = async (): Promise<any> => {
 
 export const uploadImageBlob = async (imageBlob: string): Promise<any> => {
   try {
+    // Convert base64 string to blob
+    const base64Data = imageBlob.split(",")[1]; // Remove data:image/...;base64, prefix
+    const byteCharacters = atob(base64Data);
+    const byteNumbers = new Array(byteCharacters.length);
+
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: "image/jpeg" });
+
+    // Create FormData to send as file
+    const formData = new FormData();
+    formData.append("image", blob, "image.jpg");
+
     const response = await fetch("http://localhost:3000/upload-image", {
       method: "POST",
-      headers: {
-        "Content-Type": "image/jpeg",
-      },
-      body: imageBlob,
+      body: formData, // Send as FormData (multipart/form-data)
     });
 
     if (!response.ok) {
@@ -224,3 +237,6 @@ export const uploadImageBlob = async (imageBlob: string): Promise<any> => {
     throw error;
   }
 };
+
+// stella/stellaId/profile/Image
+// stella/stellaId/story/grid/Image

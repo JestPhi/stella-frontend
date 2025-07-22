@@ -7,9 +7,8 @@ import Story from "./pages/Story";
 import SignIn from "./pages/SignIn";
 import Home from "./pages/Home";
 import Menu from "./components/Menu";
-import Auth from "./components/Auth";
+import GridSelect from "./components/GridSelect";
 
-import { AuthProvider } from "./hooks/useAuth";
 import { GlobalProvider } from "./context/context";
 
 createRoot(document.getElementById("root")!).render(
