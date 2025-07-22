@@ -1,5 +1,5 @@
 {
-  "name": "vite-react-typescript-starter",
+  "name": "stella-ui",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.850.0",
     "@types/pouchdb": "^6.4.2",
     "@types/pouchdb-browser": "^6.1.5",
+    "aws-sdk": "^2.1692.0",
     "events": "^3.3.0",
     "feather-icons": "^4.29.2",
     "firebase": "^11.8.1",

@@ -116,9 +116,15 @@ export const updateProfile = async ({
   stellaId,
   username,
 }: UpdateProfileParams): Promise<any> => {
-  if (!username || stellaId) {
+  if (!username || !stellaId) {
     console.log("setProfile Error", stellaId, username);
     return;
+  }
+  debugger;
+  if (imageBlob) {
+    const a = await uploadImageBlob(imageBlob);
+    console.log(a);
+    debugger;
   }
 
   try {
@@ -195,4 +201,26 @@ export const setStory = async (): Promise<any> => {
 export const getStories = async (): Promise<any> => {
   const db = new PouchDb("stellaId");
   return storyData;
+};
+
+export const uploadImageBlob = async (imageBlob: string): Promise<any> => {
+  try {
+    const response = await fetch("http://localhost:3000/upload-image", {
+      method: "POST",
+      headers: {
+        "Content-Type": "image/jpeg",
+      },
+      body: imageBlob,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    throw error;
+  }
 };

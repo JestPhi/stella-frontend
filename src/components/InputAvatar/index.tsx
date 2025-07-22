@@ -13,24 +13,38 @@ const getImage = (image: any) => {
   return image;
 };
 
-const InputAvatar = ({ className, onChange }) => {
-  const [imageFileState, setImageFileState] = useState(null);
-  const inputRef = useRef(null);
+type InputAvatarProps = {
+  className?: string;
+  onChange: (imageBlob: string | null) => void;
+};
+
+const InputAvatar = ({ className, onChange }: InputAvatarProps) => {
+  const [imageBlobString, setImageBlobString] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    onChange(imageFileState);
-  }, [imageFileState]);
+    onChange(imageBlobString);
+  }, [imageBlobString]);
+
+  const convertToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
 
   return (
     <div className={[style.inputImage, className].join(" ")}>
       <div className={style.imageWrapper}>
-        {imageFileState && (
-          <img className={style.img} src={getImage(imageFileState)} alt="" />
+        {imageBlobString && (
+          <img className={style.img} src={imageBlobString} alt="" />
         )}
-        {!imageFileState && (
+        {!imageBlobString && (
           <Button
             className={style.buttonAddImage}
-            onClick={() => inputRef.current.click()}
+            onClick={() => inputRef.current?.click()}
           >
             <Image color="#222" />
           </Button>
@@ -40,30 +54,36 @@ const InputAvatar = ({ className, onChange }) => {
           id="input"
           type="file"
           accept="image/*;capture=camera"
-          onChange={(event) => {
-            const file = event.target.files[0];
-            const blob = new Blob([file], { type: "image/png" });
-            setImageFileState(blob);
+          onChange={async (event) => {
+            const file = event.target.files?.[0];
+            if (file) {
+              try {
+                const base64String = await convertToBase64(file);
+                setImageBlobString(base64String);
+              } catch (error) {
+                console.error("Error converting file to base64:", error);
+              }
+            }
           }}
           ref={inputRef}
         />
       </div>
-      {imageFileState && (
+      {imageBlobString && (
         <Button
           className={style.buttonImageAction}
           onClick={() => {
-            setImageFileState(null);
+            setImageBlobString(null);
           }}
           variant="fill"
         >
           <Trash height={16} />
         </Button>
       )}
-      {!imageFileState && (
+      {!imageBlobString && (
         <Button
           className={style.buttonImageAction}
           onClick={() => {
-            setImageFileState(null);
+            inputRef.current?.click();
           }}
           variant="fill"
         >

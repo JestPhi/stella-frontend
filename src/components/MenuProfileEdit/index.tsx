@@ -5,6 +5,7 @@ import style from "./style.module.css";
 import Button from "../Button";
 import InputAvatar from "../InputAvatar";
 import InputText from "../InputText";
+
 import InputTextarea from "../InputTextarea";
 
 import { useGlobalContext } from "../../context/context";
