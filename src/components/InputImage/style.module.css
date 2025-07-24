@@ -2,7 +2,6 @@
   display: none;
 }
 .img {
-  aspect-ratio: 1/1;
   object-fit: contain;
   object-position: bottom;
   height: 100%;
@@ -22,16 +21,9 @@
 .buttonAddImage {
   height: 100%;
   position: absolute;
-  right: 0;
   width: 100%;
 }
-.buttonAddImage :global(.inner) {
-  display: flex;
-  flex-direction: column;
-  border: solid 1px #222;
-  height: 20dvh;
-  width: 20dvh;
-}
+
 .buttonAddImage svg {
   margin-bottom: 4px;
 }

@@ -16,8 +16,8 @@ createRoot(document.getElementById("root")!).render(
     <GlobalProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/profile/:profileId" element={<Profile />} />
-          <Route path="/profile/:profileId/:storyId" element={<Story />} />
+          <Route path="/profile/:stellaId" element={<Profile />} />
+          <Route path="/profile/:stellaId/:storyId" element={<Story />} />
           <Route path="signin" element={<SignIn />} />
           <Route path="/" element={<Home />} />
         </Routes>

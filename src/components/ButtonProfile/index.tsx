@@ -30,6 +30,7 @@ const ButtonMenu: React.FC = () => {
       .then((response) => {
         if (response && typeof response !== "object") return;
         const doc = response as FirebaseIdDoc | ProfileDoc | null;
+        console.log(doc);
         if (doc && "stellaId" in doc) {
           dispatch({
             type: "SET_PROFILE",
@@ -41,6 +42,8 @@ const ButtonMenu: React.FC = () => {
         // TODO error handling
       });
   }, [state.firebaseId, dispatch]);
+
+  console.log(state);
 
   return (
     <Button

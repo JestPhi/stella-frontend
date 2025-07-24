@@ -120,11 +120,10 @@ export const updateProfile = async ({
     console.log("setProfile Error", stellaId, username);
     return;
   }
-  debugger;
+  let imageFilename;
   if (imageBlob) {
-    const a = await uploadImageBlob(imageBlob);
-    console.log(a);
-    debugger;
+    const { fileName } = await uploadImageBlob(imageBlob, stellaId, "profile");
+    imageFilename = fileName;
   }
 
   try {
@@ -135,8 +134,9 @@ export const updateProfile = async ({
         _id: "profile",
         _rev: doc._rev,
         bio: bio,
-        imageBlob: imageBlob,
+        profileImage: imageFilename,
         username: username,
+        stellaId: stellaId,
       },
       { force: true }
     );
@@ -203,7 +203,11 @@ export const getStories = async (): Promise<any> => {
   return storyData;
 };
 
-export const uploadImageBlob = async (imageBlob: string): Promise<any> => {
+export const uploadImageBlob = async (
+  imageBlob: string,
+  stellaId: string,
+  folder: string
+): Promise<any> => {
   try {
     // Convert base64 string to blob
     const base64Data = imageBlob.split(",")[1]; // Remove data:image/...;base64, prefix
@@ -220,10 +224,12 @@ export const uploadImageBlob = async (imageBlob: string): Promise<any> => {
     // Create FormData to send as file
     const formData = new FormData();
     formData.append("image", blob, "image.jpg");
+    formData.append("folder", folder);
+    formData.append("stellaId", stellaId);
 
     const response = await fetch("http://localhost:3000/upload-image", {
       method: "POST",
-      body: formData, // Send as FormData (multipart/form-data)
+      body: formData, // Send FormData directly, not JSON
     });
 
     if (!response.ok) {

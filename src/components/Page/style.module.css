@@ -1,12 +1,13 @@
 .bar {
   justify-content: flex-end;
 }
+
 .text {
   max-width: 420px;
   padding: 0 16px;
 }
 .image {
-  aspect-ratio: 1/1;
+  aspect-ratio: 3/4;
   box-sizing: border-box;
   height: calc(50dvh - 44px);
   margin: 0 auto;
@@ -31,6 +32,5 @@
   height: calc(50dvh - 44px);
 }
 .pageNumber {
-  display: flex;
   justify-content: center;
 }

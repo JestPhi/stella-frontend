@@ -3,7 +3,9 @@ import style from "./style.module.css";
 import { useGlobalContext } from "../../context/context";
 import InputImage from "../InputImage";
 import Textarea from "../InputTextarea";
-import Divider from "../Divider";
+import Bar from "../Bar";
+import Panels from "../Panels";
+import PageEdit from "../PageEdit";
 
 const MenuAddPage = () => {
   const { dispatch, state } = useGlobalContext();
@@ -12,20 +14,17 @@ const MenuAddPage = () => {
 
   return (
     <div>
-      <InputImage
-        className={style.inputImage}
-        onChange={(imageBlob: string) => {
-          setImageBlobState(imageBlob);
-        }}
-      />
-      <Divider />
-      <Textarea
-        rows={12}
-        placeholder="Enter Page Text..."
-        onChange={(value) => {
-          setTextState(value);
-        }}
-      />
+      <Bar className={style.bar}>
+        <Panels items={[{ c: 12, r: 12, rs: 0, cs: 0, skeleton: "default" }]} />
+        <Panels
+          className={style.selected}
+          items={[
+            { c: 12, r: 9, rs: 0, cs: 0, skeleton: "default" },
+            { c: 12, r: 3, rs: 9, cs: 0, skeleton: "default" },
+          ]}
+        />
+      </Bar>
+      <PageEdit />
     </div>
   );
 };

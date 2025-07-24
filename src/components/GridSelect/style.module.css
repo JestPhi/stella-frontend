@@ -6,6 +6,9 @@
 }
 
 .gridSelect :global(.grid) {
-  aspect-ratio: 3/4;
   gap: 2px;
+}
+
+.gridSelect :global(.item) {
+  border-radius: 4px;
 }

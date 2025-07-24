@@ -1,0 +1,196 @@
+.panels {
+  aspect-ratio: 3/4;
+  box-sizing: border-box;
+  display: grid;
+  gap: 4px;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(12, 1fr);
+  width: 100%;
+  max-height: calc(100dvh - 176px);
+}
+
+.panels :global(img) {
+  width: 100%;
+}
+
+.item {
+  display: flex;
+}
+
+.item:global(img) {
+  align-items: flex-end;
+}
+
+.item:global(.text) {
+  align-items: flex-start;
+}
+
+.item:global(.default) {
+  background: grey;
+  border-radius: 4px;
+}
+
+.item:global(.text) {
+  border: solid 1px grey;
+  border-radius: 4px;
+}
+
+.rs0 {
+  grid-row-start: 0;
+}
+.rs1 {
+  grid-row-start: 1;
+}
+.rs2 {
+  grid-row-start: 2;
+}
+.rs3 {
+  grid-row-start: 3;
+}
+.rs4 {
+  grid-row-start: 4;
+}
+.rs5 {
+  grid-row-start: 5;
+}
+.rs6 {
+  grid-row-start: 6;
+}
+.rs7 {
+  grid-row-start: 7;
+}
+.rs8 {
+  grid-row-start: 8;
+}
+.rs9 {
+  grid-row-start: 9;
+}
+.rs10 {
+  grid-row-start: 10;
+}
+.rs11 {
+  grid-row-start: 11;
+}
+.rs12 {
+  grid-row-start: 12;
+}
+
+.cs0 {
+  grid-column-start: 0;
+}
+.cs1 {
+  grid-column-start: 1;
+}
+.cs2 {
+  grid-column-start: 2;
+}
+.cs3 {
+  grid-column-start: 3;
+}
+.cs4 {
+  grid-column-start: 4;
+}
+.cs5 {
+  grid-column-start: 5;
+}
+.cs6 {
+  grid-column-start: 6;
+}
+.cs7 {
+  grid-column-start: 7;
+}
+.cs8 {
+  grid-column-start: 8;
+}
+.cs9 {
+  grid-column-start: 9;
+}
+.cs10 {
+  grid-column-start: 10;
+}
+.cs11 {
+  grid-column-start: 11;
+}
+.cs12 {
+  grid-column-start: 12;
+}
+
+.c0 {
+  grid-column: span 0 / span 0;
+}
+.c1 {
+  grid-column: span 1 / span 1;
+}
+.c2 {
+  grid-column: span 2 / span 2;
+}
+.c3 {
+  grid-column: span 3 / span 3;
+}
+.c4 {
+  grid-column: span 4 / span 4;
+}
+.c5 {
+  grid-column: span 5 / span 5;
+}
+.c6 {
+  grid-column: span 6 / span 6;
+}
+.c7 {
+  grid-column: span 7 / span 7;
+}
+.c8 {
+  grid-column: span 8 / span 8;
+}
+.c9 {
+  grid-column: span 9 / span 9;
+}
+.c10 {
+  grid-column: span 10 / span 10;
+}
+.c11 {
+  grid-column: span 11 / span 11;
+}
+.c12 {
+  grid-column: span 12 / span 12;
+}
+
+.r0 {
+  grid-row: span 0 / span 0;
+}
+.r1 {
+  grid-row: span 1 / span 1;
+}
+.r2 {
+  grid-row: span 2 / span 2;
+}
+.r3 {
+  grid-row: span 3 / span 3;
+}
+.r4 {
+  grid-row: span 4 / span 4;
+}
+.r5 {
+  grid-row: span 5 / span 5;
+}
+.r6 {
+  grid-row: span 6 / span 6;
+}
+.r7 {
+  grid-row: span 7 / span 7;
+}
+.r8 {
+  grid-row: span 8 / span 8;
+}
+.r9 {
+  grid-row: span 9 / span 9;
+}
+.r10 {
+  grid-row: span 10 / span 10;
+}
+.r11 {
+  grid-row: span 11 / span 11;
+}
+.r12 {
+  grid-row: span 12 / span 12;
+}

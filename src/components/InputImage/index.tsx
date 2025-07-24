@@ -44,7 +44,6 @@ const InputImage = ({ className, onChange }) => {
           onClick={() => inputRef.current.click()}
         >
           <Image color="#222" />
-          Select Cover Image
         </Button>
       )}
       <input

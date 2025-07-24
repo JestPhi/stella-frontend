@@ -1,7 +1,4 @@
 .addStoryWrapper {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
 }
 .bar {
   align-items: flex-end;
@@ -27,7 +24,9 @@
 }
 
 .textarea {
-  height: calc(50dvh - 88px);
-  width: 100%;
   text-align: center;
+}
+
+.panels {
+  padding: 16px;
 }

@@ -13,14 +13,13 @@
 .menu {
   background: white;
   box-sizing: border-box;
-  border-radius: 14px 14px 0 0;
   display: block;
   align-items: flex-end;
   position: fixed;
   bottom: 0;
   left: 0;
   overflow: hidden;
-  height: calc(100vh - 44px);
+  height: 100%;
   width: 100%;
   animation: slideIn 0.25s forwards;
   transform: translateY(100%);

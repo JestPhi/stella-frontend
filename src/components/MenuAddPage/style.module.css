@@ -1,3 +1,21 @@
 .inputImage {
-  height: calc(50dvh - 44px);
+}
+
+.bar {
+  box-sizing: border-box;
+  height: 88px;
+  justify-content: flex-end;
+  padding: 16px;
+}
+
+.bar :global(.panels) {
+  width: auto;
+  height: 100%;
+  margin-left: 8px;
+}
+
+.selected {
+  border: solid 1px #222;
+  border-radius: 4px;
+  padding: 4px;
 }
