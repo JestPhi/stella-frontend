@@ -4,6 +4,7 @@ import style from "./style.module.css";
 import { useGlobalContext } from "../../context/context";
 import InputImage from "../InputImage";
 import Textarea from "../InputTextarea";
+import InputTextarea from "../InputTextarea";
 import Panels from "../Panels";
 import Bar from "../Bar";
 import Button from "../Button";
@@ -25,7 +26,40 @@ const MenuAddStory = ({ heading }) => {
 
   return (
     <div className={style.addStoryWrapper}>
-      <PageEdit />
+      <PageEdit
+        items={[
+          {
+            c: 12,
+            r: 10,
+            rs: 0,
+            cs: 0,
+            skeleton: "default",
+            content: (
+              <InputImage
+                className={style.inputImage}
+                onChange={(imageBlob: string) => {
+                  // setImageBlobState(imageBlob);
+                }}
+              />
+            ),
+          },
+          {
+            c: 12,
+            r: 2,
+            rs: 10,
+            cs: 0,
+            skeleton: "text",
+            content: (
+              <InputTextarea
+                placeholder="Enter Page Text..."
+                onChange={(value) => {
+                  // setTextState(value);
+                }}
+              />
+            ),
+          },
+        ]}
+      />
       <Bar className={[style.bar].join(" ")}>
         {titleState && imageBlobState && (
           <Button

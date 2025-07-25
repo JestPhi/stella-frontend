@@ -1,4 +1,3 @@
-import Avatar from "../../components/Avatar";
 import Bar from "../../components/Bar";
 import Button from "../../components/Button";
 import ButtonBack from "../../components/ButtonBack";
@@ -7,8 +6,11 @@ import ButtonAddStory from "../../components/ButtonAddStory";
 import PageCover from "../../components/PageCover";
 import style from "./style.module.css";
 import Profile from "../../components/Profile";
+import Logo from "../../components/Logo";
+import { useNavigate } from "react-router";
 
 const Author = ({}) => {
+  const navigate = useNavigate();
   return (
     <>
       <Bar className={style.topBar}>
@@ -23,7 +25,13 @@ const Author = ({}) => {
         <PageCover />
       </div>
       <Bar className={style.bottomBar}>
-        <Button>S</Button>
+        <Button
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          <Logo />
+        </Button>
         <ButtonAddStory />
       </Bar>
     </>

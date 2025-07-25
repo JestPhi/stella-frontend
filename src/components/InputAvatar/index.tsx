@@ -15,11 +15,18 @@ const getImage = (image: any) => {
 
 type InputAvatarProps = {
   className?: string;
+  imageURL?: string | null;
   onChange: (imageBlob: string | null) => void;
 };
 
-const InputAvatar = ({ className, onChange }: InputAvatarProps) => {
-  const [imageBlobString, setImageBlobString] = useState<string | null>(null);
+const InputAvatar = ({
+  className,
+  imageURL = null,
+  onChange,
+}: InputAvatarProps) => {
+  const [imageBlobString, setImageBlobString] = useState<string | null>(
+    imageURL
+  );
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {

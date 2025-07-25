@@ -13,9 +13,6 @@ const firebaseConfig = {
   apiKey: "AIzaSyBsYZqIl6o1a6yWxXpPI5VYFbYuuIgDatI",
   authDomain: "stella-6014d.firebaseapp.com",
   projectId: "stella-6014d",
-  messagingSenderId: "656826535955",
-  appId: "1:656826535955:web:109ac457f30f132395efe6",
-  measurementId: "G-27DBFQ4ES0",
 };
 
 const app = initializeApp(firebaseConfig);

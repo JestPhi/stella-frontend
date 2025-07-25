@@ -25,7 +25,7 @@ const Profile = () => {
       // You can dispatch an action to set the stellaId in global state
     }
   }, [stellaId]);
-  console.log(profileState);
+
   return (
     <div className={style.profile}>
       <Bar className={style.bar}>
@@ -44,7 +44,9 @@ const Profile = () => {
         </Button>
       </Bar>
       <Avatar
-        src={`https://link.storjshare.io/s/jukiguk32p4ahoxnsuuunt7z5wyq/stella/${profileState.stellaId}/profile/${profileState.profileImage}?wrap=0`}
+        src={`${import.meta.env.VITE_STORJ_PUBLIC_URL}/${
+          profileState.stellaId
+        }/profile/${profileState.profileImageURL}?wrap=0`}
       />
       <div className={style.name}>{profileState.username}</div>
       {/* <Button className={style.meta} variant="fill">

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Menu } from "react-feather";
 import { useParams } from "react-router";
+import { useNavigate } from "react-router";
 import Bar from "../../components/Bar";
 import Button from "../../components/Button";
 import ButtonBack from "../../components/ButtonBack";
@@ -12,14 +12,13 @@ import Profile from "../../components/Profile";
 import style from "./style.module.css";
 import storyData from "../../scheme/story.json";
 import Logo from "../../components/Logo";
-import PouchDb from "pouchdb-browser";
 import { getStory } from "../../api";
 
 const Story = () => {
-  const { coverPage, pages } = storyData;
+  const { pages } = storyData;
   const [storyState, setStoryState] = useState();
-
   const { profileId, storyId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getStory(profileId, storyId).then((data) => {
@@ -46,7 +45,11 @@ const Story = () => {
         })}
       </div>
       <Bar className={style.bottomBar}>
-        <Button>
+        <Button
+          onClick={() => {
+            navigate("/");
+          }}
+        >
           <Logo />
         </Button>
         <ButtonAddPage />

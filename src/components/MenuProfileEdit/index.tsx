@@ -16,6 +16,7 @@ const MenuCreateProfile = () => {
   const [usernameState, setUsernameState] = useState();
   const [bioState, setBioState] = useState();
   const [imageBlobState, setImageBlobState] = useState();
+  const [disabledState, setDisabledState] = useState(true);
 
   useEffect(() => {
     setUsernameState(state.username);
@@ -28,8 +29,12 @@ const MenuCreateProfile = () => {
   return (
     <div className={style.signUp}>
       <InputAvatar
+        imageURL={`${import.meta.env.VITE_STORJ_PUBLIC_URL}/${
+          state.stellaId
+        }/profile/${state.profileImageURL}?wrap=0`}
         onChange={(value) => {
           setImageBlobState(value);
+          setDisabledState(false);
         }}
         className={style.avatar}
       />
@@ -39,6 +44,7 @@ const MenuCreateProfile = () => {
         placeholder="Enter Username"
         onChange={(event) => {
           setUsernameState(event.target.value);
+          setDisabledState(false);
         }}
         value={usernameState}
       />
@@ -48,16 +54,20 @@ const MenuCreateProfile = () => {
         placeholder="Enter Bio"
         onChange={(event) => {
           setBioState(event.target.value);
+          setDisabledState(false);
         }}
         value={bioState}
       />
       <Button
         variant={"primary"}
-        disabled={!usernameState}
+        disabled={disabledState}
         onClick={async () => {
           // Update Profile
+
+          setDisabledState(true);
           await updateProfile({
             bio: bioState,
+            originalProfileImageURL: state.profileImageURL,
             imageBlob: imageBlobState,
             username: usernameState,
             stellaId: state.stellaId,

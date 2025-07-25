@@ -19,7 +19,7 @@ const MenuProfile = () => {
       <Button
         onClick={() => {
           dispatch({ type: "SET_MENU", payload: null });
-          navigate("/profile/stellaId");
+          navigate(`/profile/${state.stellaId}`);
         }}
       >
         View Profile

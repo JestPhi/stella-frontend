@@ -27,6 +27,7 @@ export type CreateProfileParams = {
 export type UpdateProfileParams = {
   bio?: string;
   imageBlob?: string;
+  originalProfileImageURL?: string;
   stellaId?: string;
   username?: string;
 };
@@ -113,6 +114,7 @@ export const createProfile = async ({
 export const updateProfile = async ({
   bio,
   imageBlob,
+  originalProfileImageURL,
   stellaId,
   username,
 }: UpdateProfileParams): Promise<any> => {
@@ -122,7 +124,13 @@ export const updateProfile = async ({
   }
   let imageFilename;
   if (imageBlob) {
-    const { fileName } = await uploadImageBlob(imageBlob, stellaId, "profile");
+    // TODO convert to object instead of params
+    const { fileName } = await uploadImageBlob(
+      imageBlob,
+      stellaId,
+      "profile",
+      originalProfileImageURL
+    );
     imageFilename = fileName;
   }
 
@@ -134,7 +142,7 @@ export const updateProfile = async ({
         _id: "profile",
         _rev: doc._rev,
         bio: bio,
-        profileImage: imageFilename,
+        profileImageURL: imageFilename,
         username: username,
         stellaId: stellaId,
       },
@@ -206,7 +214,8 @@ export const getStories = async (): Promise<any> => {
 export const uploadImageBlob = async (
   imageBlob: string,
   stellaId: string,
-  folder: string
+  folder: string,
+  originalProfileImageURL?: string
 ): Promise<any> => {
   try {
     // Convert base64 string to blob
@@ -226,6 +235,10 @@ export const uploadImageBlob = async (
     formData.append("image", blob, "image.jpg");
     formData.append("folder", folder);
     formData.append("stellaId", stellaId);
+
+    if (originalProfileImageURL) {
+      formData.append("imageDeleteKey", originalProfileImageURL);
+    }
 
     const response = await fetch("http://localhost:3000/upload-image", {
       method: "POST",
