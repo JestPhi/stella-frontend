@@ -43,8 +43,6 @@ const ButtonMenu: React.FC = () => {
       });
   }, [state.firebaseId, dispatch]);
 
-  console.log(state);
-
   return (
     <Button
       onClick={() => {

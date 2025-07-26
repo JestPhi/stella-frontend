@@ -14,6 +14,7 @@ type State = {
   stellaId?: string;
   username?: string;
   bio?: string;
+  profileImageURL?: string;
 };
 
 // Define all possible actions

@@ -27,7 +27,7 @@ export type CreateProfileParams = {
 export type UpdateProfileParams = {
   bio?: string;
   imageBlob?: string;
-  originalProfileImageURL?: string;
+  profileImageURL?: string;
   stellaId?: string;
   username?: string;
 };
@@ -113,8 +113,6 @@ export const createProfile = async ({
 
 export const updateProfile = async ({
   bio,
-  imageBlob,
-  originalProfileImageURL,
   stellaId,
   username,
 }: UpdateProfileParams): Promise<any> => {
@@ -122,27 +120,14 @@ export const updateProfile = async ({
     console.log("setProfile Error", stellaId, username);
     return;
   }
-  let imageFilename;
-  if (imageBlob) {
-    // TODO convert to object instead of params
-    const { fileName } = await uploadImageBlob(
-      imageBlob,
-      stellaId,
-      "profile",
-      originalProfileImageURL
-    );
-    imageFilename = fileName;
-  }
 
   try {
     const db = new PouchDb(stellaId);
     const doc = await db.get("profile");
     const response = await db.put(
       {
-        _id: "profile",
-        _rev: doc._rev,
+        ...doc,
         bio: bio,
-        profileImageURL: imageFilename,
         username: username,
         stellaId: stellaId,
       },
@@ -155,7 +140,8 @@ export const updateProfile = async ({
 };
 
 export const getProfile = async (
-  stellaId: string
+  stellaId: string,
+  key: string
 ): Promise<ProfileDoc | Error> => {
   const db = new PouchDb(stellaId);
   try {
@@ -166,22 +152,87 @@ export const getProfile = async (
   }
 };
 
+export const deleteAvatar = async (stellaId: string, key: string) => {
+  try {
+    // First delete the image from storage
+    await deleteObject(key);
+    console.log("Image deleted successfully");
+
+    const db = new PouchDb(stellaId);
+    const doc = await db.get("profile");
+    const response = await db.put(
+      {
+        ...doc,
+        profileImageURL: null,
+      },
+      { force: true }
+    );
+    return response;
+  } catch (error) {
+    console.error("Failed to delete avatar:", error);
+  }
+};
+
+export const updateAvatar = async (stellaId: string, imageBlob: string) => {
+  try {
+    // First upload the new image
+    const imageResponse = await uploadImageBlob({
+      imageBlob,
+      folder: `${stellaId}/profile`,
+    });
+
+    if (!imageResponse?.fileName) {
+      throw new Error("Failed to upload image - no filename returned");
+    }
+
+    console.log("Image uploaded successfully:", imageResponse.fileName);
+
+    // Then update the profile with the new image URL
+    const db = new PouchDb(stellaId);
+    const doc = await db.get("profile");
+    const response = await db.put(
+      {
+        ...doc,
+        profileImageURL: imageResponse.fileName,
+      },
+      { force: true }
+    );
+    return response;
+
+    console.log("Profile updated with new avatar");
+  } catch (error) {
+    console.error("Failed to update avatar:", error);
+    // Could add user-facing error handling here (e.g., toast notification)
+  }
+};
+
 export const createCoverPage = async (
-  username: string,
+  stellaId: string,
   imageBlob: string,
   title: string
 ): Promise<any> => {
-  const db = new PouchDb("stellaId");
+  const db = new PouchDb(stellaId);
+  const newStoryId = uuidv4();
+
   try {
-    if (!!username) {
-      const response = await db.post({
-        coverPage: {
-          imageBlob: imageBlob,
-          title: title,
-        },
-      });
-      return response;
+    if (!stellaId) {
+      return;
     }
+
+    const response = await uploadImageBlob({
+      imageBlob: imageBlob,
+      folder: `${stellaId}/stories/${newStoryId}`,
+    });
+
+    const doc = await db.post({
+      _id: newStoryId,
+      coverPage: {
+        imageURL: response.fileName,
+        title: title,
+      },
+    });
+
+    return doc;
   } catch (e) {
     console.log(e);
     return e;
@@ -211,12 +262,24 @@ export const getStories = async (): Promise<any> => {
   return storyData;
 };
 
-export const uploadImageBlob = async (
-  imageBlob: string,
-  stellaId: string,
-  folder: string,
-  originalProfileImageURL?: string
-): Promise<any> => {
+export const deleteObject = async (key: string) => {
+  const response = await fetch(
+    `http://localhost:3000/delete-object?key=${key}`,
+    {
+      method: "DELETE",
+    }
+  );
+};
+
+export type UploadImageBlobParams = {
+  imageBlob: string;
+  folder: string;
+};
+
+export const uploadImageBlob = async ({
+  imageBlob,
+  folder,
+}: UploadImageBlobParams): Promise<any> => {
   try {
     // Convert base64 string to blob
     const base64Data = imageBlob.split(",")[1]; // Remove data:image/...;base64, prefix
@@ -234,12 +297,8 @@ export const uploadImageBlob = async (
     const formData = new FormData();
     formData.append("image", blob, "image.jpg");
     formData.append("folder", folder);
-    formData.append("stellaId", stellaId);
 
-    if (originalProfileImageURL) {
-      formData.append("imageDeleteKey", originalProfileImageURL);
-    }
-
+    //TODO use env endpoint
     const response = await fetch("http://localhost:3000/upload-image", {
       method: "POST",
       body: formData, // Send FormData directly, not JSON
@@ -256,6 +315,3 @@ export const uploadImageBlob = async (
     throw error;
   }
 };
-
-// stella/stellaId/profile/Image
-// stella/stellaId/story/grid/Image

@@ -17,15 +17,15 @@ import { getStory } from "../../api";
 const Story = () => {
   const { pages } = storyData;
   const [storyState, setStoryState] = useState();
-  const { profileId, storyId } = useParams();
+  const { stellaId, storyId } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    getStory(profileId, storyId).then((data) => {
+    getStory(stellaId, storyId).then((data) => {
       setStoryState(data);
     });
   }, []);
-
+  console.log(storyState);
   return (
     <>
       <Bar className={style.topBar}>
@@ -36,7 +36,11 @@ const Story = () => {
         <Profile />
         <PageCover
           isStory={true}
-          imageBlob={storyState?.coverPage.imageBlob}
+          imageBlob={`${
+            import.meta.env.VITE_STORJ_PUBLIC_URL
+          }/${stellaId}/stories/${storyId}/${
+            storyState?.coverPage.imageURL
+          }?wrap=0`}
           title={storyState?.coverPage.title}
           pageCount={pages.length}
         />

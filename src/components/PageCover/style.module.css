@@ -5,9 +5,8 @@
   padding: 0 16px;
 }
 .image {
-  aspect-ratio: 1/1;
+  aspect-ratio: 3/4;
   box-sizing: border-box;
-  height: calc(50dvh - 44px);
   object-fit: contain;
   object-position: bottom;
   width: 100%;

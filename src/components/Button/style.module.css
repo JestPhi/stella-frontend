@@ -39,5 +39,6 @@
 }
 
 .button:disabled .primary {
-  background: rgb(1, 127, 230, 0.75);
+  background: rgba(72, 72, 72, 0.75);
+  cursor: auto;
 }

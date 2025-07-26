@@ -24,7 +24,7 @@ const Profile = () => {
       console.log("Profile stellaId from URL:", stellaId);
       // You can dispatch an action to set the stellaId in global state
     }
-  }, [stellaId]);
+  }, [stellaId, state.bio, state.username, state.profileImageURL]);
 
   return (
     <div className={style.profile}>

@@ -3,6 +3,7 @@ import { Image } from "react-feather";
 import style from "./style.module.css";
 import Button from "../Button";
 import Bar from "../Bar";
+import { convertToBase64 } from "../../utils";
 
 const getImage = (image: any) => {
   if (typeof image === "object") {
@@ -51,10 +52,16 @@ const InputImage = ({ className, onChange }) => {
         id="input"
         type="file"
         accept="image/*;capture=camera"
-        onChange={(event) => {
-          const file = event.target.files[0];
-          const blob = new Blob([file], { type: "image/png" });
-          setImageFileState(blob);
+        onChange={async (event) => {
+          const file = event.target.files?.[0];
+          if (file) {
+            try {
+              const base64String = await convertToBase64(file);
+              setImageFileState(base64String);
+            } catch (error) {
+              console.error("Error converting file to base64:", error);
+            }
+          }
         }}
         ref={inputRef}
       />

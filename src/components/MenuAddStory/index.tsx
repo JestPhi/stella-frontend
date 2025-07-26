@@ -9,20 +9,31 @@ import Panels from "../Panels";
 import Bar from "../Bar";
 import Button from "../Button";
 import PageEdit from "../PageEdit";
-import { getUser, createCoverPage } from "../../api";
+import { createCoverPage } from "../../api";
 
-const MenuAddStory = ({ heading }) => {
-  const textareaRef = useRef();
+const MenuAddStory = () => {
   const [imageBlobState, setImageBlobState] = useState("");
   const [titleState, setTitleState] = useState("");
   const { dispatch, state } = useGlobalContext();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (imageBlobState) {
-      textareaRef?.current.focus();
+  const handleCreateCoverPage = async () => {
+    const response = await createCoverPage(
+      state.stellaId,
+      imageBlobState,
+      titleState
+    );
+
+    if (response.ok) {
+      dispatch({
+        type: "SET_MENU",
+        payload: null,
+      });
+      navigate(`/profile/${state.stellaId}/${response.id}`);
     }
-  }, [imageBlobState]);
+  };
+
+  const isDisabled = !titleState || !imageBlobState;
 
   return (
     <div className={style.addStoryWrapper}>
@@ -38,7 +49,7 @@ const MenuAddStory = ({ heading }) => {
               <InputImage
                 className={style.inputImage}
                 onChange={(imageBlob: string) => {
-                  // setImageBlobState(imageBlob);
+                  setImageBlobState(imageBlob);
                 }}
               />
             ),
@@ -52,8 +63,8 @@ const MenuAddStory = ({ heading }) => {
             content: (
               <InputTextarea
                 placeholder="Enter Page Text..."
-                onChange={(value) => {
-                  // setTextState(value);
+                onChange={(e) => {
+                  setTitleState(e.target.value);
                 }}
               />
             ),
@@ -61,28 +72,14 @@ const MenuAddStory = ({ heading }) => {
         ]}
       />
       <Bar className={[style.bar].join(" ")}>
-        {titleState && imageBlobState && (
-          <Button
-            className={style.addStory}
-            variant="fill"
-            onClick={async () => {
-              const response = await createCoverPage(
-                "stellaId",
-                imageBlobState,
-                titleState
-              );
-              if (response.ok) {
-                dispatch({
-                  type: "SET_MENU",
-                  payload: null,
-                });
-                navigate(`/profile/stellaId/${response.id}`);
-              }
-            }}
-          >
-            Add Story
-          </Button>
-        )}
+        <Button
+          className={style.addStory}
+          variant="primary"
+          disabled={isDisabled}
+          onClick={handleCreateCoverPage}
+        >
+          Add Story
+        </Button>
       </Bar>
     </div>
   );

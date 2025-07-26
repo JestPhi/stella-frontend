@@ -10,15 +10,6 @@
   margin-right: 16px;
 }
 
-.addStory :global(.inner) {
-  background: #017fe6;
-  border-radius: 32px;
-  color: white;
-  font-weight: 600;
-  height: 32px;
-  padding: 0 16px;
-}
-
 .imageInput {
   height: calc(50dvh - 44px);
 }
