@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { User } from "react-feather";
+import { useQuery } from "@tanstack/react-query";
 
-import style from "./style.module.css";
-import MenuProfile from "../MenuProfile";
-import Button from "../Button";
 import { useGlobalContext } from "../../context/context";
 import useAuth from "../../hooks/useAuth";
-import type { ProfileDoc, FirebaseIdDoc } from "../../api";
-import { getProfile, getProfileByFirebaseId } from "../../api";
+import MenuProfile from "../MenuProfile";
+import Button from "../Button";
+import style from "./style.module.css";
 
 const ButtonMenu: React.FC = () => {
   const navigate = useNavigate();
@@ -24,23 +23,34 @@ const ButtonMenu: React.FC = () => {
     }
   }, [firebaseId, dispatch]);
 
+  console.log(state.firebaseId);
+  const { data } = useQuery({
+    queryKey: [state.firebaseId],
+    queryFn: () =>
+      fetch(
+        `${import.meta.env.VITE_STELLA_APP_HOST_URL}/firebase/${firebaseId}`
+      ).then((res) => res.json),
+  });
+  console.log(data);
+
   useEffect(() => {
     if (!state.firebaseId) return;
-    getProfileByFirebaseId(state.firebaseId)
-      .then((response) => {
-        if (response && typeof response !== "object") return;
-        const doc = response as FirebaseIdDoc | ProfileDoc | null;
-        console.log(doc);
-        if (doc && "stellaId" in doc) {
-          dispatch({
-            type: "SET_PROFILE",
-            payload: doc,
-          });
-        }
-      })
-      .catch((error: unknown) => {
-        // TODO error handling
-      });
+
+    // getProfileByFirebaseId(state.firebaseId)
+    //   .then((response) => {
+    //     if (response && typeof response !== "object") return;
+    //     const doc = response as FirebaseIdDoc | ProfileDoc | null;
+
+    //     if (doc && "stellaId" in doc) {
+    //       dispatch({
+    //         type: "SET_PROFILE",
+    //         payload: doc,
+    //       });
+    //     }
+    //   })
+    //   .catch((error: unknown) => {
+    //     // TODO error handling
+    //   });
   }, [state.firebaseId, dispatch]);
 
   return (

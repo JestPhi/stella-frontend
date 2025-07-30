@@ -11,19 +11,37 @@ import Button from "../Button";
 import PageEdit from "../PageEdit";
 import { createCoverPage } from "../../api";
 
+const initState = {
+  "0": {
+    grid: {
+      c: 12,
+      r: 10,
+      rs: 0,
+      cs: 0,
+    },
+    skeleton: "default",
+    type: "image",
+  },
+  "1": {
+    grid: {
+      c: 12,
+      r: 2,
+      rs: 10,
+      cs: 0,
+    },
+    type: "textarea",
+    placeholder: "Phi Le",
+    value: "cake",
+  },
+};
+
 const MenuAddStory = () => {
-  const [imageBlobState, setImageBlobState] = useState("");
-  const [titleState, setTitleState] = useState("");
+  const [coverPage, setCoverPage] = useState(initState);
   const { dispatch, state } = useGlobalContext();
   const navigate = useNavigate();
 
   const handleCreateCoverPage = async () => {
-    const response = await createCoverPage(
-      state.stellaId,
-      imageBlobState,
-      titleState
-    );
-
+    const response = await createCoverPage(state.stellaId, coverPage);
     if (response.ok) {
       dispatch({
         type: "SET_MENU",
@@ -33,49 +51,21 @@ const MenuAddStory = () => {
     }
   };
 
-  const isDisabled = !titleState || !imageBlobState;
+  // const isDisabled = !titleState || !imageBlobState;
 
   return (
     <div className={style.addStoryWrapper}>
       <PageEdit
-        items={[
-          {
-            c: 12,
-            r: 10,
-            rs: 0,
-            cs: 0,
-            skeleton: "default",
-            content: (
-              <InputImage
-                className={style.inputImage}
-                onChange={(imageBlob: string) => {
-                  setImageBlobState(imageBlob);
-                }}
-              />
-            ),
-          },
-          {
-            c: 12,
-            r: 2,
-            rs: 10,
-            cs: 0,
-            skeleton: "text",
-            content: (
-              <InputTextarea
-                placeholder="Enter Page Text..."
-                onChange={(e) => {
-                  setTitleState(e.target.value);
-                }}
-              />
-            ),
-          },
-        ]}
+        items={coverPage}
+        isEditMode={true}
+        onChange={(value) => {
+          setCoverPage(value);
+        }}
       />
       <Bar className={[style.bar].join(" ")}>
         <Button
           className={style.addStory}
           variant="primary"
-          disabled={isDisabled}
           onClick={handleCreateCoverPage}
         >
           Add Story

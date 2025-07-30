@@ -8,8 +8,15 @@
   aspect-ratio: 3/4;
   box-sizing: border-box;
   object-fit: contain;
-  object-position: bottom;
+  object-position: center;
   width: 100%;
+}
+.avatar {
+  border-radius: 22px;
+  height: 30px;
+  width: 30px;
+  margin-left: 8px;
+  margin-right: 8px;
 }
 .pageCover {
   height: calc(100dvh - 88px);
@@ -22,8 +29,13 @@
   scroll-snap-stop: always;
   width: 100dvw;
 }
+.profile {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
 .topBar {
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 .content {
   align-items: center;
@@ -35,4 +47,7 @@
   justify-content: center;
   display: flex;
   font-size: 12px;
+}
+.actions {
+  display: flex;
 }

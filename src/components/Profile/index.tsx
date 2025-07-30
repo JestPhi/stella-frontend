@@ -44,9 +44,9 @@ const Profile = () => {
         </Button>
       </Bar>
       <Avatar
-        src={`${import.meta.env.VITE_STORJ_PUBLIC_URL}/${
-          profileState.stellaId
-        }/profile/${profileState.profileImageURL}?wrap=0`}
+        src={`${import.meta.env.VITE_STORJ_PUBLIC_URL}/${stellaId}/profile/${
+          profileState.profileImageURL
+        }?wrap=0`}
       />
       <div className={style.name}>{profileState.username}</div>
       {/* <Button className={style.meta} variant="fill">

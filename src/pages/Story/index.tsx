@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Bar from "../../components/Bar";
 import Button from "../../components/Button";
 import ButtonBack from "../../components/ButtonBack";
 import ButtonMenu from "../../components/ButtonProfile";
 import ButtonAddPage from "../../components/ButtonAddPage";
 import PageCover from "../../components/PageCover";
-import Page from "../../components/Page";
-import Profile from "../../components/Profile";
 import style from "./style.module.css";
 import storyData from "../../scheme/story.json";
 import Logo from "../../components/Logo";
@@ -25,7 +22,7 @@ const Story = () => {
       setStoryState(data);
     });
   }, []);
-  console.log(storyState);
+
   return (
     <>
       <Bar className={style.topBar}>
@@ -33,20 +30,15 @@ const Story = () => {
         <ButtonMenu />
       </Bar>
       <div className={style.story}>
-        <Profile />
         <PageCover
-          isStory={true}
-          imageBlob={`${
-            import.meta.env.VITE_STORJ_PUBLIC_URL
-          }/${stellaId}/stories/${storyId}/${
-            storyState?.coverPage.imageURL
-          }?wrap=0`}
-          title={storyState?.coverPage.title}
+          stellaId={stellaId}
+          storyId={storyId}
+          panels={storyState?.coverPage}
           pageCount={pages.length}
         />
-        {pages.map((page, index) => {
+        {/* {pages.map((page, index) => {
           return <Page {...page} pageNumber={index} />;
-        })}
+        })} */}
       </div>
       <Bar className={style.bottomBar}>
         <Button

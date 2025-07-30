@@ -1,49 +1,43 @@
+import { useNavigate, useParams } from "react-router";
 import style from "./style.module.css";
 import Bar from "../Bar";
 import ButtonPageMore from "../ButtonPageMore";
-
-import Meta from "../Meta";
 import Panels from "../Panels";
 
-const PageCover = ({ imageBlob, title }) => {
-  const getImage = (image: any) => {
-    if (typeof image === "object") {
-      const blob = new Blob([image], { type: "image/png" });
-      return URL.createObjectURL(blob);
-    }
-    return image;
-  };
+const PageCover = ({ image, panels, storyId, stellaId }) => {
+  const navigate = useNavigate();
 
   return (
-    <div className={style.pageCover}>
-      <Bar className={style.topBar}>
-        <ButtonPageMore isCoverPage={true} />
+    <div
+      className={style.pageCover}
+      onClick={() => {
+        navigate(`/profile/${stellaId}/${storyId}`);
+      }}
+    >
+      <Bar className={style.topBar} variant="bottom-border">
+        <div className={style.profile}>
+          <img
+            className={style.avatar}
+            src={`${
+              import.meta.env.VITE_STORJ_PUBLIC_URL
+            }/${stellaId}/stories/${storyId}/${image}?wrap=0`}
+          />{" "}
+          Phi Le
+        </div>
+        <div className={style.actions}>
+          <ButtonPageMore
+            isCoverPage={true}
+            heading="cover"
+            stellaId={stellaId}
+            storyId={storyId}
+          />
+        </div>
       </Bar>
       <Panels
-        items={[
-          {
-            c: 12,
-            cs: 0,
-            r: 10,
-            rs: 0,
-            content: (
-              <img
-                className={style.image}
-                src={getImage(imageBlob)}
-                loading="lazy"
-              />
-            ),
-            className: "image",
-          },
-          {
-            c: 12,
-            cs: 0,
-            r: 2,
-            rs: 10,
-            content: <p className={style.title}>{title}</p>,
-            className: "text",
-          },
-        ]}
+        items={panels}
+        stellaId={stellaId}
+        storyId={storyId}
+        isEditMode={false}
       />
     </div>
   );

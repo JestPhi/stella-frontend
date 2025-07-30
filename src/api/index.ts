@@ -1,6 +1,7 @@
 import PouchDb from "pouchdb-browser";
 import { v4 as uuidv4 } from "uuid";
 import storyData from "../scheme/story.json";
+import { convertToBase64 } from "../utils";
 
 // Types
 export type FirebaseIdDoc = {
@@ -77,6 +78,8 @@ export const createStellaProfile = async ({
       _id: "profile",
       imageBlob: imageBlob,
       username: username,
+      stellaId: stellaId,
+      type: "profile",
     });
     return response;
   } catch (error) {
@@ -102,6 +105,7 @@ export const createProfile = async ({
   });
 
   const stellaProfileDoc = await createStellaProfile({
+    created: Date.now(),
     firebaseId: firebaseId,
     imageBlob: imageBlob,
     username: username,
@@ -130,6 +134,7 @@ export const updateProfile = async ({
         bio: bio,
         username: username,
         stellaId: stellaId,
+        updated: Date.now(),
       },
       { force: true }
     );
@@ -140,12 +145,12 @@ export const updateProfile = async ({
 };
 
 export const getProfile = async (
-  stellaId: string,
-  key: string
+  stellaId: string
 ): Promise<ProfileDoc | Error> => {
-  const db = new PouchDb(stellaId);
   try {
+    const db = new PouchDb(stellaId);
     const doc = await db.get("profile");
+
     return doc as ProfileDoc;
   } catch (error) {
     return error as Error;
@@ -194,6 +199,7 @@ export const updateAvatar = async (stellaId: string, imageBlob: string) => {
       {
         ...doc,
         profileImageURL: imageResponse.fileName,
+        updated: Date.now(),
       },
       { force: true }
     );
@@ -208,8 +214,7 @@ export const updateAvatar = async (stellaId: string, imageBlob: string) => {
 
 export const createCoverPage = async (
   stellaId: string,
-  imageBlob: string,
-  title: string
+  coverPage: any
 ): Promise<any> => {
   const db = new PouchDb(stellaId);
   const newStoryId = uuidv4();
@@ -220,15 +225,19 @@ export const createCoverPage = async (
     }
 
     const response = await uploadImageBlob({
-      imageBlob: imageBlob,
+      imageBlob: coverPage["0"].value,
       folder: `${stellaId}/stories/${newStoryId}`,
     });
 
     const doc = await db.post({
       _id: newStoryId,
+      created: Date.now(),
       coverPage: {
-        imageURL: response.fileName,
-        title: title,
+        ...coverPage,
+        "0": {
+          ...coverPage["0"],
+          value: `${stellaId}/stories/${newStoryId}/${response.fileName}`,
+        },
       },
     });
 
@@ -257,9 +266,21 @@ export const setStory = async (): Promise<any> => {
   return storyData;
 };
 
-export const getStories = async (): Promise<any> => {
-  const db = new PouchDb("stellaId");
-  return storyData;
+export const getStories = async (stellaId: string): Promise<any> => {
+  const db = new PouchDb(stellaId);
+  const docs = await db.allDocs({ include_docs: true });
+
+  return docs.rows
+    .filter((row) => {
+      return row?.doc?.type === "story";
+    })
+    .map((row) => {
+      return {
+        coverImageURL: row.doc.coverImageURL,
+        id: row.doc._id,
+        title: row.doc.title,
+      };
+    });
 };
 
 export const deleteObject = async (key: string) => {
@@ -281,8 +302,9 @@ export const uploadImageBlob = async ({
   folder,
 }: UploadImageBlobParams): Promise<any> => {
   try {
+    const base64String = await convertToBase64(imageBlob);
     // Convert base64 string to blob
-    const base64Data = imageBlob.split(",")[1]; // Remove data:image/...;base64, prefix
+    const base64Data = base64String.split(",")[1]; // Remove data:image/...;base64, prefix
     const byteCharacters = atob(base64Data);
     const byteNumbers = new Array(byteCharacters.length);
 

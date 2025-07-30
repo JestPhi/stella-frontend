@@ -3,24 +3,23 @@ import { Image } from "react-feather";
 import style from "./style.module.css";
 import Button from "../Button";
 import Bar from "../Bar";
-import { convertToBase64 } from "../../utils";
 
 const getImage = (image: any) => {
   if (typeof image === "object") {
     const blob = new Blob([image], { type: "image/png" });
     return URL.createObjectURL(blob);
   }
-  return image;
+  return `${import.meta.env.VITE_STORJ_PUBLIC_URL}/${image}?wrap=0`;
 };
 
-const InputImage = ({ className, onChange }) => {
-  const [imageFileState, setImageFileState] = useState(null);
+const InputImage = ({ className, onChange = () => {}, value = null }) => {
+  const [imageFileState, setImageFileState] = useState(value);
   const inputRef = useRef(null);
 
   useEffect(() => {
     onChange(imageFileState);
   }, [imageFileState]);
-
+  console.log(imageFileState);
   return (
     <div className={[style.inputImage, className].join(" ")}>
       {imageFileState && (
@@ -56,8 +55,7 @@ const InputImage = ({ className, onChange }) => {
           const file = event.target.files?.[0];
           if (file) {
             try {
-              const base64String = await convertToBase64(file);
-              setImageFileState(base64String);
+              setImageFileState(file);
             } catch (error) {
               console.error("Error converting file to base64:", error);
             }

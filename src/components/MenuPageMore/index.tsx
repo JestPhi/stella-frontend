@@ -1,10 +1,12 @@
+import { useParams } from "react-router";
 import globalStyle from "../../../src/style.module.css";
+
 import style from "./style.module.css";
-import Avatar from "../Avatar";
+import MenuPageEdit from "../MenuPageEdit";
 import Button from "../Button";
 import { useGlobalContext } from "../../context/context";
 
-const MenuPageMore = ({ isCoverPage }) => {
+const MenuPageMore = ({ isCoverPage, stellaId, storyId }) => {
   const { dispatch, state } = useGlobalContext();
 
   return (
@@ -13,7 +15,20 @@ const MenuPageMore = ({ isCoverPage }) => {
         <div className={style.heading}>
           {isCoverPage && "Cover "}Page Actions
         </div>
-        <Button className={style.action}>
+        <Button
+          className={style.action}
+          onClick={() => {
+            dispatch({
+              type: "SET_MENU",
+              payload: {
+                heading: "Edit Page",
+                template: (
+                  <MenuPageEdit stellaId={stellaId} storyId={storyId} />
+                ),
+              },
+            });
+          }}
+        >
           Edit {isCoverPage && "Cover "} Page
         </Button>
         {!isCoverPage && (

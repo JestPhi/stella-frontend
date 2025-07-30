@@ -1,13 +1,15 @@
+import { useNavigate } from "react-router";
 import { ArrowLeft } from "react-feather";
+
 import Button from "../../components/Button";
-import { useGlobalContext } from "../../context/context";
 
 const ButtonBack = () => {
-  const { dispatch } = useGlobalContext();
+  const navigate = useNavigate();
+
   return (
     <Button
       onClick={() => {
-        dispatch({ type: "SET_MENU", payload: <h1>Menu</h1> });
+        navigate(-1);
       }}
     >
       <ArrowLeft height={18} color="#444" />
