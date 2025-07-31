@@ -23,61 +23,81 @@ const ButtonMenu: React.FC = () => {
     }
   }, [firebaseId, dispatch]);
 
-  console.log(state.firebaseId);
-  const { data } = useQuery({
-    queryKey: [state.firebaseId],
-    queryFn: () =>
-      fetch(
-        `${import.meta.env.VITE_STELLA_APP_HOST_URL}/firebase/${firebaseId}`
-      ).then((res) => res.json),
+  // TanStack Query to fetch profile by Firebase ID
+  const {
+    data: profileData,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["profileByFirebaseId", state.firebaseId],
+    queryFn: async () => {
+      if (!state.firebaseId) throw new Error("No Firebase ID");
+
+      const response = await fetch(
+        `${import.meta.env.VITE_STELLA_APP_HOST}/firebase/${state.firebaseId}`
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Profile API response:", data);
+
+      // Return the actual profile data, not the raw response
+      return data.profile || data;
+    },
+    enabled: !!state.firebaseId, // Only run when Firebase ID exists
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+    retry: 2,
   });
-  console.log(data);
 
+  // Update global state when profile data is loaded
   useEffect(() => {
-    if (!state.firebaseId) return;
-
-    // getProfileByFirebaseId(state.firebaseId)
-    //   .then((response) => {
-    //     if (response && typeof response !== "object") return;
-    //     const doc = response as FirebaseIdDoc | ProfileDoc | null;
-
-    //     if (doc && "stellaId" in doc) {
-    //       dispatch({
-    //         type: "SET_PROFILE",
-    //         payload: doc,
-    //       });
-    //     }
-    //   })
-    //   .catch((error: unknown) => {
-    //     // TODO error handling
-    //   });
-  }, [state.firebaseId, dispatch]);
+    if (profileData && !isLoading && !isError) {
+      dispatch({
+        type: "SET_PROFILE",
+        payload: profileData,
+      });
+    }
+  }, [profileData, isLoading, isError, dispatch]);
 
   return (
-    <Button
-      onClick={() => {
-        if (state.stellaId) {
-          dispatch({
-            type: "SET_MENU",
-            payload: { template: <MenuProfile />, heading: "" },
-          });
-        }
-        if (!state.stellaId) {
-          navigate("/signin");
-        }
-      }}
-    >
-      {state.username ? "" : "Sign in"}
-      <div
-        className={[style.avatar, state.stellaId ? style.signedIn : ""]
-          .filter(Boolean)
-          .join(" ")}
-      >
-        <User height={20} color={state.stellaId ? "white" : "black"} />
+    <>
+      {/* Error Display (optional - can be removed if you don't want visible errors) */}
+      {isError && (
+        <div style={{ color: "red", fontSize: "12px", marginBottom: "5px" }}>
+          Failed to load profile: {error?.message}
+        </div>
+      )}
 
-        {/* {state.stellaId && <img className={style.image} src={image} />} */}
-      </div>
-    </Button>
+      <Button
+        onClick={() => {
+          if (state.stellaId) {
+            dispatch({
+              type: "SET_MENU",
+              payload: { template: <MenuProfile />, heading: "" },
+            });
+          }
+          if (!state.stellaId) {
+            navigate("/signin");
+          }
+        }}
+        disabled={isLoading} // Disable button while loading
+      >
+        {isLoading ? "Loading..." : state.username ? "" : "Sign in"}
+        <div
+          className={[style.avatar, state.stellaId ? style.signedIn : ""]
+            .filter(Boolean)
+            .join(" ")}
+        >
+          <User height={20} color={state.stellaId ? "white" : "black"} />
+
+          {/* {state.stellaId && <img className={style.image} src={image} />} */}
+        </div>
+      </Button>
+    </>
   );
 };
 

@@ -14,7 +14,7 @@ type State = {
   stellaId?: string;
   username?: string;
   bio?: string;
-  profileImageURL?: string;
+  profileImageKey?: string;
 };
 
 // Define all possible actions
@@ -41,6 +41,7 @@ function globalReducer(state: State, action: Action): State {
         stellaId: "",
         username: "",
         bio: "",
+        profileImageKey: "",
       };
     case "SET_FIREBASE_ID":
       return {

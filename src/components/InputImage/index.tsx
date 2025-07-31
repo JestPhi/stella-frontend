@@ -6,7 +6,7 @@ import Bar from "../Bar";
 
 const getImage = (image: any) => {
   if (typeof image === "object") {
-    const blob = new Blob([image], { type: "image/png" });
+    const blob = new Blob([image], { type: "image/jpeg" });
     return URL.createObjectURL(blob);
   }
   return `${import.meta.env.VITE_STORJ_PUBLIC_URL}/${image}?wrap=0`;
@@ -19,14 +19,14 @@ const InputImage = ({ className, onChange = () => {}, value = null }) => {
   useEffect(() => {
     onChange(imageFileState);
   }, [imageFileState]);
-  console.log(imageFileState);
+
   return (
     <div className={[style.inputImage, className].join(" ")}>
       {imageFileState && (
         <img className={style.img} src={getImage(imageFileState)} alt="" />
       )}
       {imageFileState && (
-        <Bar className={style.bar} position="absolute">
+        <Bar className={style.bar}>
           <Button
             className={style.buttonRemoveImage}
             onClick={() => {
@@ -57,7 +57,7 @@ const InputImage = ({ className, onChange = () => {}, value = null }) => {
             try {
               setImageFileState(file);
             } catch (error) {
-              console.error("Error converting file to base64:", error);
+              console.error(error);
             }
           }
         }}

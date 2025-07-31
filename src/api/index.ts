@@ -14,6 +14,7 @@ export type ProfileDoc = {
   _rev?: string;
   bio?: string;
   imageBlob?: string;
+  profileImageURL?: string;
   username: string;
   stellaId?: string;
 };
