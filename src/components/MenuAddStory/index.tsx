@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useNavigate } from "react-router";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { v4 as uuidv4 } from "uuid";
@@ -9,7 +9,6 @@ import Bar from "../Bar";
 import Button from "../Button";
 import PageEdit from "../PageEdit";
 
-// Types
 interface CoverPageElement {
   grid: { c: number; r: number; rs: number; cs: number };
   type: string;
@@ -28,7 +27,6 @@ interface FileUpload {
   elementKey: string;
 }
 
-// Constants
 const INITIAL_COVER_PAGE_STATE: CoverPageData = {
   "0": { grid: { c: 12, r: 10, rs: 0, cs: 0 }, type: "jpg" },
   "1": {
@@ -41,7 +39,6 @@ const INITIAL_COVER_PAGE_STATE: CoverPageData = {
 
 const API_BASE_URL = import.meta.env.VITE_STELLA_APP_HOST;
 
-// API functions
 const storyAPI = {
   create: async (stellaId: string, coverPage: CoverPageData) => {
     const { data } = await axios.post(`${API_BASE_URL}/story`, {
@@ -81,13 +78,12 @@ const storyAPI = {
   },
 };
 
-// Utility functions
 const extractStoryId = (data: any): string => {
   return data.story?.storyId || data.storyId || data.id;
 };
 
-const getFilesToUpload = (coverPageData: CoverPageData): FileUpload[] => {
-  return Object.entries(coverPageData)
+const getFilesToUpload = (coverPageData: CoverPageData): FileUpload[] =>
+  Object.entries(coverPageData)
     .filter(
       ([, element]) => element.type === "jpg" && element.value instanceof File
     )
@@ -96,7 +92,6 @@ const getFilesToUpload = (coverPageData: CoverPageData): FileUpload[] => {
       imageId: uuidv4(),
       elementKey: key,
     }));
-};
 
 const MenuAddStory = () => {
   const [coverPageData, setCoverPageData] = useState<CoverPageData>(
@@ -106,23 +101,6 @@ const MenuAddStory = () => {
   const { dispatch, state } = useGlobalContext();
   const navigate = useNavigate();
 
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      // Clear any File objects from state to prevent memory leaks
-      setCoverPageData((prev) => {
-        const cleaned = { ...prev };
-        Object.keys(cleaned).forEach((key) => {
-          if (cleaned[key].value instanceof File) {
-            cleaned[key] = { ...cleaned[key], value: undefined };
-          }
-        });
-        return cleaned;
-      });
-    };
-  }, []);
-
-  // Queries and Mutations
   const storyCreationQuery = useQuery({
     queryKey: ["createStory", state.stellaId],
     queryFn: async () => {
@@ -165,7 +143,6 @@ const MenuAddStory = () => {
     },
   });
 
-  // Event Handlers
   const handleCoverPageChange = useCallback((updatedData: CoverPageData) => {
     setCoverPageData(updatedData);
   }, []);
@@ -176,7 +153,6 @@ const MenuAddStory = () => {
     const filesToUpload = getFilesToUpload(coverPageData);
     const updatedData = { ...coverPageData };
 
-    // Upload images sequentially
     for (const fileUpload of filesToUpload) {
       try {
         const result = await imageUploadMutation.mutateAsync(fileUpload);
@@ -187,14 +163,6 @@ const MenuAddStory = () => {
           value: imageKey,
           imageKey,
         };
-
-        // Clear the File object to prevent memory leaks
-        if (updatedData[fileUpload.elementKey].value instanceof File) {
-          updatedData[fileUpload.elementKey] = {
-            ...updatedData[fileUpload.elementKey],
-            value: imageKey,
-          };
-        }
       } catch (error) {
         console.error("Upload failed:", error);
         return;
@@ -205,22 +173,21 @@ const MenuAddStory = () => {
     coverPageUpdateMutation.mutate(updatedData);
   }, [
     currentStoryId,
-    imageUploadMutation,
     coverPageData,
+    imageUploadMutation,
     coverPageUpdateMutation,
   ]);
 
   const isLoading =
     imageUploadMutation.isPending || coverPageUpdateMutation.isPending;
-  const isButtonDisabled = !currentStoryId || isLoading;
+  const buttonText = imageUploadMutation.isPending
+    ? "Uploading..."
+    : coverPageUpdateMutation.isPending
+    ? "Saving..."
+    : "Add Story";
+  const hasError =
+    coverPageUpdateMutation.isError || imageUploadMutation.isError;
 
-  const getButtonText = () => {
-    if (imageUploadMutation.isPending) return "Uploading...";
-    if (coverPageUpdateMutation.isPending) return "Saving...";
-    return "Add Story";
-  };
-
-  // Render loading state
   if (storyCreationQuery.isLoading) {
     return (
       <div className={style.addStoryWrapper}>
@@ -252,8 +219,7 @@ const MenuAddStory = () => {
 
   return (
     <div className={style.addStoryWrapper}>
-      {/* Error Messages */}
-      {(coverPageUpdateMutation.isError || imageUploadMutation.isError) && (
+      {hasError && (
         <div
           style={{ color: "red", marginBottom: "10px", textAlign: "center" }}
         >
@@ -274,9 +240,9 @@ const MenuAddStory = () => {
           className={style.addStory}
           variant="primary"
           onClick={handleSave}
-          disabled={isButtonDisabled}
+          disabled={!currentStoryId || isLoading}
         >
-          {getButtonText()}
+          {buttonText}
         </Button>
       </Bar>
     </div>
