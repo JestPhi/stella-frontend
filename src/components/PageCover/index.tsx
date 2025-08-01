@@ -6,7 +6,7 @@ import Panels from "../Panels";
 
 const PageCover = ({ image, panels, storyId, stellaId }) => {
   const navigate = useNavigate();
-
+  console.log(panels);
   return (
     <div
       className={style.pageCover}

@@ -13,6 +13,14 @@
   width: 100%;
 }
 
+.panels :global(.textarea) {
+  border: solid 1px grey;
+}
+
+.panels :global(.inputImage) {
+  border: solid 1px grey;
+}
+
 .item {
   display: flex;
 }

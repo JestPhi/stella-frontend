@@ -1,4 +1,3 @@
-import firebase from "firebase/compat/app";
 import React, {
   createContext,
   useReducer,
@@ -65,7 +64,7 @@ function globalReducer(state: State, action: Action): State {
 const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(globalReducer, initalState);
   const value = { state, dispatch };
-  console.log(state);
+
   return (
     <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
   );

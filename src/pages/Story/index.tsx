@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import axios from "axios";
 import { useNavigate, useParams } from "react-router";
+import { useQuery } from "@tanstack/react-query";
 import Bar from "../../components/Bar";
 import Button from "../../components/Button";
 import ButtonBack from "../../components/ButtonBack";
@@ -7,25 +8,43 @@ import ButtonMenu from "../../components/ButtonProfile";
 import ButtonAddPage from "../../components/ButtonAddPage";
 import PageCover from "../../components/PageCover";
 import style from "./style.module.css";
-import storyData from "../../scheme/story.json";
 import Logo from "../../components/Logo";
-import { getStory } from "../../api";
 
 const Story = () => {
-  const { pages } = storyData;
-  const [storyState, setStoryState] = useState();
   const { stellaId, storyId } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getStory(stellaId, storyId).then((data) => {
-      setStoryState(data);
-    });
-  }, []);
+  // TanStack Query for fetching story data
+  const {
+    data: story,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: [storyId],
+    queryFn: () => {
+      return axios(
+        `${import.meta.env.VITE_STELLA_APP_HOST}/story/${storyId}`
+      ).then((response) => {
+        return response.data.story;
+        console.log(response);
+      });
+    },
+  });
+
+  // Show loading state
+  if (isLoading) {
+    return <div>Loading story...</div>;
+  }
+
+  // Show error state
+  if (isError) {
+    return <div>Error loading story: {error?.message}</div>;
+  }
 
   return (
     <>
-      <Bar className={style.topBar}>
+      <Bar className={style.topBar} variant="default">
         <ButtonBack />
         <ButtonMenu />
       </Bar>
@@ -33,14 +52,14 @@ const Story = () => {
         <PageCover
           stellaId={stellaId}
           storyId={storyId}
-          panels={storyState?.coverPage}
-          pageCount={pages.length}
+          panels={story?.coverPage}
+          image={null}
         />
         {/* {pages.map((page, index) => {
           return <Page {...page} pageNumber={index} />;
         })} */}
       </div>
-      <Bar className={style.bottomBar}>
+      <Bar className={style.bottomBar} variant="default">
         <Button
           onClick={() => {
             navigate("/");

@@ -18,6 +18,7 @@
   align-items: flex-end;
   position: fixed;
   bottom: 0;
+  height: calc(100% - 44px);
   left: 0;
   overflow: hidden;
   width: 100%;

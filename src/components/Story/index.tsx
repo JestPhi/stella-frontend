@@ -1,13 +1,10 @@
 import style from "./style.module.css";
-import image from "./image.jpg";
-import image2 from "./image2.jpg";
 import Meta from "../Meta";
-import Avatar from "../Avatar";
 import Bar from "../Bar";
 
 const Story = () => {
   const randomNumber = Math.random();
-  const images = randomNumber > 0.5 ? image : image2;
+  const image = "";
 
   return (
     <button className={style.story}>
@@ -17,7 +14,7 @@ const Story = () => {
           <span className={style.name}>Phi Le</span>
         </div>
       </Bar>
-      <img className={style.image} src={images} />
+      <img className={style.image} src={image} />
 
       <div className={style.title}>
         Excepteur sint occaecat help non proident...
