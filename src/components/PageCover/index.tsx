@@ -4,28 +4,30 @@ import Bar from "../Bar";
 import ButtonPageMore from "../ButtonPageMore";
 import Panels from "../Panels";
 
-const PageCover = ({ image, panels, storyId, stellaId }) => {
+const PageCover = ({
+  panels,
+  profileImageKey,
+  onDelete,
+  username,
+  storyId,
+  stellaId,
+}) => {
   const navigate = useNavigate();
-
   return (
-    <div
-      className={style.pageCover}
-      onClick={() => {
-        navigate(`/profile/${stellaId}/${storyId}`);
-      }}
-    >
+    <div className={style.pageCover}>
       <Bar className={style.topBar} variant="bottom-border">
         <div className={style.profile}>
           <img
             className={style.avatar}
             src={`${
               import.meta.env.VITE_STORJ_PUBLIC_URL
-            }/${stellaId}/stories/${storyId}/${image}?wrap=0`}
+            }/${profileImageKey}?wrap=0`}
           />{" "}
-          Phi Le
+          {username}
         </div>
         <div className={style.actions}>
           <ButtonPageMore
+            onDelete={onDelete}
             isCoverPage={true}
             heading="cover"
             stellaId={stellaId}
@@ -34,6 +36,10 @@ const PageCover = ({ image, panels, storyId, stellaId }) => {
         </div>
       </Bar>
       <Panels
+        className={style.pageCoverPanel}
+        onClick={() => {
+          navigate(`/profile/${stellaId}/${storyId}`);
+        }}
         items={panels}
         stellaId={stellaId}
         storyId={storyId}

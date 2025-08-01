@@ -1,11 +1,17 @@
 .stories {
-  background: white;
-  box-sizing: border-box;
-  padding: 0;
-  height: calc(100dvh - 88px);
-  overflow-y: scroll;
-  scrollbar-width: none;
+  padding: 8px;
 }
+.story {
+  cursor: pointer;
+}
+.story :global(img) {
+  width: 100%;
+}
+
+.title {
+  padding: 8px 2px 8px 2px;
+}
+
 .topBar {
   display: flex;
   justify-content: space-between;

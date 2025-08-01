@@ -97,7 +97,9 @@ export const getContent = (
 ): React.ReactNode => {
   switch (type) {
     case "text":
-      return typeof value === "string" ? value : "";
+      return typeof value === "string" ? (
+        <div className={style.text}>{value}</div>
+      ) : null;
     case "image":
     case "jpg":
       const imageKey = typeof value === "string" ? value : "";

@@ -5,7 +5,7 @@ import MenuPageMore from "../MenuPageMore";
 import Button from "../../components/Button";
 import { useGlobalContext } from "../../context/context";
 
-const ButtonPageMore = ({ isCoverPage, stellaId, storyId }) => {
+const ButtonPageMore = ({ isCoverPage, onDelete, stellaId, storyId }) => {
   const { dispatch } = useGlobalContext();
 
   return (
@@ -17,6 +17,7 @@ const ButtonPageMore = ({ isCoverPage, stellaId, storyId }) => {
             template: (
               <MenuPageMore
                 isCoverPage={isCoverPage}
+                onDelete={onDelete}
                 stellaId={stellaId}
                 storyId={storyId}
               />

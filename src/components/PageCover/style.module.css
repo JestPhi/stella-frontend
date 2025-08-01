@@ -29,6 +29,9 @@
   scroll-snap-stop: always;
   width: 100dvw;
 }
+.pageCoverPanel :global(img) {
+  border-bottom: 1px solid #ccc;
+}
 .profile {
   display: flex;
   align-items: center;

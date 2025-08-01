@@ -4,6 +4,11 @@ import { CoverPageData } from "../types/story";
 const API_BASE_URL = import.meta.env.VITE_STELLA_APP_HOST;
 
 export const storyAPI = {
+  getById: async (storyId: string) => {
+    const { data } = await axios.get(`${API_BASE_URL}/story/${storyId}`);
+    return data;
+  },
+
   create: async (stellaId: string, coverPage: CoverPageData) => {
     const { data } = await axios.post(`${API_BASE_URL}/story`, {
       stellaId,

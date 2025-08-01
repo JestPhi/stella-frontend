@@ -31,16 +31,36 @@ const Story = () => {
     },
   });
 
+  // TanStack Query for fetching profile data by stellaId
+  const {
+    data: profile,
+    isLoading: isProfileLoading,
+    isError: isProfileError,
+    error: profileError,
+  } = useQuery({
+    queryKey: ["profile", stellaId],
+    queryFn: () => {
+      return axios(
+        `${import.meta.env.VITE_STELLA_APP_HOST}/profile/${stellaId}`
+      ).then((response) => {
+        return response.data.profile;
+      });
+    },
+    enabled: !!stellaId,
+  });
+
   // Show loading state
-  if (isLoading) {
+  if (isLoading || isProfileLoading) {
     return <div>Loading story...</div>;
   }
 
   // Show error state
-  if (isError) {
-    return <div>Error loading story: {error?.message}</div>;
+  if (isError || isProfileError) {
+    return (
+      <div>Error loading story: {error?.message || profileError?.message}</div>
+    );
   }
-
+  console.log(profile);
   return (
     <>
       <Bar className={style.topBar} variant="default">
@@ -49,6 +69,11 @@ const Story = () => {
       </Bar>
       <div className={style.story}>
         <PageCover
+          onDelete={() => {
+            navigate(`/${stellaId}`);
+          }}
+          profileImageKey={profile.profileImageKey}
+          username={profile.username}
           stellaId={stellaId}
           storyId={storyId}
           panels={story?.coverPage}

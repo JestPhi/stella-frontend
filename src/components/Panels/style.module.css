@@ -10,6 +10,7 @@
 }
 
 .panels :global(img) {
+  object-fit: contain;
   width: 100%;
 }
 
@@ -19,6 +20,11 @@
 
 .panels :global(.inputImage) {
   border: solid 1px grey;
+}
+
+.text {
+  padding: 12px;
+  width: 100%;
 }
 
 .item {
