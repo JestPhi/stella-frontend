@@ -27,7 +27,6 @@ const Story = () => {
         `${import.meta.env.VITE_STELLA_APP_HOST}/story/${storyId}`
       ).then((response) => {
         return response.data.story;
-        console.log(response);
       });
     },
   });

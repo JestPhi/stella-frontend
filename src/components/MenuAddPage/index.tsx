@@ -1,9 +1,7 @@
 import { useState } from "react";
-import style from "./style.module.css";
-import { useGlobalContext } from "../../context/context";
-import Bar from "../Bar";
+
 import Panels from "../Panels";
-import PageEdit from "../PageEdit";
+
 import PanelsSelector from "../PanelsSelector";
 
 const initalState = {
@@ -38,7 +36,7 @@ const MenuAddPage = () => {
           setGrid(data);
         }}
       />
-      <PageEdit
+      <Panels
         key={Date.now()}
         items={grid}
         isEditMode={true}

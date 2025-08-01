@@ -6,7 +6,7 @@ import {
   // deleteProfileImage,
   // updateProfileImage,
   updateProfile,
-} from "../../api";
+} from "../../api/indexff";
 import style from "./style.module.css";
 import Button from "../Button";
 import InputProfileImage from "../InputProfileImage";

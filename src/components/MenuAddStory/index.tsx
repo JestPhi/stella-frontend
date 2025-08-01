@@ -1,31 +1,17 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
-import style from "./style.module.css";
+
+import { CoverPageData, FileUpload } from "../../types/story";
 import { useGlobalContext } from "../../context/context";
+import { storyAPI } from "../../api/story";
+import { getFilesToUpload } from "../../utils/story";
+
 import Bar from "../Bar";
 import Button from "../Button";
 import PageEdit from "../PageEdit";
-
-interface CoverPageElement {
-  grid: { c: number; r: number; rs: number; cs: number };
-  type: string;
-  placeholder?: string;
-  value?: string | File;
-  imageKey?: string;
-}
-
-interface CoverPageData {
-  [key: string]: CoverPageElement;
-}
-
-interface FileUpload {
-  file: File;
-  imageId: string;
-  elementKey: string;
-}
+import Panels from "../Panels";
+import style from "./style.module.css";
 
 const INITIAL_COVER_PAGE_STATE: CoverPageData = {
   "0": { grid: { c: 12, r: 10, rs: 0, cs: 0 }, type: "jpg" },
@@ -36,62 +22,6 @@ const INITIAL_COVER_PAGE_STATE: CoverPageData = {
     value: "cake",
   },
 };
-
-const API_BASE_URL = import.meta.env.VITE_STELLA_APP_HOST;
-
-const storyAPI = {
-  create: async (stellaId: string, coverPage: CoverPageData) => {
-    const { data } = await axios.post(`${API_BASE_URL}/story`, {
-      stellaId,
-      coverPage,
-    });
-    return data;
-  },
-
-  update: async (storyId: string, coverPage: CoverPageData) => {
-    const { data } = await axios.patch(`${API_BASE_URL}/story/${storyId}`, {
-      coverPage,
-    });
-    return data;
-  },
-
-  uploadImage: async (storyId: string, file: File, imageId: string) => {
-    if (file.size > 10 * 1024 * 1024) {
-      throw new Error(
-        `File too large: ${(file.size / 1024 / 1024).toFixed(1)}MB`
-      );
-    }
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("imageKey", imageId);
-
-    const { data } = await axios.post(
-      `${API_BASE_URL}/story/${storyId}/upload-image`,
-      formData,
-      {
-        headers: { "Content-Type": "multipart/form-data" },
-        timeout: 30000,
-      }
-    );
-    return data;
-  },
-};
-
-const extractStoryId = (data: any): string => {
-  return data.story?.storyId || data.storyId || data.id;
-};
-
-const getFilesToUpload = (coverPageData: CoverPageData): FileUpload[] =>
-  Object.entries(coverPageData)
-    .filter(
-      ([, element]) => element.type === "jpg" && element.value instanceof File
-    )
-    .map(([key, element]) => ({
-      file: element.value as File,
-      imageId: uuidv4(),
-      elementKey: key,
-    }));
 
 const MenuAddStory = () => {
   const [coverPageData, setCoverPageData] = useState<CoverPageData>(
@@ -110,7 +40,8 @@ const MenuAddStory = () => {
         state.stellaId,
         INITIAL_COVER_PAGE_STATE
       );
-      const storyId = extractStoryId(data);
+
+      const storyId = data?.story?.storyId;
 
       if (!storyId) throw new Error("No story ID returned");
 
@@ -143,11 +74,11 @@ const MenuAddStory = () => {
     },
   });
 
-  const handleCoverPageChange = useCallback((updatedData: CoverPageData) => {
+  const handleCoverPageChange = (updatedData: CoverPageData) => {
     setCoverPageData(updatedData);
-  }, []);
+  };
 
-  const handleSave = useCallback(async () => {
+  const handleSave = async () => {
     if (!currentStoryId || imageUploadMutation.isPending) return;
 
     const filesToUpload = getFilesToUpload(coverPageData);
@@ -171,12 +102,7 @@ const MenuAddStory = () => {
 
     setCoverPageData(updatedData);
     coverPageUpdateMutation.mutate(updatedData);
-  }, [
-    currentStoryId,
-    coverPageData,
-    imageUploadMutation,
-    coverPageUpdateMutation,
-  ]);
+  };
 
   const isLoading =
     imageUploadMutation.isPending || coverPageUpdateMutation.isPending;
@@ -229,9 +155,10 @@ const MenuAddStory = () => {
         </div>
       )}
 
-      <PageEdit
+      <Panels
         items={coverPageData}
         isEditMode
+        className={style.panels}
         onChange={handleCoverPageChange}
       />
 

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import globalStyle from "../../../src/style.module.css";
 import style from "./style.module.css";
-import PageEdit from "../PageEdit";
+import Panels from "../Panels";
 import Button from "../Button";
 import { useGlobalContext } from "../../context/context";
-import { getStory } from "../../api";
+import { getStory } from "../../api/indexff";
 
 const MenuPageEdit = ({ stellaId, storyId }) => {
   const { dispatch, state } = useGlobalContext();
@@ -18,7 +18,7 @@ const MenuPageEdit = ({ stellaId, storyId }) => {
 
   return (
     <div className={style.MenuPageMore}>
-      <PageEdit
+      <Panels
         items={story?.coverPage}
         isEditMode={true}
         onChange={(value) => {
