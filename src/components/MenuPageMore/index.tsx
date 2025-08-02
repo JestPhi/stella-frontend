@@ -11,7 +11,9 @@ import { useGlobalContext } from "../../context/context";
 
 const MenuPageMore = ({
   isCoverPage,
+  onChange,
   onDelete,
+  page,
   stellaId,
   storyId,
 }: {
@@ -73,7 +75,12 @@ const MenuPageMore = ({
               payload: {
                 heading: "Edit Page",
                 template: (
-                  <MenuPageEdit stellaId={stellaId} storyId={storyId} />
+                  <MenuPageEdit
+                    onChange={onChange}
+                    page={page}
+                    stellaId={stellaId}
+                    storyId={storyId}
+                  />
                 ),
               },
             });

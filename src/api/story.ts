@@ -5,6 +5,7 @@ const API_BASE_URL = import.meta.env.VITE_STELLA_APP_HOST;
 
 export const storyAPI = {
   getById: async (storyId: string) => {
+    console.log(storyId);
     const { data } = await axios.get(`${API_BASE_URL}/story/${storyId}`);
     return data;
   },

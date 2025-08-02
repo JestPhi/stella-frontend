@@ -130,6 +130,10 @@ const Panels = ({
     onChange(itemsState);
   }, [JSON.stringify(itemsState)]);
 
+  useEffect(() => {
+    setItemsState(items);
+  }, [items]);
+
   const handleChange = (value: string | File | null, index: number) => {
     setItemsState((prev) => {
       return {

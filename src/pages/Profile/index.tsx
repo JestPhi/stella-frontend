@@ -76,15 +76,15 @@ const Profile = () => {
       </Bar>
       <div className={style.stories}>
         <ProfileComponent
-          bio={profile.bio}
-          username={profile.username}
-          profileImageKey={profile.profileImageKey}
+          bio={profile?.bio}
+          username={profile?.username}
+          profileImageKey={profile?.profileImageKey}
         />
         {stories.map((story: any) => {
           return (
             <PageCover
-              username={profile.username}
-              profileImageKey={profile.profileImageKey}
+              username={profile?.username}
+              profileImageKey={profile?.profileImageKey}
               onDelete={() => refetch()}
               key={story.id}
               stellaId={stellaId}
