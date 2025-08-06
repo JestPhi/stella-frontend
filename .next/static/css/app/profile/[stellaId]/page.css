@@ -1,7 +1,7 @@
 /*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./src/components/Avatar/style.module.css ***!
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./app/components/Avatar/style.module.css ***!
   \**********************************************************************************************************************************************************************************************************************************************************************************/
-.style_image__jSJub {
+.style_image__8D_R0 {
   aspect-ratio: 1/1;
   border-radius: 50%;
   object-fit: cover;
@@ -13,9 +13,9 @@
 }
 
 /*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./src/components/Button/style.module.css ***!
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./app/components/Button/style.module.css ***!
   \**********************************************************************************************************************************************************************************************************************************************************************************/
-.style_button__3tn8R {
+.style_button___Bn7T {
   align-items: center;
   background: none;
   border: none;
@@ -27,7 +27,7 @@
   padding: 0;
 }
 
-.style_inner__9uHQ4 {
+.style_inner__Y6nrK {
   align-items: center;
   border-radius: 4px;
   display: flex;
@@ -37,16 +37,16 @@
   box-sizing: border-box;
 }
 
-.style_outline__8i8WQ {
+.style_outline__fScms {
   background: white;
   border: solid 1px black;
 }
 
-.style_fill__BxND5 {
+.style_fill__NY0Zv {
   background: white;
 }
 
-.style_primary__inKft {
+.style_primary__Hm1Ij {
   background: rgb(1, 127, 230, 1);
   border-radius: 32px;
   color: white;
@@ -55,15 +55,15 @@
   padding: 0 16px;
 }
 
-.style_button__3tn8R:disabled .style_primary__inKft {
+.style_button___Bn7T:disabled .style_primary__Hm1Ij {
   background: rgba(72, 72, 72, 0.75);
   cursor: auto;
 }
 
 /*!********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./src/components/Bar/styles.module.css ***!
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./app/components/Bar/styles.module.css ***!
   \********************************************************************************************************************************************************************************************************************************************************************************/
-.styles_bar__yd_3H {
+.styles_bar__GhVty {
   align-items: center;
   background: white;
   display: flex;
@@ -71,36 +71,36 @@
   width: 100%;
 }
 
-.styles_top__0yksE {
+.styles_top__GmNi_ {
   position: fixed;
   top: 0;
 }
 
-.styles_bottom__1SYD_ {
+.styles_bottom__ejLky {
   position: fixed;
   bottom: 0;
 }
 
-.styles_relative__tI7ks {
+.styles_relative__VDxc3 {
   position: relative;
 }
 
-.styles_absolute__SYCKZ {
+.styles_absolute__S2CKF {
   position: absolute;
 }
 
-.styles_none__648S8 {
+.styles_none__PBXlm {
   background: none;
 }
 
-.styles_bottom-border__XX1tt {
+.styles_bottom-border__AYLoJ {
   border-bottom: solid 1px #ccc;
 }
 
 /*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./src/components/Profile/style.module.css ***!
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./app/components/Profile/style.module.css ***!
   \***********************************************************************************************************************************************************************************************************************************************************************************/
-.style_profile__WW8Nx {
+.style_profile__6GIkd {
   align-items: center;
   box-sizing: border-box;
   display: flex;
@@ -112,34 +112,34 @@
   margin-bottom: 32px;
 }
 
-.style_name__AYPLD {
+.style_name__QJfRi {
   font-size: 24px;
   font-weight: bold;
   margin: 8px;
 }
 
-.style_bio__jz97q {
+.style_bio__Lm02_ {
   font-size: 14px;
   line-height: 1.5em;
   max-width: 420px;
 }
 
-.style_links__wd9vv {
+.style_links___WXGA {
   margin-right: 4px;
 }
 
-.style_meta__2YnEc {
+.style_meta__eT0mZ {
   font-size: 12px;
 }
 
-.style_storiesCount__hMztQ {
+.style_storiesCount__m2To_ {
   font-weight: 600;
   margin-right: 8px;
 }
-.style_followersCount__SVCGq {
+.style_followersCount__qvU80 {
   font-weight: 600;
 }
-.style_bar__kSrkB {
+.style_bar__53bt6 {
   align-items: flex-end;
   justify-content: flex-end;
 }

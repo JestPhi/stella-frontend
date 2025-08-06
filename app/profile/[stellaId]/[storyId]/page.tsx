@@ -2,39 +2,14 @@
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
-import { storyAPI } from "../../../../src/api/story";
+import { storyAPI } from "../../../api/story";
 import axios from "axios";
-import Bar from "../../../../src/components/Bar";
-import Button from "../../../../src/components/Button";
-import ButtonBack from "../../../../src/components/ButtonBack";
-import ButtonMenu from "../../../../src/components/ButtonProfile";
-import ButtonAddPage from "../../../../src/components/ButtonAddPage";
-import PageCover from "../../../../src/components/PageCover";
-import Menu from "../../../../src/components/Menu";
-import Logo from "../../../../src/components/Logo";
-import { useGlobalContext } from "../../../../src/context/context";
-
-// Inline styles to replace the imported CSS
-const storyStyles = {
-  story: {
-    height: "calc(100dvh - 44px)",
-    overflowX: "scroll" as const,
-    scrollSnapType: "y mandatory",
-    scrollbarWidth: "none" as const,
-  },
-  bottomBar: {
-    justifyContent: "space-between",
-  },
-  topBar: {
-    justifyContent: "space-between",
-  },
-};
+import PageCover from "../../../components/PageCover";
 
 export default function StoryPage() {
   const { stellaId, storyId } = useParams();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { state } = useGlobalContext();
 
   // TanStack Query for fetching story data
   const {
@@ -42,7 +17,6 @@ export default function StoryPage() {
     isLoading,
     isError,
     error,
-    refetch,
   } = useQuery({
     queryKey: ["story", storyId],
     queryFn: () => storyAPI.getById(storyId as string),
@@ -87,8 +61,6 @@ export default function StoryPage() {
       <div>Error loading story: {error?.message || profileError?.message}</div>
     );
   }
-
-  console.log("Story component render:", { story, storyData, isLoading });
 
   return (
     <div className="story-container">

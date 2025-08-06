@@ -1,9 +1,0 @@
-{   
-    "avatarSrc": "/src/components/Avatar/image.jpg",
-    "username": "Benjamin Le",
-    "userId": "test",
-    "createdAt": "date",
-    "signInType": "google",
-    "signInId": "abc123",
-    "text": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-}

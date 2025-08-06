@@ -22,8 +22,8 @@
       "@/*": ["./src/*"],
       "@/components/*": ["./src/components/*"],
       "@/types/*": ["./src/types/*"],
-      "@/api/*": ["./src/api/*"],
-      "@/utils/*": ["./src/utils/*"],
+      "@/api/*": ["app/api/*"],
+      "@/utils/*": ["app/utils/*"],
       "@/context/*": ["./src/context/*"],
       "@/hooks/*": ["./src/hooks/*"]
     }

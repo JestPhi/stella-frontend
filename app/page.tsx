@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Masonry from "react-responsive-masonry";
 import { useRouter } from "next/navigation";
-import { useGlobalContext } from "../src/context/context";
 
 // Inline styles to replace the imported CSS
 const homeStyles = {
@@ -32,15 +31,9 @@ const homeStyles = {
 
 export default function Home() {
   const router = useRouter();
-  const { state } = useGlobalContext();
-  console.log(state);
+
   // TanStack Query for fetching all stories
-  const {
-    data: stories = [],
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
+  const { data: stories = [] } = useQuery({
     queryKey: ["stories"],
     queryFn: () => {
       return axios(`${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/stories`).then(

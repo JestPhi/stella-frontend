@@ -1,6 +1,4 @@
 {
   "/page": "app/page.js",
-  "/profile/[stellaId]/[storyId]/page": "app/profile/[stellaId]/[storyId]/page.js",
-  "/edit-profile/[stellaId]/page": "app/edit-profile/[stellaId]/page.js",
-  "/profile/[stellaId]/page": "app/profile/[stellaId]/page.js"
+  "/profile/[stellaId]/[storyId]/page": "app/profile/[stellaId]/[storyId]/page.js"
 }

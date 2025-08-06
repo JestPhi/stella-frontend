@@ -9,11 +9,11 @@ import {
   // deleteProfileImage,
   // updateProfileImage,
   updateProfile,
-} from "../../../src/api";
+} from "../../api";
 import style from "./style.module.css";
-import Button from "../../../src/components/Button";
-import InputProfileImage from "../../../src/components/InputProfileImage";
-import InputText from "../../../src/components/InputText";
+import Button from "../../components/Button";
+import InputProfileImage from "../../components/InputProfileImage";
+import InputText from "../../components/InputText";
 
 const EditProfile = () => {
   const { stellaId } = useParams();
