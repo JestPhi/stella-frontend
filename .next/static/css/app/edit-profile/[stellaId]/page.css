@@ -1,0 +1,90 @@
+/*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./app/edit-profile/[stellaId]/style.module.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************/
+.style_signUp__xdo5h {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  align-items: center;
+}
+
+.style_inputText___KMvC {
+  width: 100%;
+}
+
+.style_inputTextarea__dvfVW {
+  padding: 0;
+  border-bottom: solid 1px #222;
+}
+
+.style_createProfile__czEK4 .inner {
+  background: #017fe6;
+  border-radius: 32px;
+  color: white;
+  font-weight: 600;
+  height: 32px;
+  padding: 0 16px;
+}
+
+/*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./src/components/Button/style.module.css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************/
+.style_button__3tn8R {
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  min-width: 44px;
+  padding: 0;
+}
+
+.style_inner__9uHQ4 {
+  align-items: center;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 4px 12px;
+  box-sizing: border-box;
+}
+
+.style_outline__8i8WQ {
+  background: white;
+  border: solid 1px black;
+}
+
+.style_fill__BxND5 {
+  background: white;
+}
+
+.style_primary__inKft {
+  background: rgb(1, 127, 230, 1);
+  border-radius: 32px;
+  color: white;
+  font-weight: 600;
+  height: 32px;
+  padding: 0 16px;
+}
+
+.style_button__3tn8R:disabled .style_primary__inKft {
+  background: rgba(72, 72, 72, 0.75);
+  cursor: auto;
+}
+
+/*!*************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./src/components/InputText/style.module.css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************/
+.style_inputText__C1GjW {
+  border: none;
+  border-bottom: solid 1px #222;
+  box-sizing: border-box;
+  font-size: 16px;
+  height: 44px;
+  outline: none;
+  margin-bottom: 8px;
+  width: 100%;
+}
+

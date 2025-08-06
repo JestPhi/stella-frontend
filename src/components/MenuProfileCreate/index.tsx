@@ -1,4 +1,6 @@
-import { useNavigate } from "react-router";
+"use client";
+
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -20,7 +22,7 @@ interface FormData {
 }
 
 const MenuCreateProfile = ({ firebaseId }: MenuCreateProfileProps) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { dispatch, state } = useGlobalContext();
 
   const {
@@ -46,7 +48,7 @@ const MenuCreateProfile = ({ firebaseId }: MenuCreateProfileProps) => {
   const mutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axios.post(
-        `${import.meta.env.VITE_STELLA_APP_HOST}/create-profile/${firebaseId}`,
+        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/create-profile/${firebaseId}`,
         { username: data.username.trim() }
       );
       return response.data;
@@ -65,7 +67,7 @@ const MenuCreateProfile = ({ firebaseId }: MenuCreateProfileProps) => {
         payload: null,
       });
 
-      navigate("/");
+      router.push("/");
     },
     onError: (error) => {
       console.error("Failed to create profile:", error);

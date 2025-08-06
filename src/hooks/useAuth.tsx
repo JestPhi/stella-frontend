@@ -10,9 +10,9 @@ import {
 } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
@@ -40,7 +40,7 @@ const signIn = async () => {
 };
 
 const useAuth = () => {
-  const [firebaseIdState, setFirebaseIdState] = useState();
+  const [firebaseIdState, setFirebaseIdState] = useState<string | null>(null);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {

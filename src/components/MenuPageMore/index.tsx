@@ -1,8 +1,8 @@
-import { useParams } from "react-router";
-import { useNavigate } from "react-router";
+"use client";
+
+import { useParams, useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import globalStyle from "../../../src/style.module.css";
 
 import style from "./style.module.css";
 import MenuPageEdit from "../MenuPageEdit";
@@ -21,7 +21,7 @@ const MenuPageMore = ({
   stellaId: string;
   storyId: string;
 }) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { dispatch, state } = useGlobalContext();
   const queryClient = useQueryClient();
 
@@ -29,7 +29,7 @@ const MenuPageMore = ({
   const deleteStoryMutation = useMutation({
     mutationFn: async (storyId: string) => {
       const { data } = await axios.delete(
-        `${import.meta.env.VITE_STELLA_APP_HOST}/story/${storyId}`
+        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/story/${storyId}`
       );
       return data;
     },
@@ -43,7 +43,7 @@ const MenuPageMore = ({
       dispatch({ type: "SET_MENU", payload: null });
 
       // Optional: Navigate back to profile or home
-      navigate(`/profile/${stellaId}`);
+      router.push(`/profile/${stellaId}`);
     },
     onError: (error) => {
       console.error("Failed to delete story:", error);

@@ -1,4 +1,6 @@
-import { useNavigate, useParams } from "react-router";
+"use client";
+
+import { useRouter, useParams } from "next/navigation";
 import style from "./style.module.css";
 import Bar from "../Bar";
 import ButtonPageMore from "../ButtonPageMore";
@@ -13,16 +15,14 @@ const PageCover = ({
   storyId,
   stellaId,
 }) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   return (
     <div className={style.pageCover}>
       <Bar className={style.topBar} variant="bottom-border">
         <div className={style.profile}>
           <img
             className={style.avatar}
-            src={`${
-              import.meta.env.VITE_STORJ_PUBLIC_URL
-            }/${profileImageKey}?wrap=0`}
+            src={`${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${profileImageKey}?wrap=0`}
           />{" "}
           {username}
         </div>
@@ -40,7 +40,7 @@ const PageCover = ({
       <Panels
         className={style.pageCoverPanel}
         onClick={() => {
-          navigate(`/profile/${stellaId}/${storyId}`);
+          router.push(`/profile/${stellaId}/${storyId}`);
         }}
         items={panels}
         stellaId={stellaId}

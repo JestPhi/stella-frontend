@@ -1,15 +1,17 @@
-import { useNavigate } from "react-router";
+"use client";
+
+import { useRouter } from "next/navigation";
 import { ArrowLeft } from "react-feather";
 
 import Button from "../../components/Button";
 
 const ButtonBack = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <Button
       onClick={() => {
-        navigate(-1);
+        router.back();
       }}
     >
       <ArrowLeft height={18} color="#444" />

@@ -1,5 +1,7 @@
+"use client";
+
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useRouter } from "next/navigation";
 import { User } from "react-feather";
 import { useQuery } from "@tanstack/react-query";
 
@@ -10,7 +12,7 @@ import Button from "../Button";
 import style from "./style.module.css";
 
 const ButtonMenu: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { firebaseId } = useAuth();
   const { dispatch, state } = useGlobalContext();
 
@@ -35,7 +37,7 @@ const ButtonMenu: React.FC = () => {
       if (!state.firebaseId) throw new Error("No Firebase ID");
 
       const response = await fetch(
-        `${import.meta.env.VITE_STELLA_APP_HOST}/firebase/${state.firebaseId}`
+        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/firebase/${state.firebaseId}`
       );
 
       if (!response.ok) {
@@ -81,7 +83,7 @@ const ButtonMenu: React.FC = () => {
             });
           }
           if (!state.stellaId) {
-            navigate("/signin");
+            router.push("/signin");
           }
         }}
         disabled={isLoading} // Disable button while loading

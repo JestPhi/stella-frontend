@@ -1,0 +1,146 @@
+/*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./src/components/Avatar/style.module.css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************/
+.style_image__jSJub {
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  object-fit: cover;
+  height: 100px;
+  width: 100px;
+  border: solid 2px #444;
+  padding: 2px;
+  box-sizing: border-box;
+}
+
+/*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./src/components/Button/style.module.css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************/
+.style_button__3tn8R {
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  min-width: 44px;
+  padding: 0;
+}
+
+.style_inner__9uHQ4 {
+  align-items: center;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 4px 12px;
+  box-sizing: border-box;
+}
+
+.style_outline__8i8WQ {
+  background: white;
+  border: solid 1px black;
+}
+
+.style_fill__BxND5 {
+  background: white;
+}
+
+.style_primary__inKft {
+  background: rgb(1, 127, 230, 1);
+  border-radius: 32px;
+  color: white;
+  font-weight: 600;
+  height: 32px;
+  padding: 0 16px;
+}
+
+.style_button__3tn8R:disabled .style_primary__inKft {
+  background: rgba(72, 72, 72, 0.75);
+  cursor: auto;
+}
+
+/*!********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./src/components/Bar/styles.module.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************/
+.styles_bar__yd_3H {
+  align-items: center;
+  background: white;
+  display: flex;
+  height: 44px;
+  width: 100%;
+}
+
+.styles_top__0yksE {
+  position: fixed;
+  top: 0;
+}
+
+.styles_bottom__1SYD_ {
+  position: fixed;
+  bottom: 0;
+}
+
+.styles_relative__tI7ks {
+  position: relative;
+}
+
+.styles_absolute__SYCKZ {
+  position: absolute;
+}
+
+.styles_none__648S8 {
+  background: none;
+}
+
+.styles_bottom-border__XX1tt {
+  border-bottom: solid 1px #ccc;
+}
+
+/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./src/components/Profile/style.module.css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************/
+.style_profile__WW8Nx {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  margin-bottom: 32px;
+}
+
+.style_name__AYPLD {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 8px;
+}
+
+.style_bio__jz97q {
+  font-size: 14px;
+  line-height: 1.5em;
+  max-width: 420px;
+}
+
+.style_links__wd9vv {
+  margin-right: 4px;
+}
+
+.style_meta__2YnEc {
+  font-size: 12px;
+}
+
+.style_storiesCount__hMztQ {
+  font-weight: 600;
+  margin-right: 8px;
+}
+.style_followersCount__SVCGq {
+  font-weight: 600;
+}
+.style_bar__kSrkB {
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+

@@ -9,12 +9,24 @@ const getImage = (image: any) => {
     const blob = new Blob([image], { type: "image/jpeg" });
     return URL.createObjectURL(blob);
   }
-  return `${import.meta.env.VITE_STORJ_PUBLIC_URL}/${image}?wrap=0`;
+  return `${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${image}?wrap=0`;
 };
 
-const InputImage = ({ className, onChange = () => {}, value = null }) => {
-  const [imageFileState, setImageFileState] = useState(value);
-  const inputRef = useRef(null);
+interface InputImageProps {
+  className?: string;
+  onChange?: (file: File | string | null) => void;
+  value?: File | string | null;
+}
+
+const InputImage = ({
+  className,
+  onChange = () => {},
+  value = null,
+}: InputImageProps) => {
+  const [imageFileState, setImageFileState] = useState<File | string | null>(
+    value
+  );
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     onChange(imageFileState);
@@ -41,7 +53,7 @@ const InputImage = ({ className, onChange = () => {}, value = null }) => {
       {!imageFileState && (
         <Button
           className={style.buttonAddImage}
-          onClick={() => inputRef.current.click()}
+          onClick={() => inputRef.current?.click()}
         >
           <Image color="#222" />
         </Button>

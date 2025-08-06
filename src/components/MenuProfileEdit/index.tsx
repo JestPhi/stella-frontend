@@ -1,12 +1,14 @@
+"use client";
+
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   // deleteProfileImage,
   // updateProfileImage,
   updateProfile,
-} from "../../api/indexff";
+} from "../../api/index";
 import style from "./style.module.css";
 import Button from "../Button";
 import InputProfileImage from "../InputProfileImage";
@@ -15,7 +17,7 @@ import InputText from "../InputText";
 import { useGlobalContext } from "../../context/context";
 
 const MenuProfileEdit = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const queryClient = useQueryClient();
   const { dispatch, state } = useGlobalContext();
   const [username, setUsername] = useState<string>("");
@@ -38,9 +40,7 @@ const MenuProfileEdit = () => {
       formData.append("stellaId", stellaId);
 
       return axios.post(
-        `${
-          import.meta.env.VITE_STELLA_APP_HOST
-        }/profile/${stellaId}/upload-image`,
+        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profile/${stellaId}/upload-image`,
         formData
       );
     },
@@ -62,7 +62,7 @@ const MenuProfileEdit = () => {
   const ProfileImageDeleteMutation = useMutation({
     mutationFn: async ({ stellaId }: { stellaId: string }) => {
       return axios.delete(
-        `${import.meta.env.VITE_STELLA_APP_HOST}/profile/${stellaId}/image`
+        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profile/${stellaId}/image`
       );
     },
     onSuccess: () => {
@@ -91,7 +91,7 @@ const MenuProfileEdit = () => {
       stellaId: string;
     }) => {
       return axios.patch(
-        `${import.meta.env.VITE_STELLA_APP_HOST}/profile/${stellaId}/bio`,
+        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profile/${stellaId}/bio`,
         { bio }
       );
     },
@@ -128,7 +128,7 @@ const MenuProfileEdit = () => {
       stellaId: string;
     }) => {
       return axios.patch(
-        `${import.meta.env.VITE_STELLA_APP_HOST}/profile/${stellaId}/username`,
+        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profile/${stellaId}/username`,
         { username }
       );
     },
@@ -260,9 +260,7 @@ const MenuProfileEdit = () => {
       <InputProfileImage
         imageURL={
           state.profileImageKey
-            ? `${import.meta.env.VITE_STORJ_PUBLIC_URL}/${
-                state.profileImageKey
-              }?wrap=0`
+            ? `${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${state.profileImageKey}?wrap=0`
             : null
         }
         onChange={async (value) => {

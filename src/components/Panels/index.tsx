@@ -106,7 +106,7 @@ export const getContent = (
       return imageKey ? (
         <img
           className={style.avatar}
-          src={`${import.meta.env.VITE_STORJ_PUBLIC_URL}/${imageKey}?wrap=0`}
+          src={`${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${imageKey}?wrap=0`}
           alt="Panel content"
         />
       ) : null;

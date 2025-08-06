@@ -1,25 +1,26 @@
-import { useNavigate } from "react-router";
+"use client";
+
+import { useRouter } from "next/navigation";
 import useAuth from "../../hooks/useAuth";
-import globalStyle from "../../../src/style.module.css";
 import style from "./style.module.css";
 import Avatar from "../Avatar";
 import Button from "../Button";
 import { useGlobalContext } from "../../context/context";
 
 const MenuProfile = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { signOut } = useAuth();
   const { dispatch, state } = useGlobalContext();
 
   return (
     <div className={style.profile}>
-      <div className={[style.name, globalStyle.mt16].join(" ")}>
+      <div className={style.name} style={{ marginTop: "16px" }}>
         {state.username}
       </div>
       <Button
         onClick={() => {
           dispatch({ type: "SET_MENU", payload: null });
-          navigate(`/profile/${state.stellaId}`);
+          router.push(`/profile/${state.stellaId}`);
         }}
       >
         View Profile

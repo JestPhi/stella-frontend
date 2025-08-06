@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { CoverPageData, FileUpload } from "../../types/story";
@@ -44,7 +44,7 @@ const MenuPageEdit = ({
 }: MenuPageEditProps) => {
   const [coverPageData, setCoverPageData] = useState<CoverPageData>({});
   const { dispatch, state } = useGlobalContext();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   // Fetch story data by storyId
   const {
@@ -85,6 +85,13 @@ const MenuPageEdit = ({
     },
   });
 
+  const deleteImagesMutation = useMutation({
+    mutationFn: async (imageKeys: string[]) => {
+      if (!storyId) throw new Error("Story ID required");
+      return storyAPI.deleteImages(storyId, imageKeys);
+    },
+  });
+
   const handlePanelsChange = (items: Record<string, PanelItem>) => {
     const convertedData: CoverPageData = {};
 
@@ -107,6 +114,63 @@ const MenuPageEdit = ({
 
   const handleSave = async () => {
     if (!stellaId || imageUploadMutation.isPending) return;
+
+    // Get the original cover page data for comparison
+    const originalData = storyData?.story?.coverPage || {};
+
+    // Find removed images by comparing original vs current data
+    const removedImageKeys: string[] = [];
+    console.log("Original data:", originalData);
+    console.log("Current data:", coverPageData);
+
+    Object.entries(originalData).forEach(([key, element]: [string, any]) => {
+      const currentElement = coverPageData[key];
+      console.log(`Checking element ${key}:`, {
+        original: element,
+        current: currentElement,
+      });
+
+      // Check if original element had an image and current doesn't or has different image
+      if (
+        element?.imageKey &&
+        typeof element.imageKey === "string" &&
+        element.imageKey.trim() !== ""
+      ) {
+        const currentValue = currentElement?.value;
+        const currentImageKey = currentElement?.imageKey;
+
+        // Image is considered removed if:
+        // 1. Current element doesn't exist
+        // 2. Current element has no value
+        // 3. Current value is different from original imageKey
+        // 4. Current imageKey is different from original imageKey
+        if (
+          !currentElement ||
+          !currentValue ||
+          (currentValue !== element.imageKey &&
+            currentImageKey !== element.imageKey)
+        ) {
+          console.log(`Image ${element.imageKey} marked for deletion`);
+          removedImageKeys.push(element.imageKey);
+        }
+      }
+    });
+
+    console.log("Final removedImageKeys:", removedImageKeys);
+
+    // Delete removed images if any
+    if (removedImageKeys.length > 0) {
+      console.log("Images to delete:", removedImageKeys);
+      try {
+        await deleteImagesMutation.mutateAsync(removedImageKeys);
+        console.log("Successfully deleted images:", removedImageKeys);
+      } catch (error) {
+        console.error("Failed to delete images:", error);
+        return;
+      }
+    } else {
+      console.log("No images to delete");
+    }
 
     const filesToUpload = getFilesToUpload(coverPageData);
     let updatedData = { ...coverPageData };
@@ -134,10 +198,12 @@ const MenuPageEdit = ({
   const isLoading =
     imageUploadMutation.isPending ||
     coverPageUpdateMutation.isPending ||
+    deleteImagesMutation.isPending ||
     isStoryLoading;
   const hasError =
     coverPageUpdateMutation.isError ||
     imageUploadMutation.isError ||
+    deleteImagesMutation.isError ||
     isStoryError;
 
   if (isStoryLoading) return <div>Loading story...</div>;
@@ -152,6 +218,7 @@ const MenuPageEdit = ({
         >
           {coverPageUpdateMutation.isError && "Failed to update story. "}
           {imageUploadMutation.isError && "Failed to upload image. "}
+          {deleteImagesMutation.isError && "Failed to delete images. "}
           Please try again.
         </div>
       )}
@@ -170,7 +237,9 @@ const MenuPageEdit = ({
           onClick={handleSave}
           disabled={!stellaId || isLoading}
         >
-          {imageUploadMutation.isPending
+          {deleteImagesMutation.isPending
+            ? "Deleting..."
+            : imageUploadMutation.isPending
             ? "Uploading..."
             : coverPageUpdateMutation.isPending
             ? "Saving..."

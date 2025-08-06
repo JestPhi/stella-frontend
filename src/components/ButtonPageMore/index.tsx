@@ -1,5 +1,7 @@
+"use client";
+
 import { MoreHorizontal } from "react-feather";
-import { useParams } from "react-router";
+import { useParams } from "next/navigation";
 import style from "./style.module.css";
 import MenuPageMore from "../MenuPageMore";
 import Button from "../../components/Button";

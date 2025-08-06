@@ -3,25 +3,24 @@ import Avatar from "../Avatar";
 import Button from "../Button";
 import Bar from "../Bar";
 import style from "./style.module.css";
-
+import { useParams } from "next/navigation";
 import { useGlobalContext } from "../../context/context";
-import MenuProfileEdit from "../MenuProfileEdit";
 
 const Profile = ({ profileImageKey, bio, username }) => {
   const { dispatch } = useGlobalContext();
-
+  const { stellaId } = useParams();
   return (
     <div className={style.profile}>
       <Bar className={style.bar} variant="secondary">
         <Button
           onClick={() => {
-            dispatch({
-              type: "SET_MENU",
-              payload: {
-                heading: "Edit Profile",
-                template: <MenuProfileEdit />,
+            window.parent.postMessage(
+              {
+                action: "SET_MODAL_URL",
+                payload: `/edit-profile/${stellaId}`,
               },
-            });
+              "http://localhost:3015"
+            );
           }}
         >
           <Edit2 height={24} />
@@ -31,9 +30,7 @@ const Profile = ({ profileImageKey, bio, username }) => {
       <Avatar
         src={
           profileImageKey
-            ? `${
-                import.meta.env.VITE_STORJ_PUBLIC_URL
-              }/${profileImageKey}?wrap=0`
+            ? `${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${profileImageKey}?wrap=0`
             : undefined
         }
       />

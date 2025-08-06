@@ -1,7 +1,7 @@
 import axios from "axios";
 import { CoverPageData } from "../types/story";
 
-const API_BASE_URL = import.meta.env.VITE_STELLA_APP_HOST;
+const API_BASE_URL = process.env.NEXT_PUBLIC_STELLA_APP_HOST;
 
 export const storyAPI = {
   getById: async (storyId: string) => {
@@ -42,6 +42,19 @@ export const storyAPI = {
       {
         headers: { "Content-Type": "multipart/form-data" },
         timeout: 30000,
+      }
+    );
+    return data;
+  },
+
+  deleteImages: async (storyId: string, imageKeys: string[]) => {
+    if (!imageKeys || imageKeys.length === 0) {
+      throw new Error("At least one image key is required");
+    }
+    const { data } = await axios.delete(
+      `${API_BASE_URL}/story/${storyId}/delete-images`,
+      {
+        data: { imageKeys },
       }
     );
     return data;

@@ -1,5 +1,7 @@
+"use client";
+
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useRouter } from "next/navigation";
 import { useQuery, useMutation } from "@tanstack/react-query";
 
 import { CoverPageData, FileUpload } from "../../types/story";
@@ -29,7 +31,7 @@ const MenuAddStory = () => {
   );
   const [currentStoryId, setCurrentStoryId] = useState<string | null>(null);
   const { dispatch, state } = useGlobalContext();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const storyCreationQuery = useQuery({
     queryKey: ["createStory", state.stellaId],
@@ -59,7 +61,7 @@ const MenuAddStory = () => {
     },
     onSuccess: () => {
       dispatch({ type: "SET_MENU", payload: null });
-      navigate(`/profile/${state.stellaId}/${currentStoryId}`);
+      router.push(`/profile/${state.stellaId}/${currentStoryId}`);
     },
   });
 
