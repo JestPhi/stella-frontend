@@ -146,7 +146,7 @@ const CreateStory = () => {
   const isLoading = saveMutation.isPending;
   const buttonText = isLoading ? "Saving..." : "Add Story";
   const hasError = saveMutation.isError;
-
+  console.log(newCoverPageData);
   return (
     <div className={style.addStoryWrapper}>
       {hasError && (
