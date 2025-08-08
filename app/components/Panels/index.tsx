@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useState, memo } from "react";
 import style from "./style.module.css";
 import InputImage from "../InputImage";
 import InputTextarea from "../InputTextarea";
@@ -24,73 +24,171 @@ type PanelsProps = {
   items?: Record<string, PanelItem>;
   isEditMode?: boolean;
   onChange?: (items: Record<string, PanelItem>) => void;
-  stellaId?: string;
   storyId?: string | null;
 };
 
-type GetInputProps = {
-  setItemsState: React.Dispatch<
-    React.SetStateAction<Record<string, PanelItem>>
-  >;
-  value?: string | File | null;
-  grid: GridConfig;
-  index: number;
-  className?: string;
-  placeholder?: string;
-  onChange: (value: string | File | null) => void;
-  storyId?: string | null;
-};
-
-const getSkeleton = (skeleton?: string): string => {
-  switch (skeleton) {
-    case "default":
-      return "default";
-    case "text":
-      return "text";
-    default:
-      return "";
-  }
-};
-
-const getInput = (type: string, props: GetInputProps) => {
-  const {
-    setItemsState,
-    value = "",
-    grid,
-    index,
-    onChange,
+// Individual Panel Component with local state
+const PanelItemComponent = memo(
+  ({
+    itemKey,
+    item,
+    isEditMode,
+    onItemChange,
     storyId,
-    ...rest
-  } = props;
+  }: {
+    itemKey: string;
+    item: PanelItem;
+    isEditMode: boolean;
+    onItemChange: (key: string, value: string | File | null) => void;
+    storyId?: string | null;
+  }) => {
+    const [localValue, setLocalValue] = useState<string | File | null>(
+      item.value ?? null
+    );
 
-  switch (type) {
-    case "text":
-      return (
-        <InputTextarea
-          {...rest}
-          value={typeof value === "string" ? value : ""}
-          onChange={(e) => {
-            onChange(e.target.value);
-          }}
-        />
-      );
-    case "jpg":
-    case "image":
-      return (
-        <InputImage
-          {...rest}
-          value={value}
-          storyId={storyId}
-          onChange={(e) => {
-            onChange(e);
-          }}
-        />
-      );
-    default:
-      return null;
+    const {
+      grid = {},
+      skeleton,
+      type,
+      className: itemClassName,
+      placeholder,
+    } = item;
+    const { c = 0, r = 0, cs = 0, rs = 0 } = grid;
+
+    const handleValueChange = useCallback(
+      (newValue: string | File | null) => {
+        setLocalValue(newValue);
+        onItemChange(itemKey, newValue);
+      },
+      [itemKey, onItemChange]
+    );
+
+    const getSkeleton = (skeleton?: string): string => {
+      switch (skeleton) {
+        case "default":
+          return "default";
+        case "text":
+          return "text";
+        default:
+          return "";
+      }
+    };
+
+    const renderInput = () => {
+      switch (type) {
+        case "text":
+          return (
+            <InputTextarea
+              className={itemClassName}
+              placeholder={placeholder}
+              value={typeof localValue === "string" ? localValue : ""}
+              onChange={(e) => handleValueChange(e.target.value)}
+            />
+          );
+        case "jpg":
+        case "image":
+          return (
+            <InputImage
+              className={itemClassName}
+              value={localValue}
+              onChange={handleValueChange}
+            />
+          );
+        default:
+          return null;
+      }
+    };
+
+    const renderContent = (): React.ReactNode => {
+      switch (type) {
+        case "text":
+          return typeof localValue === "string" ? (
+            <div className={style.text}>{localValue}</div>
+          ) : null;
+        case "image":
+        case "jpg":
+          const imageKey = typeof localValue === "string" ? localValue : "";
+          return imageKey ? (
+            <img
+              className={style.avatar}
+              src={`${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${imageKey}?wrap=0`}
+              alt="Panel content"
+            />
+          ) : null;
+        default:
+          return null;
+      }
+    };
+
+    return (
+      <div
+        className={[
+          style.item,
+          style[`rs${rs}`],
+          style[`cs${cs}`],
+          style[`r${r}`],
+          style[`c${c}`],
+          getSkeleton(skeleton),
+          itemClassName,
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        {isEditMode ? renderInput() : renderContent()}
+      </div>
+    );
   }
+);
+
+// Add display name for debugging
+PanelItemComponent.displayName = "PanelItemComponent";
+
+const Panels = ({
+  className,
+  items = {},
+  isEditMode = false,
+  onChange = () => {},
+  storyId,
+  ...rest
+}: PanelsProps) => {
+  // Handle individual item changes without maintaining internal state
+  const handleItemChange = useCallback(
+    (key: string, value: string | File | null) => {
+      const updatedItems = {
+        ...items,
+        [key]: {
+          ...items[key],
+          value,
+        },
+      };
+      console.log(updatedItems);
+      onChange(updatedItems);
+    },
+    [items, onChange]
+  );
+
+  return (
+    <div
+      className={[style.panels, "panels", className].filter(Boolean).join(" ")}
+      {...rest}
+    >
+      {Object.entries(items).map(([key, item]) => (
+        <PanelItemComponent
+          key={key}
+          itemKey={key}
+          item={item}
+          isEditMode={isEditMode}
+          onItemChange={handleItemChange}
+          storyId={storyId}
+        />
+      ))}
+    </div>
+  );
 };
 
+export default Panels;
+
+// Export for backward compatibility
 export const getContent = (
   type: string,
   value: string | File | null = ""
@@ -114,86 +212,3 @@ export const getContent = (
       return null;
   }
 };
-
-const Panels = ({
-  className,
-  items = {},
-  isEditMode = false,
-  onChange = () => {},
-  storyId,
-  ...rest
-}: PanelsProps) => {
-  const [itemsState, setItemsState] =
-    useState<Record<string, PanelItem>>(items);
-
-  useEffect(() => {
-    onChange(itemsState);
-  }, [JSON.stringify(itemsState)]);
-
-  useEffect(() => {
-    setItemsState(items);
-  }, [items]);
-
-  const handleChange = (value: string | File | null, index: number) => {
-    setItemsState((prev) => {
-      return {
-        ...prev,
-        [`${index}`]: {
-          ...prev[`${index}`],
-          value: value,
-        },
-      };
-    });
-  };
-
-  return (
-    <div className={[style.panels, "panels", className].join(" ")} {...rest}>
-      {Object.entries(itemsState).map(([key, item], index) => {
-        const {
-          grid = {},
-          skeleton,
-          type,
-          className: itemClassName,
-          placeholder,
-          value,
-        } = item;
-        const { c = 0, r = 0, cs = 0, rs = 0 } = grid;
-
-        return (
-          <div
-            key={key}
-            className={[
-              style.item,
-              style[`rs${rs}`],
-              style[`cs${cs}`],
-              style[`r${r}`],
-              style[`c${c}`],
-              getSkeleton(skeleton),
-              itemClassName,
-            ]
-              .filter(Boolean)
-              .join(" ")}
-            data-panel-index={index}
-          >
-            {isEditMode &&
-              getInput(type, {
-                index,
-                grid: { c, cs, r, rs },
-                onChange: (value) => {
-                  handleChange(value, index);
-                },
-                value,
-                className: itemClassName,
-                placeholder,
-                setItemsState,
-                storyId,
-              })}
-            {!isEditMode && getContent(type, value)}
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-
-export default Panels;

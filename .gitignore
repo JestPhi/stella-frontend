@@ -17,3 +17,26 @@ Thumbs.db
 .env.*
 !.env.example
 !.env.test
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Next.js cache
+.next/cache/
+.next/static/chunks/
+.next/static/css/
+.next/static/media/
+
+# Next.js build info
+.next/BUILD_ID
+.next/build-manifest.json
+.next/export-marker.json
+.next/package.json
+.next/routes-manifest.json
+
+# TypeScript build cache
+*.tsbuildinfo
+.tsbuildinfo

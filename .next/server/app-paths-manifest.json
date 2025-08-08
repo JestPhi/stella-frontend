@@ -1,4 +1,3 @@
 {
-  "/page": "app/page.js",
-  "/profile/[stellaId]/[storyId]/page": "app/profile/[stellaId]/[storyId]/page.js"
+  "/create-story/[stellaId]/page": "app/create-story/[stellaId]/page.js"
 }

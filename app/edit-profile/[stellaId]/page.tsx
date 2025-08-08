@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
@@ -17,13 +17,30 @@ import InputText from "../../components/InputText";
 
 const EditProfile = () => {
   const { stellaId } = useParams();
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   const [username, setUsername] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [disabledUsername, setDisabledUsername] = useState(true);
   const [disabledBio, setDisabledBio] = useState(true);
+
+  // TanStack Query for fetching profile data by stellaId
+  const {
+    data: profile,
+    isLoading: isProfileLoading,
+    isError: isProfileError,
+    error: profileError,
+  } = useQuery({
+    queryKey: ["profile", stellaId],
+    queryFn: () => {
+      return axios(
+        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profile/${stellaId}`
+      ).then((response) => {
+        return response.data.profile;
+      });
+    },
+    enabled: !!stellaId,
+  });
 
   // Mutation for ProfileImage upload
   const ProfileImageUploadMutation = useMutation({
@@ -84,14 +101,6 @@ const EditProfile = () => {
     },
     onSuccess: () => {
       console.log("Profile updated successfully");
-
-      // Update global state with new values
-      //   dispatch({
-      //     type: "SET_PROFILE",
-      //     payload: {
-      //       bio: bio,
-      //     },
-      //   });
     },
     onError: (error) => {
       console.error("Failed to update profile:", error);
@@ -151,15 +160,6 @@ const EditProfile = () => {
     //   } catch (error) {
     //     console.error("Failed to delete ProfileImage:", error);
     //   }
-    // } else {
-    //   // If no profile image key, just update local state (for newly selected images)
-    //   dispatch({
-    //     type: "SET_PROFILE",
-    //     payload: {
-    //       profileImageKey: undefined,
-    //     },
-    //   });
-    // }
   };
 
   const handleBioUpdate = async () => {
@@ -176,6 +176,8 @@ const EditProfile = () => {
       stellaId: stellaId,
     });
   };
+
+  console.log(profile);
 
   const handleUsernameUpdate = async () => {
     // Validate required fields
@@ -211,10 +213,10 @@ const EditProfile = () => {
           Please try again.
         </div>
       )}
-      {/* <InputProfileImage
+      <InputProfileImage
         imageURL={
-          state.profileImageKey
-            ? `${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${state.profileImageKey}?wrap=0`
+          profile?.profileImageKey
+            ? `${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${profile?.profileImageKey}?wrap=0`
             : null
         }
         onChange={async (value) => {
@@ -231,7 +233,7 @@ const EditProfile = () => {
           }
         }}
         className={style.ProfileImage}
-      /> */}
+      />
 
       {/* Loading indicator for ProfileImage operations */}
       {(ProfileImageUploadMutation.isPending ||

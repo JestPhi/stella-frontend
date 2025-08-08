@@ -6,22 +6,11 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/page": [
+    "/create-story/[stellaId]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
-    ],
-    "/profile/[stellaId]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/profile/[stellaId]/page.css",
-      "static/chunks/app/profile/[stellaId]/page.js"
-    ],
-    "/profile/[stellaId]/[storyId]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/profile/[stellaId]/[storyId]/page.css",
-      "static/chunks/app/profile/[stellaId]/[storyId]/page.js"
+      "static/css/app/create-story/[stellaId]/page.css",
+      "static/chunks/app/create-story/[stellaId]/page.js"
     ]
   }
 }

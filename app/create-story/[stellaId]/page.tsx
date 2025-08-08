@@ -1,17 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import { CoverPageData, FileUpload } from "../../../src/types/story";
+import { CoverPageData, FileUpload } from "../../types/story";
 
 import { storyAPI } from "../../api/story";
 import { getFilesToUpload } from "../../utils/story";
-
 import Bar from "../../components/Bar";
 import Button from "../../components/Button";
-
 import Panels from "../../components/Panels";
 import style from "./style.module.css";
 
@@ -20,10 +17,37 @@ const INITIAL_COVER_PAGE_STATE: CoverPageData = {
   "1": {
     grid: { c: 12, r: 2, rs: 10, cs: 0 },
     type: "text",
-    placeholder: "Phi Le",
-    value: "cake",
+    placeholder: "Enter a title",
+    value: "",
   },
 };
+
+// Loading component
+const LoadingState = ({ message }: { message: string }) => (
+  <div className={style.addStoryWrapper}>
+    <div style={{ textAlign: "center", padding: "20px" }}>{message}</div>
+  </div>
+);
+
+// Error component
+const ErrorState = ({
+  message,
+  onRetry,
+}: {
+  message: string;
+  onRetry: () => void;
+}) => (
+  <div className={style.addStoryWrapper}>
+    <div style={{ color: "red", textAlign: "center", padding: "20px" }}>
+      {message}
+    </div>
+    <Bar className={style.bar} variant="default">
+      <Button className={style.addStory} variant="primary" onClick={onRetry}>
+        Retry
+      </Button>
+    </Bar>
+  </div>
+);
 
 const CreateStory = () => {
   const { stellaId } = useParams();
@@ -32,15 +56,14 @@ const CreateStory = () => {
   );
   const [currentStoryId, setCurrentStoryId] = useState<string | null>(null);
 
-  const router = useRouter();
-
+  // Create story query
   const storyCreationQuery = useQuery({
     queryKey: ["createStory", stellaId],
     queryFn: async () => {
-      if (!stellaId) throw new Error("User ID required");
+      if (!stellaId || Array.isArray(stellaId))
+        throw new Error("Invalid user ID");
 
       const data = await storyAPI.create(stellaId, INITIAL_COVER_PAGE_STATE);
-
       const storyId = data?.story?.storyId;
 
       if (!storyId) throw new Error("No story ID returned");
@@ -52,12 +75,37 @@ const CreateStory = () => {
     retry: 3,
   });
 
-  const coverPageUpdateMutation = useMutation({
-    mutationFn: async (coverPageData: CoverPageData) => {
+  // Combined save mutation that handles both uploads and updates
+  const saveMutation = useMutation({
+    mutationFn: async (data: CoverPageData) => {
       if (!currentStoryId) throw new Error("Story ID required");
-      return storyAPI.update(currentStoryId, coverPageData);
+
+      const filesToUpload = getFilesToUpload(data);
+      const updatedData = { ...data };
+
+      // Upload files if any
+      for (const fileUpload of filesToUpload) {
+        const result = await storyAPI.uploadImage(
+          currentStoryId,
+          fileUpload.file,
+          fileUpload.imageId
+        );
+        debugger;
+        const imageKey = result.key || result.url || fileUpload.imageId;
+        updatedData[fileUpload.elementKey] = {
+          ...updatedData[fileUpload.elementKey],
+          value: imageKey,
+          imageKey,
+        };
+      }
+
+      // Update story
+      await storyAPI.update(currentStoryId, updatedData);
+      return updatedData;
     },
-    onSuccess: () => {
+    onSuccess: (updatedData) => {
+      setCoverPageData(updatedData);
+      // Navigate or send message to parent
       parent.postMessage(
         {
           action: "SET_BASE_URL",
@@ -68,85 +116,35 @@ const CreateStory = () => {
     },
   });
 
-  const imageUploadMutation = useMutation({
-    mutationFn: async (fileUpload: FileUpload) => {
-      if (!currentStoryId) throw new Error("Story ID required");
-      return storyAPI.uploadImage(
-        currentStoryId,
-        fileUpload.file,
-        fileUpload.imageId
-      );
-    },
-  });
-
-  const handleCoverPageChange = (updatedData: CoverPageData) => {
-    setCoverPageData(updatedData);
+  // Handlers
+  const handleCoverPageChange = (updatedData: Record<string, any>) => {
+    //setCoverPageData(updatedData as CoverPageData);
   };
 
-  const handleSave = async () => {
-    if (!currentStoryId || imageUploadMutation.isPending) return;
-
-    const filesToUpload = getFilesToUpload(coverPageData);
-    const updatedData = { ...coverPageData };
-
-    for (const fileUpload of filesToUpload) {
-      try {
-        const result = await imageUploadMutation.mutateAsync(fileUpload);
-        const imageKey = result.key || result.url || fileUpload.imageId;
-
-        updatedData[fileUpload.elementKey] = {
-          ...updatedData[fileUpload.elementKey],
-          value: imageKey,
-          imageKey,
-        };
-      } catch (error) {
-        console.error("Upload failed:", error);
-        return;
-      }
+  const handleSave = () => {
+    if (currentStoryId) {
+      // saveMutation.mutate(coverPageData);
     }
-
-    setCoverPageData(updatedData);
-    coverPageUpdateMutation.mutate(updatedData);
   };
 
-  const isLoading =
-    imageUploadMutation.isPending || coverPageUpdateMutation.isPending;
-  const buttonText = imageUploadMutation.isPending
-    ? "Uploading..."
-    : coverPageUpdateMutation.isPending
-    ? "Saving..."
-    : "Add Story";
-  const hasError =
-    coverPageUpdateMutation.isError || imageUploadMutation.isError;
-
+  // Loading states
   if (storyCreationQuery.isLoading) {
-    return (
-      <div className={style.addStoryWrapper}>
-        <div style={{ textAlign: "center", padding: "20px" }}>
-          Creating story...
-        </div>
-      </div>
-    );
+    return <LoadingState message="Creating story..." />;
   }
 
   if (storyCreationQuery.isError) {
     return (
-      <div className={style.addStoryWrapper}>
-        <div style={{ color: "red", textAlign: "center", padding: "20px" }}>
-          Failed to create story. Please try again.
-        </div>
-        <Bar className={style.bar} variant="default">
-          <Button
-            className={style.addStory}
-            variant="primary"
-            onClick={() => storyCreationQuery.refetch()}
-          >
-            Retry
-          </Button>
-        </Bar>
-      </div>
+      <ErrorState
+        message="Failed to create story. Please try again."
+        onRetry={() => storyCreationQuery.refetch()}
+      />
     );
   }
+
+  // Get status for UI
+  const isLoading = saveMutation.isPending;
+  const buttonText = isLoading ? "Saving..." : "Add Story";
+  const hasError = saveMutation.isError;
 
   return (
     <div className={style.addStoryWrapper}>
@@ -154,9 +152,7 @@ const CreateStory = () => {
         <div
           style={{ color: "red", marginBottom: "10px", textAlign: "center" }}
         >
-          {coverPageUpdateMutation.isError && "Failed to update story. "}
-          {imageUploadMutation.isError && "Failed to upload image. "}
-          Please try again.
+          Failed to save story. Please try again.
         </div>
       )}
 

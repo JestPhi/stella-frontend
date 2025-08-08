@@ -31,6 +31,13 @@ const MenuPageMore = ({
       queryClient.invalidateQueries({ queryKey: ["stories"] });
       queryClient.invalidateQueries({ queryKey: ["stories", stellaId] });
 
+      parent.postMessage(
+        {
+          action: "SET_BASE_URL",
+          payload: `/profile/${stellaId}`,
+        },
+        "http://localhost:3015"
+      );
       //   await onDelete();
       // Close the menu
       //   dispatch({ type: "SET_MENU", payload: null });

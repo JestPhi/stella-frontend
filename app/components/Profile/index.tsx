@@ -14,8 +14,8 @@ const Profile = ({ profileImageKey, bio, username }) => {
           onClick={() => {
             window.parent.postMessage(
               {
-                action: "SET_MODAL_URL",
-                payload: `/edit-profile/${stellaId}`,
+                action: "SET_MODAL",
+                payload: { pathname: `/edit-profile/${stellaId}`, height: 400 },
               },
               "http://localhost:3015"
             );
