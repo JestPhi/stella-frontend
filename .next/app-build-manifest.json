@@ -6,6 +6,17 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
+    "/profile/[stellaId]/[storyId]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/profile/[stellaId]/[storyId]/page.css",
+      "static/chunks/app/profile/[stellaId]/[storyId]/page.js"
+    ],
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
     "/create-story/[stellaId]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",

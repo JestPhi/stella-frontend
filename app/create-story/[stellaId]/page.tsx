@@ -54,6 +54,7 @@ const CreateStory = () => {
   const [coverPageData, setCoverPageData] = useState<CoverPageData>(
     INITIAL_COVER_PAGE_STATE
   );
+  const [newCoverPageData, setNewCoverPageData] = useState({});
   const [currentStoryId, setCurrentStoryId] = useState<string | null>(null);
 
   // Create story query
@@ -118,7 +119,7 @@ const CreateStory = () => {
 
   // Handlers
   const handleCoverPageChange = (updatedData: Record<string, any>) => {
-    //setCoverPageData(updatedData as CoverPageData);
+    setNewCoverPageData(updatedData);
   };
 
   const handleSave = () => {

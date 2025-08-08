@@ -1,4 +1,4 @@
-import { useCallback, useState, memo } from "react";
+import { useCallback, useEffect, useState, memo } from "react";
 import style from "./style.module.css";
 import InputImage from "../InputImage";
 import InputTextarea from "../InputTextarea";
@@ -27,7 +27,6 @@ type PanelsProps = {
   storyId?: string | null;
 };
 
-// Individual Panel Component with local state
 const PanelItemComponent = memo(
   ({
     itemKey,
@@ -46,6 +45,11 @@ const PanelItemComponent = memo(
       item.value ?? null
     );
 
+    // Sync local state with prop changes
+    useEffect(() => {
+      setLocalValue(item.value ?? null);
+    }, [item.value]);
+
     const {
       grid = {},
       skeleton,
@@ -63,84 +67,77 @@ const PanelItemComponent = memo(
       [itemKey, onItemChange]
     );
 
-    const getSkeleton = (skeleton?: string): string => {
-      switch (skeleton) {
-        case "default":
-          return "default";
-        case "text":
-          return "text";
-        default:
-          return "";
-      }
-    };
+    const gridClasses = [
+      style.item,
+      style[`rs${rs}`],
+      style[`cs${cs}`],
+      style[`r${r}`],
+      style[`c${c}`],
+      skeleton && style[skeleton],
+      itemClassName,
+    ]
+      .filter(Boolean)
+      .join(" ");
 
-    const renderInput = () => {
+    if (isEditMode) {
       switch (type) {
         case "text":
           return (
-            <InputTextarea
-              className={itemClassName}
-              placeholder={placeholder}
-              value={typeof localValue === "string" ? localValue : ""}
-              onChange={(e) => handleValueChange(e.target.value)}
-            />
+            <div className={gridClasses}>
+              <InputTextarea
+                className={itemClassName}
+                placeholder={placeholder}
+                value={typeof localValue === "string" ? localValue : ""}
+                onChange={(e) => handleValueChange(e.target.value)}
+              />
+            </div>
           );
         case "jpg":
         case "image":
           return (
-            <InputImage
-              className={itemClassName}
-              value={localValue}
-              onChange={handleValueChange}
-            />
+            <div className={gridClasses}>
+              <InputImage
+                className={itemClassName}
+                value={localValue}
+                onChange={handleValueChange}
+              />
+            </div>
           );
         default:
-          return null;
+          return <div className={gridClasses} />;
       }
-    };
+    }
 
-    const renderContent = (): React.ReactNode => {
-      switch (type) {
-        case "text":
-          return typeof localValue === "string" ? (
-            <div className={style.text}>{localValue}</div>
-          ) : null;
-        case "image":
-        case "jpg":
-          const imageKey = typeof localValue === "string" ? localValue : "";
-          return imageKey ? (
-            <img
-              className={style.avatar}
-              src={`${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${imageKey}?wrap=0`}
-              alt="Panel content"
-            />
-          ) : null;
-        default:
-          return null;
-      }
-    };
-
-    return (
-      <div
-        className={[
-          style.item,
-          style[`rs${rs}`],
-          style[`cs${cs}`],
-          style[`r${r}`],
-          style[`c${c}`],
-          getSkeleton(skeleton),
-          itemClassName,
-        ]
-          .filter(Boolean)
-          .join(" ")}
-      >
-        {isEditMode ? renderInput() : renderContent()}
-      </div>
-    );
+    // Display mode
+    switch (type) {
+      case "text":
+        return (
+          <div className={gridClasses}>
+            {typeof localValue === "string" && localValue && (
+              <div className={style.text}>{localValue}</div>
+            )}
+          </div>
+        );
+      case "image":
+      case "jpg":
+        const imageKey = typeof localValue === "string" ? localValue : "";
+        return (
+          <div className={gridClasses}>
+            {imageKey && (
+              <img
+                className={style.avatar}
+                src={`${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${imageKey}?wrap=0`}
+                alt="Panel content"
+              />
+            )}
+          </div>
+        );
+      default:
+        return <div className={gridClasses} />;
+    }
   }
 );
 
-// Add display name for debugging
 PanelItemComponent.displayName = "PanelItemComponent";
 
 const Panels = ({
@@ -151,18 +148,12 @@ const Panels = ({
   storyId,
   ...rest
 }: PanelsProps) => {
-  // Handle individual item changes without maintaining internal state
   const handleItemChange = useCallback(
     (key: string, value: string | File | null) => {
-      const updatedItems = {
+      onChange({
         ...items,
-        [key]: {
-          ...items[key],
-          value,
-        },
-      };
-      console.log(updatedItems);
-      onChange(updatedItems);
+        [key]: { ...items[key], value },
+      });
     },
     [items, onChange]
   );
