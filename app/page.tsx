@@ -55,20 +55,22 @@ export default function Home() {
               onClick={() => {
                 parent.postMessage(
                   {
-                    action: "SET_BASE_URL",
-                    payload: `/profile/${story.stellaId}/${story.storyId}`,
+                    type: "SET_LAYOUT",
+                    payload: {
+                      basePathname: `/profile/${story.stellaId}/story/${story.storyId}`,
+                    },
                   },
-                  "http://localhost:3015"
+                  `${process.env.NEXT_PUBLIC_STELLA_REACT_NATIVE_FOR_WEB_HOST}`
                 );
               }}
             >
               <img
                 src={`${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${
-                  story.coverPage[`0`].value
+                  story?.coverPage[`0`]?.value
                 }?wrap=0`}
-                alt={story.coverPage[`1`].value}
+                alt={story?.coverPage[`1`]?.value}
               />
-              <div className="title">{story.coverPage[`1`].value}</div>
+              <div className="title">{story?.coverPage[`1`]?.value}</div>
             </div>
           );
         })}

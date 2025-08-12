@@ -2,10 +2,7 @@
 
 import { MoreHorizontal } from "react-feather";
 import { useParams } from "next/navigation";
-import style from "./style.module.css";
-import MenuPageMore from "../MenuPageMore";
 import Button from "../../components/Button";
-import { useGlobalContext } from "../../context/context";
 
 const ButtonPageMore = ({}) => {
   const { stellaId, storyId } = useParams();
@@ -15,10 +12,14 @@ const ButtonPageMore = ({}) => {
       onClick={() => {
         parent.postMessage(
           {
-            action: "SET_MODAL_URL",
-            payload: `/story-actions/${stellaId}/${storyId}`,
+            type: "SET_LAYOUT",
+            payload: {
+              modalPathname: `/story-actions/${stellaId}/story/${storyId}`,
+              modalVisible: true,
+              modalHeight: 400,
+            },
           },
-          "http://localhost:3015"
+          `${process.env.NEXT_PUBLIC_STELLA_REACT_NATIVE_FOR_WEB_HOST}`
         );
       }}
     >

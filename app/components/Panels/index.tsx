@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, memo } from "react";
+import { useCallback, useEffect, useRef, useState, memo } from "react";
 import style from "./style.module.css";
 import InputImage from "../InputImage";
 import InputTextarea from "../InputTextarea";
@@ -171,20 +171,20 @@ const Panels = ({
   storyId,
   ...rest
 }: PanelsProps) => {
+  const dataRef = useRef(items);
   // Handle changes from individual panel items
   const handleItemChange = useCallback(
     (key: string, value: string | File | null) => {
       // Create updated items object with new value
-      const updatedItems = {
-        ...items,
+      dataRef.current = {
+        ...dataRef.current,
         [key]: {
           ...items[key],
           value,
         },
       };
-
       // Notify parent component of changes
-      onChange(updatedItems);
+      onChange(dataRef.current);
     },
     [items, onChange]
   );

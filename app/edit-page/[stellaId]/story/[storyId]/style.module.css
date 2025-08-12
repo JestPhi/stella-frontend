@@ -1,0 +1,26 @@
+.action {
+  background: white;
+  margin-bottom: 2px;
+  text-align: left;
+  width: 100%;
+}
+
+.action .inner {
+  display: none;
+}
+
+.delete {
+  margin-top: 44px;
+  width: 100%;
+}
+
+.heading {
+  color: #666;
+  font-size: 12px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.pageActionsHeading {
+  margin-top: 16px;
+}

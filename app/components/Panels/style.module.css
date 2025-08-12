@@ -15,10 +15,6 @@
   width: 100%;
 }
 
-.panels :global(.inputImage) {
-  border-bottom: solid 1px grey;
-}
-
 .text {
   padding: 12px;
   width: 100%;

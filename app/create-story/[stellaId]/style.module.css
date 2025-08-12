@@ -8,13 +8,10 @@
   margin-right: 16px;
 }
 
-.imageInput {
-  height: calc(50dvh - 44px);
+.addStoryWrapper :global(.inputImage) {
+  border-bottom: solid 1px grey;
 }
 
 .textarea {
   text-align: center;
-}
-
-.panels {
 }

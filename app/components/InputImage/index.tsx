@@ -23,17 +23,21 @@ const InputImage = ({
   onChange = () => {},
   value = null,
 }: InputImageProps) => {
+  const didMount = useRef(false);
   const [imageFileState, setImageFileState] = useState<File | string | null>(
     value
   );
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    onChange(imageFileState);
+    if (didMount.current) {
+      onChange(imageFileState);
+    }
+    didMount.current = true;
   }, [imageFileState]);
 
   return (
-    <div className={[style.inputImage, className].join(" ")}>
+    <div className={[style.inputImage, "inputImage", className].join(" ")}>
       {imageFileState && (
         <img className={style.img} src={getImage(imageFileState)} alt="" />
       )}

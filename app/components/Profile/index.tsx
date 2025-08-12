@@ -14,10 +14,14 @@ const Profile = ({ profileImageKey, bio, username }) => {
           onClick={() => {
             window.parent.postMessage(
               {
-                action: "SET_MODAL",
-                payload: { pathname: `/edit-profile/${stellaId}`, height: 400 },
+                type: "SET_LAYOUT",
+                payload: {
+                  modalPathname: `/edit-profile/${stellaId}`,
+                  modalVisible: true,
+                  // modalHeight: 400,
+                },
               },
-              "http://localhost:3015"
+              `${process.env.NEXT_PUBLIC_STELLA_REACT_NATIVE_FOR_WEB_HOST}`
             );
           }}
         >

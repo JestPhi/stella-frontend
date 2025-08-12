@@ -9,7 +9,6 @@ import Panels from "../Panels";
 const PageCover = ({
   panels,
   profileImageKey,
-  onChange,
   onDelete,
   username,
   storyId,
@@ -27,14 +26,7 @@ const PageCover = ({
           {username}
         </div>
         <div className={style.actions}>
-          <ButtonPageMore
-            onChange={onChange}
-            onDelete={onDelete}
-            page="coverPage"
-            isCoverPage={true}
-            stellaId={stellaId}
-            storyId={storyId}
-          />
+          <ButtonPageMore page="coverPage" />
         </div>
       </Bar>
       <Panels
