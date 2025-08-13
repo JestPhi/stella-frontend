@@ -5,16 +5,14 @@ import { useParams } from "next/navigation";
 import { useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { CoverPageData } from "../../types/story";
-
-import { storyAPI } from "../../api/story";
-import Bar from "../../components/Bar";
-import Button from "../../components/Button";
-import Panels from "../../components/Panels";
-import { getFilesToUpload } from "../../utils/story";
+import { storyAPI } from "../../../../api/story";
+import Bar from "../../../../components/Bar";
+import Button from "../../../../components/Button";
+import Panels from "../../../../components/Panels";
+import { getFilesToUpload } from "../../../../utils/story";
 import style from "./style.module.css";
 
-const INITIAL_COVER_PAGE_STATE: CoverPageData = {
+const INITIAL_PAGE_STATE = {
   "0": { grid: { c: 12, r: 10, rs: 0, cs: 0 }, type: "jpg" },
   "1": {
     grid: { c: 12, r: 2, rs: 10, cs: 0 },
@@ -24,12 +22,12 @@ const INITIAL_COVER_PAGE_STATE: CoverPageData = {
   },
 };
 
-const CreateStory = () => {
-  const { stellaId } = useParams();
+const CreatePage = () => {
+  const { stellaId, storyId } = useParams();
 
   // Combined save mutation that handles both uploads and updates
   const saveMutation = useMutation({
-    mutationFn: async (data: CoverPageData) => {
+    mutationFn: async (data) => {
       const currentStoryId = `story_${uuidv4()}`;
       const filesToUpload = getFilesToUpload(data);
       const updatedData = { ...data };
@@ -60,7 +58,6 @@ const CreateStory = () => {
       return response;
     },
     onSuccess: (response) => {
-      console.log("HI PHI");
       // Navigate or send message to parent
       parent.postMessage(
         {
@@ -78,7 +75,7 @@ const CreateStory = () => {
   const dataRef = useRef(null);
 
   // Handlers
-  const handleCoverPageChange = (updatedData: Record<string, any>) => {
+  const handlePageChange = (updatedData: Record<string, any>) => {
     dataRef.current = updatedData;
   };
 
@@ -89,23 +86,15 @@ const CreateStory = () => {
   // Get status for UI
   const isLoading = saveMutation.isPending;
   const buttonText = isLoading ? "Saving..." : "Add Story";
-  const hasError = saveMutation.isError;
 
   return (
     <div className={style.addStoryWrapper}>
-      Create Story
-      {hasError && (
-        <div
-          style={{ color: "red", marginBottom: "10px", textAlign: "center" }}
-        >
-          Failed to save story. Please try again.
-        </div>
-      )}
+      Create Page
       <Panels
-        items={INITIAL_COVER_PAGE_STATE}
+        items={INITIAL_PAGE_STATE}
         isEditMode
         className={style.panels}
-        onChange={handleCoverPageChange}
+        onChange={handlePageChange}
       />
       <Bar className={style.bar} variant="default">
         <Button
@@ -120,4 +109,4 @@ const CreateStory = () => {
   );
 };
 
-export default CreateStory;
+export default CreatePage;

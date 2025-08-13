@@ -1,2 +1,70 @@
 {
+  // File Explorer Settings
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.enableDragAndDrop": true,
+  
+  // File Operations
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "files.enableTrash": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/out": true,
+    "**/.cache": true
+  },
+  
+  // TypeScript Settings
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.preferences.rename.enabled": true,
+  "typescript.suggest.autoImports": true,
+  "typescript.suggest.paths": true,
+  
+  // JavaScript Settings
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.preferences.rename.enabled": true,
+  "javascript.suggest.autoImports": true,
+  
+  // Editor Settings
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  
+  // Next.js/React Specific
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact"
+  },
+  
+  // File Associations
+  "files.associations": {
+    "*.tsx": "typescriptreact",
+    "*.jsx": "javascriptreact"
+  },
+  
+  // Search Settings
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    "**/.next": true,
+    "**/out": true
+  },
+  
+  // Workspace Trust
+  "security.workspace.trust.untrustedFiles": "open",
+  
+  // File Renaming Support
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "refactor.rename.enabled": true
 }

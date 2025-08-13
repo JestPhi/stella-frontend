@@ -1,0 +1,17 @@
+.bar {
+  align-items: flex-end;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.addStory {
+  margin-right: 16px;
+}
+
+.addStoryWrapper :global(.inputImage) {
+  border-bottom: solid 1px grey;
+}
+
+.textarea {
+  text-align: center;
+}

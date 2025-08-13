@@ -1,8 +1,8 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { useParams } from "next/navigation";
 
 import style from "./style.module.css";
 // import MenuPageEdit from "../../../components/MenuPageEdit";
@@ -22,7 +22,7 @@ const MenuPageMore = ({
   const deleteStoryMutation = useMutation({
     mutationFn: async (storyId: string) => {
       const { data } = await axios.delete(
-        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profile/${stellaId}/story/${storyId}`
+        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/stories/${storyId}`
       );
       return data;
     },
@@ -34,7 +34,10 @@ const MenuPageMore = ({
       parent.postMessage(
         {
           type: "SET_LAYOUT",
-          payload: { basePathname: `/profile/${stellaId}` },
+          payload: {
+            basePathname: `/profile/${stellaId}`,
+            modalVisible: false,
+          },
         },
         `${process.env.NEXT_PUBLIC_STELLA_REACT_NATIVE_FOR_WEB_HOST}`
       );
@@ -43,7 +46,7 @@ const MenuPageMore = ({
       //   dispatch({ type: "SET_MENU", payload: null });
 
       //   // Optional: Navigate back to profile or home
-      //   router.push(`/profile/${stellaId}`);
+      //   router.push(`/profiles/${stellaId}`);
     },
     onError: (error) => {
       console.error("Failed to delete story:", error);
@@ -62,7 +65,7 @@ const MenuPageMore = ({
   };
 
   return (
-    <div className={style.MenuPageMore}>
+    <div className={style.container}>
       <div className={style.actions}>
         <div className={style.heading}>
           {isCoverPage && "Cover "}Page Actions
@@ -84,19 +87,12 @@ const MenuPageMore = ({
         >
           Edit {isCoverPage && "Cover "} Page
         </Button>
-        {!isCoverPage && (
-          <Button className={style.action}>
-            Create new page & insert between page 4...5
-          </Button>
-        )}
         {!isCoverPage && <Button className={style.action}>Delete Page</Button>}
       </div>
       <div className={style.actions}>
         <div className={[style.heading, style.pageActionsHeading].join(" ")}>
           Story Actions
         </div>
-        <Button className={style.action}>Change page sequence</Button>
-        <Button className={style.action}>Order pages by Page Number</Button>
         <Button
           className={style.action}
           onClick={handleDeleteStory}

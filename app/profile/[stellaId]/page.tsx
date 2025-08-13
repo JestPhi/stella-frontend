@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 
 import ProfileComponent from "../../components/Profile";
+import Stories from "../../components/Stories";
 
 // Inline styles to replace the imported CSS
 const profileStyles = {
@@ -60,7 +61,7 @@ export default function ProfilePage() {
     queryKey: ["profile", stellaId],
     queryFn: () => {
       return axios(
-        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profile/${stellaId}`
+        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}`
       ).then((response) => {
         return response.data.profile;
       });
@@ -86,6 +87,7 @@ export default function ProfilePage() {
     );
   }
 
+  console.log(stories);
   return (
     <>
       <div className="profile">
@@ -94,6 +96,7 @@ export default function ProfilePage() {
           bio={profile.bio}
           username={profile.username}
         />
+        <Stories stories={stories} />
       </div>
     </>
   );

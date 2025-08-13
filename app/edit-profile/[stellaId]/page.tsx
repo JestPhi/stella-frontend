@@ -34,7 +34,7 @@ const EditProfile = () => {
     queryKey: ["profile", stellaId],
     queryFn: () => {
       return axios(
-        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profile/${stellaId}`
+        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}`
       ).then((response) => {
         return response.data.profile;
       });
@@ -57,7 +57,7 @@ const EditProfile = () => {
       formData.append("stellaId", stellaId);
 
       return axios.post(
-        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profile/${stellaId}/upload-image`,
+        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/upload-image`,
         formData
       );
     },
@@ -74,7 +74,7 @@ const EditProfile = () => {
   const ProfileImageDeleteMutation = useMutation({
     mutationFn: async ({ stellaId }: { stellaId: string }) => {
       return axios.delete(
-        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profile/${stellaId}/image`
+        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/images`
       );
     },
     onSuccess: () => {
@@ -95,7 +95,7 @@ const EditProfile = () => {
       stellaId: string;
     }) => {
       return axios.patch(
-        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profile/${stellaId}/bio`,
+        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/bio`,
         { bio }
       );
     },
@@ -118,7 +118,7 @@ const EditProfile = () => {
       stellaId: string;
     }) => {
       return axios.patch(
-        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profile/${stellaId}/username`,
+        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/username`,
         { username }
       );
     },

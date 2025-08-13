@@ -36,7 +36,7 @@ export default function StoryPage() {
     queryKey: ["profile", stellaId],
     queryFn: () => {
       return axios(
-        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profile/${stellaId}`
+        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}`
       ).then((response) => {
         return response.data.profile;
       });

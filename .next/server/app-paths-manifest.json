@@ -1,9 +1,8 @@
 {
-  "/create-story/[stellaId]/page": "app/create-story/[stellaId]/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/create-page/[stellaId]/story/[storyId]/page": "app/create-page/[stellaId]/story/[storyId]/page.js",
   "/edit-page/[stellaId]/story/[storyId]/page": "app/edit-page/[stellaId]/story/[storyId]/page.js",
-  "/edit-profile/[stellaId]/page": "app/edit-profile/[stellaId]/page.js",
   "/page": "app/page.js",
-  "/profile/[stellaId]/page": "app/profile/[stellaId]/page.js",
   "/profile/[stellaId]/story/[storyId]/page": "app/profile/[stellaId]/story/[storyId]/page.js",
   "/story-actions/[stellaId]/story/[storyId]/page": "app/story-actions/[stellaId]/story/[storyId]/page.js"
 }

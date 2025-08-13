@@ -5,9 +5,9 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_STELLA_APP_HOST;
 
 export const storyAPI = {
   getById: async (stellaId: string, storyId: string) => {
-    console.log(`${API_BASE_URL}/profile/${stellaId}/story/${storyId}`);
+    console.log(`${API_BASE_URL}/profiles/${stellaId}/stories/${storyId}`);
     const { data } = await axios.get(
-      `${API_BASE_URL}/profile/${stellaId}/story/${storyId}`
+      `${API_BASE_URL}/profiles/${stellaId}/stories/${storyId}`
     );
     return data;
   },
@@ -19,7 +19,7 @@ export const storyAPI = {
   ) => {
     console.log(storyId);
     const { data } = await axios.post(
-      `${API_BASE_URL}/profile/${stellaId}/story/${storyId}`,
+      `${API_BASE_URL}/profiles/${stellaId}/stories/${storyId}`,
       {
         coverPage,
       }
@@ -33,7 +33,7 @@ export const storyAPI = {
     coverPage: CoverPageData
   ) => {
     const { data } = await axios.patch(
-      `${API_BASE_URL}/profile/${stellaId}/story/${storyId}`,
+      `${API_BASE_URL}/profiles/${stellaId}/stories/${storyId}`,
       {
         coverPage,
       }
@@ -58,7 +58,7 @@ export const storyAPI = {
     formData.append("imageKey", imageId);
 
     const { data } = await axios.post(
-      `${API_BASE_URL}/profile/${stellaId}/story/${storyId}/upload-image`,
+      `${API_BASE_URL}/profiles/${stellaId}/stories/${storyId}/upload-image`,
       formData,
       {
         headers: { "Content-Type": "multipart/form-data" },
@@ -73,7 +73,7 @@ export const storyAPI = {
       throw new Error("At least one image key is required");
     }
     const { data } = await axios.delete(
-      `${API_BASE_URL}/story/${storyId}/delete-images`,
+      `${API_BASE_URL}/stories/${storyId}/delete-images`,
       {
         data: { imageKeys },
       }
