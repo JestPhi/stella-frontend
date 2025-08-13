@@ -8,7 +8,7 @@ const Page = (props) => {
   return (
     <div className={style.page}>
       <Bar className={style.bar}>
-        <ButtonPageMore pageId={IdleDeadline} />
+        <ButtonPageMore pageId={id} />
       </Bar>
       <Panels items={panels} />
       <Bar className={style.pageNumber}>{pageNumber + 1}</Bar>

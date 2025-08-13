@@ -68,7 +68,7 @@ const CreatePage = () => {
         {
           type: "SET_LAYOUT",
           payload: {
-            basePathname: `/profile/${stellaId}/story/${storyId}`,
+            basePathname: `/profile/${stellaId}/story/${storyId}?updated=${Date.now()}`,
             modalVisible: false,
           },
         },

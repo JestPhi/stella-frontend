@@ -14,7 +14,7 @@ const ButtonPageMore = ({ pageId }) => {
           {
             type: "SET_LAYOUT",
             payload: {
-              modalPathname: `/story-actions/${stellaId}/story/${storyId}?page=${pageId}`,
+              modalPathname: `/story-actions/${stellaId}/story/${storyId}?pageId=${pageId}`,
               modalVisible: true,
               modalHeight: 400,
             },

@@ -8,7 +8,7 @@ import { storyAPI } from "../../../../api/story";
 import Button from "../../../../components/Button";
 import style from "./style.module.css";
 
-const MenuPageMore = ({
+const StoryActions = ({
   isCoverPage,
   pageId,
 }: {
@@ -38,7 +38,7 @@ const MenuPageMore = ({
         {
           type: "SET_LAYOUT",
           payload: {
-            basePathname: `/profile/${stellaId}/story/${storyId}`,
+            basePathname: `/profile/${stellaId}/story/${storyId}?udpated=${Date.now()}`,
             modalVisible: false,
           },
         },
@@ -97,7 +97,11 @@ const MenuPageMore = ({
   };
 
   const handleDeletePage = () => {
-    if (!pageId) {
+    // get url query parameter
+    const searchParams = new URLSearchParams(window.location.search);
+    const pageIdFromQuery = searchParams.get("pageId");
+    debugger;
+    if (!pageIdFromQuery) {
       console.error("Page ID is required to delete a page");
       return;
     }
@@ -107,7 +111,7 @@ const MenuPageMore = ({
         "Are you sure you want to delete this page? This action cannot be undone."
       )
     ) {
-      deletePageMutation.mutate(pageId);
+      deletePageMutation.mutate(pageIdFromQuery);
     }
   };
 
@@ -160,4 +164,4 @@ const MenuPageMore = ({
   );
 };
 
-export default MenuPageMore;
+export default StoryActions;
