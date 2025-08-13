@@ -1,7 +1,4 @@
 {
-  "/create-page/[stellaId]/story/[storyId]/page": "app/create-page/[stellaId]/story/[storyId]/page.js",
   "/page": "app/page.js",
-  "/profile/[stellaId]/page": "app/profile/[stellaId]/page.js",
-  "/profile/[stellaId]/story/[storyId]/page": "app/profile/[stellaId]/story/[storyId]/page.js",
-  "/story-actions/[stellaId]/story/[storyId]/page": "app/story-actions/[stellaId]/story/[storyId]/page.js"
+  "/profile/[stellaId]/story/[storyId]/page": "app/profile/[stellaId]/story/[storyId]/page.js"
 }

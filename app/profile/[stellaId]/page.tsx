@@ -3,7 +3,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
 
 import ProfileComponent from "../../components/Profile";
 import Stories from "../../components/Stories";
@@ -69,10 +68,6 @@ export default function ProfilePage() {
     enabled: !!stellaId,
   });
 
-  useEffect(() => {
-    console.log(stories);
-  }, [stories]);
-
   // Show loading state
   if (isLoading || isProfileLoading) {
     return <div>Loading profile...</div>;
@@ -87,7 +82,6 @@ export default function ProfilePage() {
     );
   }
 
-  console.log(stories);
   return (
     <>
       <div className="profile">
