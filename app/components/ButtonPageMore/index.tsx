@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { MoreHorizontal } from "react-feather";
 import Button from "../../components/Button";
 
-const ButtonPageMore = ({}) => {
+const ButtonPageMore = ({ pageId }) => {
   const { stellaId, storyId } = useParams();
 
   return (
@@ -14,7 +14,7 @@ const ButtonPageMore = ({}) => {
           {
             type: "SET_LAYOUT",
             payload: {
-              modalPathname: `/story-actions/${stellaId}/story/${storyId}`,
+              modalPathname: `/story-actions/${stellaId}/story/${storyId}?page=${pageId}`,
               modalVisible: true,
               modalHeight: 400,
             },

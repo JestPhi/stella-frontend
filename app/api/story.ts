@@ -58,10 +58,9 @@ export const storyAPI = {
     formData.append("imageKey", imageId);
 
     const { data } = await axios.post(
-      `${API_BASE_URL}/profiles/${stellaId}/stories/${storyId}/upload-image`,
+      `${API_BASE_URL}/profiles/${stellaId}/stories/${storyId}/images`,
       formData,
       {
-        headers: { "Content-Type": "multipart/form-data" },
         timeout: 30000,
       }
     );
@@ -77,6 +76,29 @@ export const storyAPI = {
       {
         data: { imageKeys },
       }
+    );
+    return data;
+  },
+
+  createPage: async (
+    stellaId: string,
+    storyId: string,
+    pageId: string,
+    pageData: CoverPageData
+  ) => {
+    const { data } = await axios.post(
+      `${API_BASE_URL}/profiles/${stellaId}/stories/${storyId}/pages/${pageId}`,
+      {
+        id: pageId,
+        panels: pageData,
+      }
+    );
+    return data;
+  },
+
+  deletePage: async (stellaId: string, storyId: string, pageId: string) => {
+    const { data } = await axios.delete(
+      `${API_BASE_URL}/profiles/${stellaId}/stories/${storyId}/pages/${pageId}`
     );
     return data;
   },

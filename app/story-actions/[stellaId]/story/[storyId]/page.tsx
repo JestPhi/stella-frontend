@@ -4,19 +4,51 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams } from "next/navigation";
 
-import style from "./style.module.css";
-// import MenuPageEdit from "../../../components/MenuPageEdit";
+import { storyAPI } from "../../../../api/story";
 import Button from "../../../../components/Button";
+import style from "./style.module.css";
 
 const MenuPageMore = ({
   isCoverPage,
+  pageId,
 }: {
   isCoverPage: boolean;
   stellaId: string;
   storyId: string;
+  pageId?: string;
 }) => {
-  const { stellaId, storyId } = useParams();
+  const { stellaId, storyId } = useParams() as {
+    stellaId: string;
+    storyId: string;
+  };
   const queryClient = useQueryClient();
+
+  // Delete page mutation
+  const deletePageMutation = useMutation({
+    mutationFn: async (pageId: string) => {
+      const response = await storyAPI.deletePage(stellaId, storyId, pageId);
+      return response;
+    },
+    onSuccess: async () => {
+      // Invalidate and refetch story queries
+      queryClient.invalidateQueries({ queryKey: ["story", stellaId, storyId] });
+      queryClient.invalidateQueries({ queryKey: ["stories", stellaId] });
+
+      parent.postMessage(
+        {
+          type: "SET_LAYOUT",
+          payload: {
+            basePathname: `/profile/${stellaId}/story/${storyId}`,
+            modalVisible: false,
+          },
+        },
+        `${process.env.NEXT_PUBLIC_STELLA_REACT_NATIVE_FOR_WEB_HOST}`
+      );
+    },
+    onError: (error) => {
+      console.error("Failed to delete page:", error);
+    },
+  });
 
   // Delete story mutation
   const deleteStoryMutation = useMutation({
@@ -64,6 +96,21 @@ const MenuPageMore = ({
     }
   };
 
+  const handleDeletePage = () => {
+    if (!pageId) {
+      console.error("Page ID is required to delete a page");
+      return;
+    }
+
+    if (
+      window.confirm(
+        "Are you sure you want to delete this page? This action cannot be undone."
+      )
+    ) {
+      deletePageMutation.mutate(pageId);
+    }
+  };
+
   return (
     <div className={style.container}>
       <div className={style.actions}>
@@ -87,7 +134,15 @@ const MenuPageMore = ({
         >
           Edit {isCoverPage && "Cover "} Page
         </Button>
-        {!isCoverPage && <Button className={style.action}>Delete Page</Button>}
+        {!isCoverPage && (
+          <Button
+            className={style.action}
+            onClick={handleDeletePage}
+            disabled={deletePageMutation.isPending}
+          >
+            {deletePageMutation.isPending ? "Deleting..." : "Delete Page"}
+          </Button>
+        )}
       </div>
       <div className={style.actions}>
         <div className={[style.heading, style.pageActionsHeading].join(" ")}>

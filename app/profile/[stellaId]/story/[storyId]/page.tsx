@@ -1,9 +1,10 @@
 "use client";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { storyAPI } from "../../../../api/story";
-import axios from "axios";
+import Page from "../../../../components/Page";
 import PageCover from "../../../../components/PageCover";
 
 export default function StoryPage() {
@@ -76,6 +77,9 @@ export default function StoryPage() {
         storyId={storyId as string}
         panels={story?.coverPage}
       />
+      {story.pages?.map((page) => {
+        return <Page id={page.id} panels={page.panels} />;
+      })}
     </div>
   );
 }

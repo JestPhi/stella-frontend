@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Image, Plus, Trash } from "react-feather";
-import style from "./style.module.css";
 import Button from "../Button";
+import style from "./style.module.css";
 
 type InputProfileImageProps = {
   className?: string;
   imageURL?: string | null;
-  onChange: (imageSource: string | null) => void;
+  onChange: (file: File | null) => void;
 };
 
 const InputProfileImage = ({
@@ -43,7 +43,9 @@ const InputProfileImage = ({
       const blobUrl = URL.createObjectURL(file);
       currentBlobUrlRef.current = blobUrl;
       setImageSource(blobUrl);
-      onChange(blobUrl);
+
+      // Pass the actual File object to parent
+      onChange(file);
     } catch (error) {
       console.error("Error creating blob URL:", error);
     }

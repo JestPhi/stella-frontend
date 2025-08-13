@@ -1,19 +1,13 @@
 "use client";
 
-import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import axios from "axios";
 import { useParams } from "next/navigation";
-import {
-  // deleteProfileImage,
-  // updateProfileImage,
-  updateProfile,
-} from "../../api";
-import style from "./style.module.css";
+import { useState } from "react";
 import Button from "../../components/Button";
 import InputProfileImage from "../../components/InputProfileImage";
 import InputText from "../../components/InputText";
+import style from "./style.module.css";
 
 const EditProfile = () => {
   const { stellaId } = useParams();
@@ -51,22 +45,60 @@ const EditProfile = () => {
       stellaId: string;
       file: File;
     }) => {
+      console.log("Starting FormData upload for:", {
+        stellaId,
+        fileName: file.name,
+        fileSize: file.size,
+        fileType: file.type,
+      });
+
       // Create FormData for file upload
       const formData = new FormData();
-      formData.append("profileImage", file);
+
+      // Validate file before adding to FormData
+      if (!file || file.size === 0) {
+        throw new Error("Invalid file: file is empty or undefined");
+      }
+
+      if (file.size > 10 * 1024 * 1024) {
+        // 10MB limit
+        throw new Error("File too large: maximum size is 10MB");
+      }
+
+    
+
+      formData.append("profileImage", file, file.name);
       formData.append("stellaId", stellaId);
 
-      return axios.post(
-        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/upload-image`,
-        formData
+      // Debug FormData contents
+      console.log(
+        "FormData created with profileImage file and stellaId:",
+        stellaId
       );
+
+      return fetch(
+        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/images`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      ).then((response) => {
+        if (!response.ok) {
+          return response.text().then((text) => {
+            throw new Error(`HTTP ${response.status}: ${text}`);
+          });
+        }
+        return response.json();
+      });
     },
     onSuccess: (response) => {
+      console.log("ProfileImage uploaded successfully:", response);
       // Refetch profile to get updated profileImageKey
       queryClient.invalidateQueries({ queryKey: ["profile", stellaId] });
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.error("Failed to upload ProfileImage:", error);
+      console.error("Error message:", error.message);
     },
   });
 
@@ -132,6 +164,12 @@ const EditProfile = () => {
   });
 
   const handleProfileImageUpdate = async (file: File) => {
+    console.log("handleProfileImageUpdate called with file:", {
+      name: file.name,
+      size: file.size,
+      type: file.type,
+    });
+
     try {
       // Use the ProfileImage upload mutation
       ProfileImageUploadMutation.mutate({
@@ -219,14 +257,9 @@ const EditProfile = () => {
             ? `${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${profile?.profileImageKey}?wrap=0`
             : null
         }
-        onChange={async (value) => {
-          if (value) {
-            // Convert base64 string to File object
-            const response = await fetch(value);
-            const blob = await response.blob();
-            const file = new File([blob], "profile-image.jpg", {
-              type: blob.type,
-            });
+        onChange={async (file) => {
+          if (file) {
+            // File object is passed directly, no need for conversion
             handleProfileImageUpdate(file);
           } else {
             handleProfileImageDelete();

@@ -1,9 +1,9 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
-import { useParams } from "next/navigation";
 import axios from "axios";
+import { useParams } from "next/navigation";
+import { useEffect } from "react";
 
 import ProfileComponent from "../../components/Profile";
 import Stories from "../../components/Stories";
@@ -43,7 +43,7 @@ export default function ProfilePage() {
     queryKey: ["stories", stellaId],
     queryFn: () => {
       return axios(
-        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/stories/${stellaId}`
+        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/stories`
       ).then((response) => {
         return response.data.stories;
       });

@@ -9,6 +9,7 @@ import { storyAPI } from "../../../../api/story";
 import Bar from "../../../../components/Bar";
 import Button from "../../../../components/Button";
 import Panels from "../../../../components/Panels";
+import { CoverPageData } from "../../../../types/story";
 import { getFilesToUpload } from "../../../../utils/story";
 import style from "./style.module.css";
 
@@ -23,20 +24,23 @@ const INITIAL_PAGE_STATE = {
 };
 
 const CreatePage = () => {
-  const { stellaId, storyId } = useParams();
+  const { stellaId, storyId } = useParams() as {
+    stellaId: string;
+    storyId: string;
+  };
 
   // Combined save mutation that handles both uploads and updates
   const saveMutation = useMutation({
-    mutationFn: async (data) => {
-      const currentStoryId = `story_${uuidv4()}`;
-      const filesToUpload = getFilesToUpload(data);
+    mutationFn: async (data: Record<string, any>) => {
+      const currentPageId = `page_${uuidv4()}`;
+      const filesToUpload = getFilesToUpload(data as CoverPageData);
       const updatedData = { ...data };
 
       // Upload files if any
       for (const fileUpload of filesToUpload) {
         const result = await storyAPI.uploadImage(
           stellaId,
-          currentStoryId,
+          storyId,
           fileUpload.file,
           fileUpload.imageId
         );
@@ -49,11 +53,12 @@ const CreatePage = () => {
         };
       }
 
-      // Update story
-      const response = await storyAPI.create(
+      // Create page in story
+      const response = await storyAPI.createPage(
         stellaId,
-        currentStoryId,
-        updatedData
+        storyId,
+        currentPageId,
+        updatedData as CoverPageData
       );
       return response;
     },
@@ -63,7 +68,7 @@ const CreatePage = () => {
         {
           type: "SET_LAYOUT",
           payload: {
-            basePathname: `/profile/${stellaId}/story/${response.story.storyId}`,
+            basePathname: `/profile/${stellaId}/story/${storyId}`,
             modalVisible: false,
           },
         },
@@ -72,7 +77,7 @@ const CreatePage = () => {
     },
   });
 
-  const dataRef = useRef(null);
+  const dataRef = useRef<Record<string, any> | null>(null);
 
   // Handlers
   const handlePageChange = (updatedData: Record<string, any>) => {
@@ -80,12 +85,15 @@ const CreatePage = () => {
   };
 
   const handleSave = () => {
-    saveMutation.mutate(dataRef.current);
+    if (dataRef.current) {
+      console.log(dataRef.current);
+      saveMutation.mutate(dataRef.current);
+    }
   };
 
   // Get status for UI
   const isLoading = saveMutation.isPending;
-  const buttonText = isLoading ? "Saving..." : "Add Story";
+  const buttonText = isLoading ? "Saving..." : "Add Page";
 
   return (
     <div className={style.addStoryWrapper}>
