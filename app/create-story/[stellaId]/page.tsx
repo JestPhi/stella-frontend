@@ -35,6 +35,7 @@ const CreateStory = () => {
       const filesToUpload = getFilesToUpload(data);
       const updatedData = { ...data };
 
+      console.log("do mutation");
       // Upload files if any
       for (const fileUpload of filesToUpload) {
         const result = await storyAPI.uploadImage(

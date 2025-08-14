@@ -100,7 +100,7 @@ const StoryActions = ({
     // get url query parameter
     const searchParams = new URLSearchParams(window.location.search);
     const pageIdFromQuery = searchParams.get("pageId");
-    debugger;
+
     if (!pageIdFromQuery) {
       console.error("Page ID is required to delete a page");
       return;

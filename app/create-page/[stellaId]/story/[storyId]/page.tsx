@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import { useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { storyAPI } from "../../../../api/story";
+import { useStoryAPI } from "../../../../api/story";
 import Bar from "../../../../components/Bar";
 import Button from "../../../../components/Button";
 import Panels from "../../../../components/Panels";
@@ -24,6 +24,7 @@ const INITIAL_PAGE_STATE = {
 };
 
 const CreatePage = () => {
+  const storyAPI = useStoryAPI();
   const { stellaId, storyId } = useParams() as {
     stellaId: string;
     storyId: string;

@@ -1,50 +1,24 @@
-import { useEffect, useState } from "react";
-
 /**
- * Gets Firebase token directly from IndexedDB where Firebase stores auth data.
- * Returns the token when available, or undefined if not found.
+ * Returns a promise that resolves when the Firebase token is available.
+ * Useful for waiting for the token before making API calls.
  */
-export function useFirebaseToken(): string | undefined {
-  const [token, setToken] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    const getToken = () => {
-      const request = indexedDB.open("firebaseLocalStorageDb");
-
-      request.onsuccess = (event) => {
-        const db = (event.target as IDBOpenDBRequest).result;
-        const transaction = db.transaction(
-          ["firebaseLocalStorage"],
-          "readonly"
-        );
-        const store = transaction.objectStore("firebaseLocalStorage");
-
-        store.getAllKeys().onsuccess = (keysEvent) => {
-          const keys = (keysEvent.target as IDBRequest).result;
-          const authKey = keys.find((key: string) =>
-            key.includes("firebase:authUser:")
-          );
-
-          if (authKey) {
-            store.get(authKey).onsuccess = (getEvent) => {
-              const result = (getEvent.target as IDBRequest).result;
-              const accessToken = result?.value?.stsTokenManager?.accessToken;
-
-              if (accessToken) {
-                setToken(accessToken);
-                console.log("[Firebase] Token retrieved from IndexedDB");
-              }
-            };
-          }
-        };
-      };
+export function waitForFirebaseToken(): Promise<string> {
+  return new Promise((resolve) => {
+    const handleMessage = (event: MessageEvent) => {
+      console.log(event.data);
+      if (event.data && event.data.type === "FIREBASE_TOKEN_RESPONSE") {
+        window.removeEventListener("message", handleMessage);
+        resolve(event.data.token);
+      }
     };
 
-    getToken();
-    const interval = setInterval(getToken, 5 * 60 * 1000); // Refresh every 5 minutes
+    window.addEventListener("message", handleMessage);
 
-    return () => clearInterval(interval);
-  }, []);
-
-  return token;
+    console.log("request token");
+    // Request token from parent
+    window.parent.postMessage(
+      { type: "REQUEST_FIREBASE_TOKEN" },
+      "http://localhost:3015"
+    );
+  });
 }

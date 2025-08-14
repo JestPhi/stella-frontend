@@ -1,36 +1,61 @@
 import axios from "axios";
-import { useFirebaseToken } from "../hooks/useFirebaseToken";
+import { waitForFirebaseToken } from "../hooks/useFirebaseToken";
 import { CoverPageData } from "../types/story";
 
 /**
  * Hook that provides story API methods with automatic Firebase token injection
  */
 export function useStoryAPI() {
-  const token = useFirebaseToken();
-
   return {
-    getById: (stellaId: string, storyId: string) =>
-      storyAPI.getById(stellaId, storyId, token),
-    create: (stellaId: string, storyId: string, coverPage: CoverPageData) =>
-      storyAPI.create(stellaId, storyId, coverPage, token),
-    update: (stellaId: string, storyId: string, coverPage: CoverPageData) =>
-      storyAPI.update(stellaId, storyId, coverPage, token),
-    uploadImage: (
+    getById: async (stellaId: string, storyId: string) => {
+      const token = await waitForFirebaseToken();
+      return storyAPI.getById(stellaId, storyId, token);
+    },
+    create: async (
+      stellaId: string,
+      storyId: string,
+      coverPage: CoverPageData
+    ) => {
+      console.log("get token");
+      const token = await waitForFirebaseToken();
+      console.log("wait for token");
+      return storyAPI.create(stellaId, storyId, coverPage, token);
+    },
+    update: async (
+      stellaId: string,
+      storyId: string,
+      coverPage: CoverPageData
+    ) => {
+      const token = await waitForFirebaseToken();
+      return storyAPI.update(stellaId, storyId, coverPage, token);
+    },
+    uploadImage: async (
       stellaId: string,
       storyId: string,
       file: File,
       imageId: string
-    ) => storyAPI.uploadImage(stellaId, storyId, file, imageId, token),
-    deleteImages: (storyId: string, imageKeys: string[]) =>
-      storyAPI.deleteImages(storyId, imageKeys, token),
-    createPage: (
+    ) => {
+      const token = await waitForFirebaseToken();
+
+      return storyAPI.uploadImage(stellaId, storyId, file, imageId, token);
+    },
+    deleteImages: async (storyId: string, imageKeys: string[]) => {
+      const token = await waitForFirebaseToken();
+      return storyAPI.deleteImages(storyId, imageKeys, token);
+    },
+    createPage: async (
       stellaId: string,
       storyId: string,
       pageId: string,
       pageData: CoverPageData
-    ) => storyAPI.createPage(stellaId, storyId, pageId, pageData, token),
-    deletePage: (stellaId: string, storyId: string, pageId: string) =>
-      storyAPI.deletePage(stellaId, storyId, pageId, token),
+    ) => {
+      const token = await waitForFirebaseToken();
+      return storyAPI.createPage(stellaId, storyId, pageId, pageData, token);
+    },
+    deletePage: async (stellaId: string, storyId: string, pageId: string) => {
+      const token = await waitForFirebaseToken();
+      return storyAPI.deletePage(stellaId, storyId, pageId, token);
+    },
   };
 }
 
