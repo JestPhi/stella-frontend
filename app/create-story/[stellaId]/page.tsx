@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { CoverPageData } from "../../types/story";
 
-import { storyAPI } from "../../api/story";
+import { useStoryAPI } from "../../api/story";
 import Bar from "../../components/Bar";
 import Button from "../../components/Button";
 import Panels from "../../components/Panels";
@@ -25,7 +25,8 @@ const INITIAL_COVER_PAGE_STATE: CoverPageData = {
 };
 
 const CreateStory = () => {
-  const { stellaId } = useParams();
+  const { stellaId } = useParams() as { stellaId: string };
+  const storyAPI = useStoryAPI();
 
   // Combined save mutation that handles both uploads and updates
   const saveMutation = useMutation({
@@ -75,15 +76,17 @@ const CreateStory = () => {
     },
   });
 
-  const dataRef = useRef(null);
+  const dataRef = useRef<CoverPageData | null>(null);
 
   // Handlers
   const handleCoverPageChange = (updatedData: Record<string, any>) => {
-    dataRef.current = updatedData;
+    dataRef.current = updatedData as CoverPageData;
   };
 
   const handleSave = () => {
-    saveMutation.mutate(dataRef.current);
+    if (dataRef.current) {
+      saveMutation.mutate(dataRef.current);
+    }
   };
 
   // Get status for UI
