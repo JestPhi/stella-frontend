@@ -1,12 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
+import { useRef } from "react";
 
-import { CoverPageData, FileUpload } from "../../../../src/types/story";
-import { storyAPI } from "../../../../api/story";
-import { getFilesToUpload } from "../../../../utils/story";
+import { useStory } from "../../../../hooks/useStories";
+import { useStoryUpdate } from "../../../../hooks/useStoryMutations";
 
 import Bar from "../../../../components/Bar";
 import Button from "../../../../components/Button";
@@ -38,35 +36,21 @@ type MenuPageEditProps = {
 };
 
 const MenuPageEdit = ({}: MenuPageEditProps) => {
-  const { stellaId, storyId } = useParams();
+  const params = useParams();
+  const stellaId = params?.stellaId as string;
+  const storyId = params?.storyId as string;
   const pageData = useRef({});
 
-  // Fetch story data by storyId
-  const { data: storyData } = useQuery({
-    queryKey: ["story", storyId],
-    queryFn: () => storyAPI.getById(stellaId, storyId!),
-    enabled: !!storyId,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-  });
+  // Fetch story data via backend API
+  const { data: storyResponse } = useStory(
+    stellaId as string,
+    storyId as string
+  );
 
-  const coverPageUpdateMutation = useMutation({
-    mutationFn: async (coverPageData: CoverPageData) => {
-      if (!storyId) throw new Error("Story ID required");
-      return storyAPI.update(stellaId, storyId, coverPageData);
-    },
-    onSuccess: async () => {
-      parent.postMessage(
-        {
-          type: "SET_LAYOUT",
-          payload: {
-            modalVisible: false,
-            basePathname: `/profile/${stellaId}/story/${storyId}?update=${Date.now()}`,
-          },
-        },
-        `${process.env.NEXT_PUBLIC_STELLA_REACT_NATIVE_FOR_WEB_HOST}`
-      );
-    },
-  });
+  const storyData = storyResponse;
+
+  // Backend mutation hook
+  const storyUpdate = useStoryUpdate();
 
   const handlePanelsChange = (items: Record<string, PanelItem>) => {
     console.log(items);
@@ -74,7 +58,32 @@ const MenuPageEdit = ({}: MenuPageEditProps) => {
   };
 
   const handleSave = async () => {
-    coverPageUpdateMutation.mutate(pageData.current);
+    storyUpdate.mutate(
+      {
+        stellaId,
+        updateData: {
+          storyId,
+          coverPage: pageData.current,
+        },
+      },
+      {
+        onSuccess: () => {
+          parent.postMessage(
+            {
+              type: "SET_LAYOUT",
+              payload: {
+                modalVisible: false,
+                basePathname: `/profile/${stellaId}/story/${storyId}?update=${Date.now()}`,
+              },
+            },
+            `${process.env.NEXT_PUBLIC_STELLA_REACT_NATIVE_FOR_WEB_HOST}`
+          );
+        },
+        onError: (error) => {
+          console.error("Failed to update story:", error);
+        },
+      }
+    );
   };
 
   return (

@@ -1,14 +1,15 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { useRef } from "react";
-import { v4 as uuidv4 } from "uuid";
 
-import { useStoryAPI } from "../../../../api/story";
 import Bar from "../../../../components/Bar";
 import Button from "../../../../components/Button";
 import Panels from "../../../../components/Panels";
+import {
+  usePageCreate,
+  useStoryImageUpload,
+} from "../../../../hooks/useStoryMutations";
 import { CoverPageData } from "../../../../types/story";
 import { getFilesToUpload } from "../../../../utils/story";
 import style from "./style.module.css";
@@ -24,27 +25,35 @@ const INITIAL_PAGE_STATE = {
 };
 
 const CreatePage = () => {
-  const storyAPI = useStoryAPI();
   const { stellaId, storyId } = useParams() as {
     stellaId: string;
     storyId: string;
   };
 
-  // Combined save mutation that handles both uploads and updates
-  const saveMutation = useMutation({
-    mutationFn: async (data: Record<string, any>) => {
-      const currentPageId = `page_${uuidv4()}`;
+  // Backend mutation hooks
+  const pageCreate = usePageCreate();
+  const storyImageUpload = useStoryImageUpload();
+
+  const handleSave = async (data: Record<string, any>) => {
+    try {
       const filesToUpload = getFilesToUpload(data as CoverPageData);
       const updatedData = { ...data };
 
       // Upload files if any
       for (const fileUpload of filesToUpload) {
-        const result = await storyAPI.uploadImage(
-          stellaId,
-          storyId,
-          fileUpload.file,
-          fileUpload.imageId
-        );
+        const formData = new FormData();
+        formData.append("image", fileUpload.file);
+        formData.append("imageId", fileUpload.imageId);
+
+        const result = await new Promise<any>((resolve, reject) => {
+          storyImageUpload.mutate(
+            { stellaId, storyId, formData },
+            {
+              onSuccess: resolve,
+              onError: reject,
+            }
+          );
+        });
 
         const imageKey = result.key || result.url || fileUpload.imageId;
         updatedData[fileUpload.elementKey] = {
@@ -55,28 +64,37 @@ const CreatePage = () => {
       }
 
       // Create page in story
-      const response = await storyAPI.createPage(
-        stellaId,
-        storyId,
-        currentPageId,
-        updatedData as CoverPageData
-      );
-      return response;
-    },
-    onSuccess: (response) => {
-      // Navigate or send message to parent
-      parent.postMessage(
+      pageCreate.mutate(
         {
-          type: "SET_LAYOUT",
-          payload: {
-            basePathname: `/profile/${stellaId}/story/${storyId}?updated=${Date.now()}`,
-            modalVisible: false,
+          stellaId,
+          storyId,
+          pageData: {
+            content: updatedData,
           },
         },
-        `${process.env.NEXT_PUBLIC_STELLA_REACT_NATIVE_FOR_WEB_HOST}`
+        {
+          onSuccess: () => {
+            // Navigate or send message to parent
+            parent.postMessage(
+              {
+                type: "SET_LAYOUT",
+                payload: {
+                  basePathname: `/profile/${stellaId}/story/${storyId}?updated=${Date.now()}`,
+                  modalVisible: false,
+                },
+              },
+              `${process.env.NEXT_PUBLIC_STELLA_REACT_NATIVE_FOR_WEB_HOST}`
+            );
+          },
+          onError: (error) => {
+            console.error("Failed to create page:", error);
+          },
+        }
       );
-    },
-  });
+    } catch (error) {
+      console.error("Failed to save page:", error);
+    }
+  };
 
   const dataRef = useRef<Record<string, any> | null>(null);
 
@@ -85,20 +103,28 @@ const CreatePage = () => {
     dataRef.current = updatedData;
   };
 
-  const handleSave = () => {
+  const handleSaveClick = () => {
     if (dataRef.current) {
       console.log(dataRef.current);
-      saveMutation.mutate(dataRef.current);
+      handleSave(dataRef.current);
     }
   };
 
   // Get status for UI
-  const isLoading = saveMutation.isPending;
+  const isLoading = pageCreate.isPending || storyImageUpload.isPending;
   const buttonText = isLoading ? "Saving..." : "Add Page";
+  const hasError = pageCreate.isError || storyImageUpload.isError;
 
   return (
     <div className={style.addStoryWrapper}>
       Create Page
+      {hasError && (
+        <div
+          style={{ color: "red", marginBottom: "10px", textAlign: "center" }}
+        >
+          Failed to save page. Please try again.
+        </div>
+      )}
       <Panels
         items={INITIAL_PAGE_STATE}
         isEditMode
@@ -109,7 +135,8 @@ const CreatePage = () => {
         <Button
           className={style.addStory}
           variant="primary"
-          onClick={handleSave}
+          onClick={handleSaveClick}
+          disabled={isLoading}
         >
           {buttonText}
         </Button>

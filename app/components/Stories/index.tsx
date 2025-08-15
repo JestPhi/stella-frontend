@@ -2,7 +2,7 @@
 
 import Masonry from "react-responsive-masonry";
 
-export default function Stories({ stories = [] }) {
+export default function Stories({ stories = [] }: StoriesProps) {
   return (
     <div className="stories">
       <Masonry columnsCount={2} gutter="8px">

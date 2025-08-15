@@ -1,167 +1,43 @@
 "use client";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import Button from "../../components/Button";
 import InputProfileImage from "../../components/InputProfileImage";
 import InputText from "../../components/InputText";
+import { useProfile } from "../../hooks/useProfile";
+import {
+  useProfileBioUpdate,
+  useProfileImageDelete,
+  useProfileImageUpload,
+  useProfileUsernameUpdate,
+} from "../../hooks/useProfileMutations";
 import style from "./style.module.css";
 
 const EditProfile = () => {
-  const { stellaId } = useParams();
-  const queryClient = useQueryClient();
+  const params = useParams();
+  const stellaId = params?.stellaId as string;
 
   const [username, setUsername] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [disabledUsername, setDisabledUsername] = useState(true);
   const [disabledBio, setDisabledBio] = useState(true);
 
-  // TanStack Query for fetching profile data by stellaId
+  // TanStack Query for fetching profile data via backend API
   const {
-    data: profile,
+    data: profileResponse,
     isLoading: isProfileLoading,
     isError: isProfileError,
     error: profileError,
-  } = useQuery({
-    queryKey: ["profile", stellaId],
-    queryFn: () => {
-      return axios(
-        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}`
-      ).then((response) => {
-        return response.data.profile;
-      });
-    },
-    enabled: !!stellaId,
-  });
+  } = useProfile(stellaId);
 
-  // Mutation for ProfileImage upload
-  const ProfileImageUploadMutation = useMutation({
-    mutationFn: async ({
-      stellaId,
-      file,
-    }: {
-      stellaId: string;
-      file: File;
-    }) => {
-      console.log("Starting FormData upload for:", {
-        stellaId,
-        fileName: file.name,
-        fileSize: file.size,
-        fileType: file.type,
-      });
+  const profile = profileResponse?.profile;
 
-      // Create FormData for file upload
-      const formData = new FormData();
-
-      // Validate file before adding to FormData
-      if (!file || file.size === 0) {
-        throw new Error("Invalid file: file is empty or undefined");
-      }
-
-      if (file.size > 10 * 1024 * 1024) {
-        // 10MB limit
-        throw new Error("File too large: maximum size is 10MB");
-      }
-
-    
-
-      formData.append("profileImage", file, file.name);
-      formData.append("stellaId", stellaId);
-
-      // Debug FormData contents
-      console.log(
-        "FormData created with profileImage file and stellaId:",
-        stellaId
-      );
-
-      return fetch(
-        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/images`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      ).then((response) => {
-        if (!response.ok) {
-          return response.text().then((text) => {
-            throw new Error(`HTTP ${response.status}: ${text}`);
-          });
-        }
-        return response.json();
-      });
-    },
-    onSuccess: (response) => {
-      console.log("ProfileImage uploaded successfully:", response);
-      // Refetch profile to get updated profileImageKey
-      queryClient.invalidateQueries({ queryKey: ["profile", stellaId] });
-    },
-    onError: (error: any) => {
-      console.error("Failed to upload ProfileImage:", error);
-      console.error("Error message:", error.message);
-    },
-  });
-
-  // Mutation for ProfileImage deletion
-  const ProfileImageDeleteMutation = useMutation({
-    mutationFn: async ({ stellaId }: { stellaId: string }) => {
-      return axios.delete(
-        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/images`
-      );
-    },
-    onSuccess: () => {
-      console.log("ProfileImage deleted successfully");
-    },
-    onError: (error) => {
-      console.error("Failed to delete ProfileImage:", error);
-    },
-  });
-
-  // Mutation for profile update
-  const bioMutation = useMutation({
-    mutationFn: async ({
-      bio,
-      stellaId,
-    }: {
-      bio: string;
-      stellaId: string;
-    }) => {
-      return axios.patch(
-        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/bio`,
-        { bio }
-      );
-    },
-    onSuccess: () => {
-      console.log("Profile updated successfully");
-    },
-    onError: (error) => {
-      console.error("Failed to update profile:", error);
-      setDisabledBio(false);
-    },
-  });
-
-  // Mutation for username update
-  const usernameMutation = useMutation({
-    mutationFn: async ({
-      username,
-      stellaId,
-    }: {
-      username: string;
-      stellaId: string;
-    }) => {
-      return axios.patch(
-        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/username`,
-        { username }
-      );
-    },
-    onSuccess: () => {
-      console.log("Username updated successfully");
-    },
-    onError: (error) => {
-      console.error("Failed to update username:", error);
-      setDisabledUsername(false);
-    },
-  });
+  // Backend mutation hooks
+  const profileImageUpload = useProfileImageUpload();
+  const profileImageDelete = useProfileImageDelete();
+  const profileBioUpdate = useProfileBioUpdate();
+  const profileUsernameUpdate = useProfileUsernameUpdate();
 
   const handleProfileImageUpdate = async (file: File) => {
     console.log("handleProfileImageUpdate called with file:", {
@@ -171,10 +47,25 @@ const EditProfile = () => {
     });
 
     try {
-      // Use the ProfileImage upload mutation
-      ProfileImageUploadMutation.mutate({
+      // Validate file before upload
+      if (!file || file.size === 0) {
+        throw new Error("Invalid file: file is empty or undefined");
+      }
+
+      if (file.size > 10 * 1024 * 1024) {
+        // 10MB limit
+        throw new Error("File too large: maximum size is 10MB");
+      }
+
+      // Create FormData for file upload
+      const formData = new FormData();
+      formData.append("profileImage", file, file.name);
+      formData.append("stellaId", stellaId);
+
+      // Use the backend API via mutation hook
+      profileImageUpload.mutate({
         stellaId: stellaId,
-        file,
+        formData,
       });
     } catch (error) {
       console.error("Failed to update ProfileImage:", error);
@@ -188,16 +79,12 @@ const EditProfile = () => {
       return;
     }
 
-    // If there's an actual profile image, delete from server
-    // if (profileImageKey) {
-    //   try {
-    //     // Use the ProfileImage delete mutation
-    //     ProfileImageDeleteMutation.mutate({
-    //       stellaId: stellaId,
-    //     });
-    //   } catch (error) {
-    //     console.error("Failed to delete ProfileImage:", error);
-    //   }
+    try {
+      // Use the backend API via mutation hook
+      profileImageDelete.mutate(stellaId);
+    } catch (error) {
+      console.error("Failed to delete ProfileImage:", error);
+    }
   };
 
   const handleBioUpdate = async () => {
@@ -209,45 +96,43 @@ const EditProfile = () => {
 
     setDisabledBio(true);
 
-    bioMutation.mutate({
-      bio: bio,
+    profileBioUpdate.mutate({
       stellaId: stellaId,
+      bio: bio,
     });
   };
 
-  console.log(profile);
-
   const handleUsernameUpdate = async () => {
     // Validate required fields
-    if (!username.trim() || !stellaId) {
-      console.error("Missing required fields for username update");
+    if (!stellaId) {
+      console.error("Missing stellaId for username update");
       return;
     }
 
     setDisabledUsername(true);
 
-    usernameMutation.mutate({
-      username: username,
+    profileUsernameUpdate.mutate({
       stellaId: stellaId,
+      username: username,
     });
   };
+
+  console.log(profile);
 
   return (
     <div className={style.signUp}>
       {/* Error feedback for mutations */}
-      {(ProfileImageUploadMutation.isError ||
-        ProfileImageDeleteMutation.isError ||
-        bioMutation.isError ||
-        usernameMutation.isError) && (
+      {(profileImageUpload.isError ||
+        profileImageDelete.isError ||
+        profileBioUpdate.isError ||
+        profileUsernameUpdate.isError) && (
         <div
           style={{ color: "red", marginBottom: "10px", textAlign: "center" }}
         >
-          {ProfileImageUploadMutation.isError &&
-            "Failed to upload ProfileImage. "}
-          {ProfileImageDeleteMutation.isError &&
-            "Failed to delete ProfileImage. "}
-          {bioMutation.isError && "Failed to update bio. "}
-          {usernameMutation.isError && "Failed to update username. "}
+          {profileImageUpload.isError && "Failed to upload ProfileImage. "}
+          {profileImageDelete.isError && "Failed to delete ProfileImage. "}
+          {profileBioUpdate.isError && "Failed to update bio. "}
+          {profileUsernameUpdate.isError && "Failed to update username. "}
           Please try again.
         </div>
       )}
@@ -269,11 +154,10 @@ const EditProfile = () => {
       />
 
       {/* Loading indicator for ProfileImage operations */}
-      {(ProfileImageUploadMutation.isPending ||
-        ProfileImageDeleteMutation.isPending) && (
+      {(profileImageUpload.isPending || profileImageDelete.isPending) && (
         <div style={{ textAlign: "center", fontSize: "12px", color: "blue" }}>
-          {ProfileImageUploadMutation.isPending && "Uploading ProfileImage..."}
-          {ProfileImageDeleteMutation.isPending && "Deleting ProfileImage..."}
+          {profileImageUpload.isPending && "Uploading ProfileImage..."}
+          {profileImageDelete.isPending && "Deleting ProfileImage..."}
         </div>
       )}
 
@@ -286,14 +170,14 @@ const EditProfile = () => {
           setDisabledUsername(false);
         }}
         value={username}
-        disabled={usernameMutation.isPending}
+        disabled={profileUsernameUpdate.isPending}
       />
       <Button
         variant={"primary"}
-        disabled={disabledUsername || usernameMutation.isPending}
+        disabled={disabledUsername || profileUsernameUpdate.isPending}
         onClick={handleUsernameUpdate}
       >
-        {usernameMutation.isPending ? "Updating..." : "Update Username"}
+        {profileUsernameUpdate.isPending ? "Updating..." : "Update Username"}
       </Button>
       <InputText
         className={style.inputText}
@@ -304,14 +188,14 @@ const EditProfile = () => {
           setDisabledBio(false);
         }}
         value={bio}
-        disabled={bioMutation.isPending}
+        disabled={profileBioUpdate.isPending}
       />
       <Button
         variant={"primary"}
-        disabled={disabledBio || bioMutation.isPending}
+        disabled={disabledBio || profileBioUpdate.isPending}
         onClick={handleBioUpdate}
       >
-        {bioMutation.isPending ? "Updating..." : "Update Bio"}
+        {profileBioUpdate.isPending ? "Updating..." : "Update Bio"}
       </Button>
     </div>
   );

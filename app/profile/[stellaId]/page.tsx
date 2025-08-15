@@ -1,8 +1,8 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useParams } from "next/navigation";
+import { useProfile } from "../../hooks/useProfile";
+import { useUserStories } from "../../hooks/useStories";
 
 import ProfileComponent from "../../components/Profile";
 import Stories from "../../components/Stories";
@@ -30,43 +30,27 @@ const profileStyles = {
 
 export default function ProfilePage() {
   const params = useParams();
-  const stellaId = params.stellaId as string;
+  const stellaId = params?.stellaId as string;
 
-  // TanStack Query for fetching stories by stellaId
+  // TanStack Query for fetching stories by stellaId via backend API
   const {
-    data: stories = [],
+    data: storiesResponse,
     isLoading,
     isError,
     error,
-  } = useQuery({
-    queryKey: ["stories", stellaId],
-    queryFn: () => {
-      return axios(
-        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/stories`
-      ).then((response) => {
-        return response.data.stories;
-      });
-    },
-    enabled: !!stellaId,
-  });
+  } = useUserStories(stellaId, { limit: 50 });
 
-  // TanStack Query for fetching profile data by stellaId
+  const stories = storiesResponse?.stories || [];
+
+  // TanStack Query for fetching profile data via backend API
   const {
-    data: profile,
+    data: profileResponse,
     isLoading: isProfileLoading,
     isError: isProfileError,
     error: profileError,
-  } = useQuery({
-    queryKey: ["profile", stellaId],
-    queryFn: () => {
-      return axios(
-        `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}`
-      ).then((response) => {
-        return response.data.profile;
-      });
-    },
-    enabled: !!stellaId,
-  });
+  } = useProfile(stellaId);
+
+  const profile = profileResponse?.profile;
 
   // Show loading state
   if (isLoading || isProfileLoading) {
@@ -86,9 +70,9 @@ export default function ProfilePage() {
     <>
       <div className="profile">
         <ProfileComponent
-          profileImageKey={profile.profileImageKey}
-          bio={profile.bio}
-          username={profile.username}
+          profileImageKey={profile?.profileImageKey}
+          bio={profile?.bio}
+          username={profile?.username}
         />
         <Stories stories={stories} />
       </div>

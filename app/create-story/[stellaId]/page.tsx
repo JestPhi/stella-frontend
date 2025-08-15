@@ -1,16 +1,18 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { CoverPageData } from "../../types/story";
 
-import { useStoryAPI } from "../../api/story";
 import Bar from "../../components/Bar";
 import Button from "../../components/Button";
 import Panels from "../../components/Panels";
+import {
+  useStoryCreate,
+  useStoryImageUpload,
+} from "../../hooks/useStoryMutations";
 import { getFilesToUpload } from "../../utils/story";
 import style from "./style.module.css";
 
@@ -26,24 +28,32 @@ const INITIAL_COVER_PAGE_STATE: CoverPageData = {
 
 const CreateStory = () => {
   const { stellaId } = useParams() as { stellaId: string };
-  const storyAPI = useStoryAPI();
 
-  // Combined save mutation that handles both uploads and updates
-  const saveMutation = useMutation({
-    mutationFn: async (data: CoverPageData) => {
+  // Backend mutation hooks
+  const storyCreate = useStoryCreate();
+  const storyImageUpload = useStoryImageUpload();
+
+  const handleSave = async (data: CoverPageData) => {
+    try {
       const currentStoryId = `story_${uuidv4()}`;
       const filesToUpload = getFilesToUpload(data);
       const updatedData = { ...data };
 
-      console.log("do mutation");
       // Upload files if any
       for (const fileUpload of filesToUpload) {
-        const result = await storyAPI.uploadImage(
-          stellaId,
-          currentStoryId,
-          fileUpload.file,
-          fileUpload.imageId
-        );
+        const formData = new FormData();
+        formData.append("image", fileUpload.file);
+        formData.append("imageId", fileUpload.imageId);
+
+        const result = await new Promise<any>((resolve, reject) => {
+          storyImageUpload.mutate(
+            { stellaId, storyId: currentStoryId, formData },
+            {
+              onSuccess: resolve,
+              onError: reject,
+            }
+          );
+        });
 
         const imageKey = result.key || result.url || fileUpload.imageId;
         updatedData[fileUpload.elementKey] = {
@@ -53,29 +63,38 @@ const CreateStory = () => {
         };
       }
 
-      // Update story
-      const response = await storyAPI.create(
-        stellaId,
-        currentStoryId,
-        updatedData
-      );
-      return response;
-    },
-    onSuccess: (response) => {
-      console.log("HI PHI");
-      // Navigate or send message to parent
-      parent.postMessage(
+      // Create story with updated cover page data
+      storyCreate.mutate(
         {
-          type: "SET_LAYOUT",
-          payload: {
-            basePathname: `/profile/${stellaId}/story/${response.story.storyId}`,
-            modalVisible: false,
+          stellaId,
+          storyData: {
+            coverPage: updatedData,
           },
         },
-        `${process.env.NEXT_PUBLIC_STELLA_REACT_NATIVE_FOR_WEB_HOST}`
+        {
+          onSuccess: (response) => {
+            console.log("Story created successfully");
+            // Navigate or send message to parent
+            parent.postMessage(
+              {
+                type: "SET_LAYOUT",
+                payload: {
+                  basePathname: `/profile/${stellaId}/story/${response.story.storyId}`,
+                  modalVisible: false,
+                },
+              },
+              `${process.env.NEXT_PUBLIC_STELLA_REACT_NATIVE_FOR_WEB_HOST}`
+            );
+          },
+          onError: (error) => {
+            console.error("Failed to create story:", error);
+          },
+        }
       );
-    },
-  });
+    } catch (error) {
+      console.error("Failed to save story:", error);
+    }
+  };
 
   const dataRef = useRef<CoverPageData | null>(null);
 
@@ -84,16 +103,16 @@ const CreateStory = () => {
     dataRef.current = updatedData as CoverPageData;
   };
 
-  const handleSave = () => {
+  const handleSaveClick = () => {
     if (dataRef.current) {
-      saveMutation.mutate(dataRef.current);
+      handleSave(dataRef.current);
     }
   };
 
   // Get status for UI
-  const isLoading = saveMutation.isPending;
+  const isLoading = storyCreate.isPending || storyImageUpload.isPending;
   const buttonText = isLoading ? "Saving..." : "Add Story";
-  const hasError = saveMutation.isError;
+  const hasError = storyCreate.isError || storyImageUpload.isError;
 
   return (
     <div className={style.addStoryWrapper}>
@@ -115,7 +134,8 @@ const CreateStory = () => {
         <Button
           className={style.addStory}
           variant="primary"
-          onClick={handleSave}
+          onClick={handleSaveClick}
+          disabled={isLoading}
         >
           {buttonText}
         </Button>

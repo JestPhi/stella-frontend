@@ -5,7 +5,6 @@
 export function waitForFirebaseToken(): Promise<string> {
   return new Promise((resolve) => {
     const handleMessage = (event: MessageEvent) => {
-      console.log(event.data);
       if (event.data && event.data.type === "FIREBASE_TOKEN_RESPONSE") {
         window.removeEventListener("message", handleMessage);
         resolve(event.data.token);
@@ -14,7 +13,6 @@ export function waitForFirebaseToken(): Promise<string> {
 
     window.addEventListener("message", handleMessage);
 
-    console.log("request token");
     // Request token from parent
     window.parent.postMessage(
       { type: "REQUEST_FIREBASE_TOKEN" },
