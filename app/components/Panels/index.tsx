@@ -1,7 +1,9 @@
-import { useCallback, useEffect, useRef, useState, memo } from "react";
-import style from "./style.module.css";
+"use client";
+
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import InputImage from "../InputImage";
 import InputTextarea from "../InputTextarea";
+import style from "./style.module.css";
 
 // Types
 type GridConfig = {

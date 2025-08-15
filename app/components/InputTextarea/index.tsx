@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import style from "./style.module.css";
 
 const Textarea = React.forwardRef<

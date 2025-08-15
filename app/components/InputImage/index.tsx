@@ -1,8 +1,10 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import { Image } from "react-feather";
-import style from "./style.module.css";
-import Button from "../Button";
 import Bar from "../Bar";
+import Button from "../Button";
+import style from "./style.module.css";
 
 const getImage = (image: any) => {
   if (typeof image === "object") {
