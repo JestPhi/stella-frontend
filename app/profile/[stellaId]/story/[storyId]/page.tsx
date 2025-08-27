@@ -42,18 +42,6 @@ export default function StoryPage() {
     });
   };
 
-  // Show loading state
-  if (isLoading || isProfileLoading) {
-    return <div>Loading story...</div>;
-  }
-
-  // Show error state
-  if (isError || isProfileError) {
-    return (
-      <div>Error loading story: {error?.message || profileError?.message}</div>
-    );
-  }
-
   return (
     <div className="story-container">
       <PageCover

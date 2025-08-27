@@ -1,6 +1,7 @@
 "use client";
 
 import Masonry from "react-responsive-masonry";
+import styles from "./style.module.css";
 
 export default function Stories({ stories = [] }: StoriesProps) {
   return (
@@ -28,8 +29,9 @@ export default function Stories({ stories = [] }: StoriesProps) {
                   story?.coverPage[`0`]?.value
                 }?wrap=0`}
                 alt={story?.coverPage[`1`]?.value}
+                loading="lazy"
               />
-              <div className="title">{story?.coverPage[`1`]?.value}</div>
+              <div className={styles.title}>{story?.coverPage[`1`]?.value}</div>
             </div>
           );
         })}

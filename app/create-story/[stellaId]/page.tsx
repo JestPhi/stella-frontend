@@ -4,8 +4,6 @@ import { useParams } from "next/navigation";
 import { useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { CoverPageData } from "../../types/story";
-
 import Bar from "../../components/Bar";
 import Button from "../../components/Button";
 import Panels from "../../components/Panels";
@@ -13,7 +11,9 @@ import {
   useStoryCreate,
   useStoryImageUpload,
 } from "../../hooks/useStoryMutations";
+import { CoverPageData } from "../../types/story";
 import { getFilesToUpload } from "../../utils/story";
+
 import style from "./style.module.css";
 
 const INITIAL_COVER_PAGE_STATE: CoverPageData = {

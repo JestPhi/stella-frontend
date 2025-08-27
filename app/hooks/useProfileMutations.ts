@@ -71,3 +71,25 @@ export const useProfileUsernameUpdate = () => {
     },
   });
 };
+
+export const useProfileCreate = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      firebaseId,
+      username,
+    }: {
+      firebaseId: string;
+      username: string;
+    }) => profileAPI.createProfile(firebaseId, username),
+    onSuccess: (data, variables) => {
+      // The response should contain the new stellaId, so we can invalidate queries accordingly
+      if (data.profile?.stellaId) {
+        queryClient.invalidateQueries({
+          queryKey: ["profile", data.profile.stellaId],
+        });
+      }
+    },
+  });
+};

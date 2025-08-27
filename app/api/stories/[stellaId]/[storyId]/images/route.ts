@@ -20,7 +20,7 @@ export async function POST(
 
     // Forward the request to the external API
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/users/${stellaId}/stories/${storyId}/images`,
+      `${process.env.NEXT_PUBLIC_NEXT_PUBLIC_STELLA_APP_HOST}/users/${stellaId}/stories/${storyId}/images`,
       formData,
       {
         headers: {

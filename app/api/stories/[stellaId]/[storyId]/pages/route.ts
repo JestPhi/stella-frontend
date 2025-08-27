@@ -19,7 +19,7 @@ export async function POST(
 
     // Forward the request to the external API
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/users/${stellaId}/stories/${storyId}/pages`,
+      `${process.env.NEXT_PUBLIC_NEXT_PUBLIC_STELLA_APP_HOST}/users/${stellaId}/stories/${storyId}/pages`,
       body,
       {
         headers: {
@@ -73,7 +73,7 @@ export async function PATCH(
 
     // Forward the request to the external API
     const response = await axios.patch(
-      `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/users/${stellaId}/stories/${storyId}/pages/${pageId}`,
+      `${process.env.NEXT_PUBLIC_NEXT_PUBLIC_STELLA_APP_HOST}/users/${stellaId}/stories/${storyId}/pages/${pageId}`,
       updateData,
       {
         headers: {
@@ -127,7 +127,7 @@ export async function DELETE(
 
     // Forward the request to the external API
     const response = await axios.delete(
-      `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/users/${stellaId}/stories/${storyId}/pages/${pageId}`,
+      `${process.env.NEXT_PUBLIC_NEXT_PUBLIC_STELLA_APP_HOST}/users/${stellaId}/stories/${storyId}/pages/${pageId}`,
       {
         timeout: 10000,
       }

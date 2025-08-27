@@ -1,5 +1,31 @@
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
+import {
+  getApiUrl,
+  handleApiError,
+  validateRequiredParams,
+} from "../../../../utils/apiHelpers";
+import { extractFirebaseToken } from "../../../../utils/authHelpers";
+
+// Common validation and setup for both endpoints
+async function validateAndSetup(request: NextRequest, stellaId: string) {
+  const validationError = validateRequiredParams({ stellaId });
+  if (validationError) return validationError;
+
+  const tokenResult = extractFirebaseToken(request);
+  if (tokenResult instanceof NextResponse) {
+    return tokenResult;
+  }
+
+  const apiUrl = getApiUrl();
+
+  return { token: tokenResult, apiUrl };
+}
+
+// Common error handler
+function handleError(error: any, operation: string, stellaId: string) {
+  return handleApiError(error, operation, `user ${stellaId}`);
+}
 
 export async function POST(
   request: NextRequest,
@@ -7,48 +33,28 @@ export async function POST(
 ) {
   try {
     const { stellaId } = params;
+    const setup = await validateAndSetup(request, stellaId);
 
-    if (!stellaId) {
-      return NextResponse.json(
-        { error: "stellaId is required" },
-        { status: 400 }
-      );
-    }
+    if (setup instanceof NextResponse) return setup;
 
-    // Get the form data from the request
+    const { token, apiUrl } = setup;
     const formData = await request.formData();
 
-    // Forward the request to the external API
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/images`,
+      `${apiUrl}/profiles/${stellaId}/images`,
       formData,
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
-        timeout: 30000, // 30 seconds for file uploads
+        timeout: 30000,
       }
     );
 
     return NextResponse.json(response.data);
   } catch (error) {
-    console.error(
-      `Error uploading profile image for user ${params.stellaId}:`,
-      error
-    );
-
-    if (axios.isAxiosError(error)) {
-      const status = error.response?.status || 500;
-      const message =
-        error.response?.data?.message || "Failed to upload profile image";
-
-      return NextResponse.json({ error: message }, { status });
-    }
-
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return handleError(error, "uploading", params.stellaId);
   }
 }
 
@@ -58,40 +64,22 @@ export async function DELETE(
 ) {
   try {
     const { stellaId } = params;
+    const setup = await validateAndSetup(request, stellaId);
 
-    if (!stellaId) {
-      return NextResponse.json(
-        { error: "stellaId is required" },
-        { status: 400 }
-      );
-    }
+    if (setup instanceof NextResponse) return setup;
 
-    // Forward the delete request to the external API
+    const { token, apiUrl } = setup;
+
     const response = await axios.delete(
-      `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/images`,
+      `${apiUrl}/profiles/${stellaId}/images`,
       {
+        headers: { Authorization: `Bearer ${token}` },
         timeout: 10000,
       }
     );
 
     return NextResponse.json(response.data);
   } catch (error) {
-    console.error(
-      `Error deleting profile image for user ${params.stellaId}:`,
-      error
-    );
-
-    if (axios.isAxiosError(error)) {
-      const status = error.response?.status || 500;
-      const message =
-        error.response?.data?.message || "Failed to delete profile image";
-
-      return NextResponse.json({ error: message }, { status });
-    }
-
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return handleError(error, "deleting", params.stellaId);
   }
 }

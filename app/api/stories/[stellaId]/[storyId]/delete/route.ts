@@ -17,7 +17,7 @@ export async function DELETE(
 
     // Forward the delete request to the external API
     const response = await axios.delete(
-      `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/users/${stellaId}/stories/${storyId}`,
+      `${process.env.NEXT_PUBLIC_NEXT_PUBLIC_STELLA_APP_HOST}/users/${stellaId}/stories/${storyId}`,
       {
         timeout: 10000,
       }

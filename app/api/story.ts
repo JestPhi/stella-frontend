@@ -59,7 +59,7 @@ export function useStoryAPI() {
   };
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_STELLA_APP_HOST;
+const API_BASE_URL = process.env.NEXT_PUBLIC_NEXT_PUBLIC_STELLA_APP_HOST;
 
 export const storyAPI = {
   getById: async (stellaId: string, storyId: string, token?: string) => {

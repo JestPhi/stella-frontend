@@ -117,8 +117,6 @@ const EditProfile = () => {
     });
   };
 
-  console.log(profile);
-
   return (
     <div className={style.signUp}>
       {/* Error feedback for mutations */}

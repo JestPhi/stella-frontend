@@ -1,4 +1,5 @@
 import axios from "axios";
+import { waitForFirebaseToken } from "../hooks/useFirebaseToken";
 
 export interface Profile {
   stellaId: string;
@@ -37,12 +38,14 @@ export const profileAPI = {
    * Upload profile image
    */
   uploadImage: async (stellaId: string, formData: FormData): Promise<any> => {
+    const token = await waitForFirebaseToken();
     const { data } = await axios.post(
       `/api/profiles/${stellaId}/images`,
       formData,
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -53,7 +56,12 @@ export const profileAPI = {
    * Delete profile image
    */
   deleteImage: async (stellaId: string): Promise<any> => {
-    const { data } = await axios.delete(`/api/profiles/${stellaId}/images`);
+    const token = await waitForFirebaseToken();
+    const { data } = await axios.delete(`/api/profiles/${stellaId}/images`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return data;
   },
 
@@ -61,9 +69,18 @@ export const profileAPI = {
    * Update profile bio
    */
   updateBio: async (stellaId: string, bio: string): Promise<any> => {
-    const { data } = await axios.patch(`/api/profiles/${stellaId}/bio`, {
-      bio,
-    });
+    const token = await waitForFirebaseToken();
+    const { data } = await axios.patch(
+      `/api/profiles/${stellaId}/bio`,
+      {
+        bio,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return data;
   },
 
@@ -71,9 +88,40 @@ export const profileAPI = {
    * Update profile username
    */
   updateUsername: async (stellaId: string, username: string): Promise<any> => {
-    const { data } = await axios.patch(`/api/profiles/${stellaId}/username`, {
-      username,
-    });
+    const token = await waitForFirebaseToken();
+    const { data } = await axios.patch(
+      `/api/profiles/${stellaId}/username`,
+      {
+        username,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  },
+
+  /**
+   * Create profile with username using firebaseId
+   */
+  createProfile: async (firebaseId: string, username: string): Promise<any> => {
+    // Get Firebase token for authentication
+    const token = await waitForFirebaseToken();
+
+    const { data } = await axios.post(
+      `/api/profiles`,
+      {
+        firebaseId,
+        username,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return data;
   },
 };

@@ -6,18 +6,18 @@ export async function GET(
   { params }: { params: Promise<{ stellaId: string; storyId: string }> }
 ) {
   const { stellaId, storyId } = await params;
-  
+
   try {
     if (!stellaId || !storyId) {
       return NextResponse.json(
-        { error: 'stellaId and storyId are required' },
+        { error: "stellaId and storyId are required" },
         { status: 400 }
       );
     }
 
     // Fetch story data from external API
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/stories/${storyId}`,
+      `${process.env.NEXT_PUBLIC_NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/stories/${storyId}`,
       {
         timeout: 10000,
         headers: {
@@ -41,17 +41,17 @@ export async function GET(
       { status: 200, headers }
     );
   } catch (error) {
-    console.error(`Error fetching story ${storyId} for user ${stellaId}:`, error);
+    console.error(
+      `Error fetching story ${storyId} for user ${stellaId}:`,
+      error
+    );
 
     // Handle specific error types
     if (axios.isAxiosError(error)) {
       const status = error.response?.status || 500;
       const message = error.response?.data?.message || "Failed to fetch story";
 
-      return NextResponse.json(
-        { error: message },
-        { status }
-      );
+      return NextResponse.json({ error: message }, { status });
     }
 
     return NextResponse.json(

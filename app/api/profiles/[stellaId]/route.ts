@@ -1,5 +1,11 @@
 import axios from "axios";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+import {
+  createSuccessResponse,
+  getApiUrl,
+  handleApiError,
+  validateRequiredParams,
+} from "../../../utils/apiHelpers";
 
 export async function GET(
   request: NextRequest,
@@ -8,62 +14,25 @@ export async function GET(
   const { stellaId } = await params;
 
   try {
-    if (!stellaId) {
-      return NextResponse.json(
-        { error: "stellaId is required" },
-        { status: 400 }
-      );
-    }
+    // Validate required parameters
+    const validationError = validateRequiredParams({ stellaId });
+    if (validationError) return validationError;
 
-    // Fetch profile data from external API
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}`,
-      {
-        timeout: 10000,
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    // Cache response for 10 minutes (profiles change less frequently than stories)
-    const headers = new Headers({
-      "Cache-Control": "public, s-maxage=600, stale-while-revalidate=120",
-      "Content-Type": "application/json",
+    const apiUrl = getApiUrl();
+    const response = await axios.get(`${apiUrl}/profiles/${stellaId}`, {
+      timeout: 10000,
     });
 
-    // Return the profile data
-    return new NextResponse(
-      JSON.stringify({
-        profile: response.data.profile || null,
-      }),
-      { status: 200, headers }
+    return createSuccessResponse(
+      { profile: response.data || null },
+      600 // Cache for 10 minutes
     );
   } catch (error) {
-    console.error(`Error fetching profile for user ${stellaId}:`, error);
-
-    // Handle specific error types
-    if (axios.isAxiosError(error)) {
-      const status = error.response?.status || 500;
-      const message =
-        error.response?.data?.message || "Failed to fetch profile";
-
-      return NextResponse.json(
-        {
-          error: message,
-          profile: null,
-        },
-        { status }
-      );
-    }
-
-    return NextResponse.json(
-      {
-        error: "Internal server error",
-        profile: null,
-      },
-      { status: 500 }
+    return handleApiError(
+      error,
+      "fetching profile",
+      `user ${stellaId}`,
+      "Failed to fetch profile"
     );
   }
 }

@@ -19,7 +19,7 @@ export async function POST(
 
     // Forward the request to the external API
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/users/${stellaId}/stories`,
+      `${process.env.NEXT_PUBLIC_NEXT_PUBLIC_STELLA_APP_HOST}/users/${stellaId}/stories`,
       body,
       {
         headers: {
@@ -73,7 +73,7 @@ export async function PATCH(
 
     // Forward the request to the external API
     const response = await axios.patch(
-      `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/users/${stellaId}/stories/${storyId}`,
+      `${process.env.NEXT_PUBLIC_NEXT_PUBLIC_STELLA_APP_HOST}/users/${stellaId}/stories/${storyId}`,
       updateData,
       {
         headers: {

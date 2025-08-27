@@ -1,7 +1,4 @@
 {
-  "/api/profiles/[stellaId]/route": "app/api/profiles/[stellaId]/route.js",
-  "/api/stories/[stellaId]/[storyId]/route": "app/api/stories/[stellaId]/[storyId]/route.js",
   "/api/stories/route": "app/api/stories/route.js",
-  "/page": "app/page.js",
-  "/profile/[stellaId]/story/[storyId]/page": "app/profile/[stellaId]/story/[storyId]/page.js"
+  "/page": "app/page.js"
 }

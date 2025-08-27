@@ -1,48 +1,55 @@
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
+import {
+  createSuccessResponse,
+  getApiUrl,
+  handleApiError,
+  validateRequiredParams,
+} from "../../../../utils/apiHelpers";
+import {
+  createAuthHeaders,
+  extractFirebaseToken,
+} from "../../../../utils/authHelpers";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { stellaId: string } }
+  { params }: { params: Promise<{ stellaId: string }> }
 ) {
-  try {
-    const { stellaId } = params;
+  const { stellaId } = await params;
 
-    if (!stellaId) {
-      return NextResponse.json(
-        { error: "stellaId is required" },
-        { status: 400 }
-      );
-    }
+  try {
+    // Validate required parameters
+    const validationError = validateRequiredParams({ stellaId });
+    if (validationError) return validationError;
 
     const body = await request.json();
 
-    // Forward the request to the external API
+    // Extract and validate Firebase token
+    const tokenResult = extractFirebaseToken(request);
+    if (tokenResult instanceof NextResponse) {
+      return tokenResult; // Return error response if token is invalid
+    }
+    const firebaseToken = tokenResult;
+
+    // Get API URL using helper
+    const apiUrl = getApiUrl();
+
     const response = await axios.patch(
-      `${process.env.NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/bio`,
+      `${apiUrl}/profiles/${stellaId}/bio`,
       body,
       {
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: createAuthHeaders(firebaseToken),
         timeout: 10000,
       }
     );
 
-    return NextResponse.json(response.data);
+    return createSuccessResponse(response.data);
   } catch (error) {
-    console.error(`Error updating bio for user ${params.stellaId}:`, error);
-
-    if (axios.isAxiosError(error)) {
-      const status = error.response?.status || 500;
-      const message = error.response?.data?.message || "Failed to update bio";
-
-      return NextResponse.json({ error: message }, { status });
-    }
-
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
+    return handleApiError(
+      error,
+      "updating bio",
+      `user ${stellaId}`,
+      "Failed to update bio"
     );
   }
 }
