@@ -1,7 +1,8 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import Button from "../../components/Button";
 import InputProfileImage from "../../components/InputProfileImage";
 import InputText from "../../components/InputText";
@@ -18,144 +19,108 @@ const EditProfile = () => {
   const params = useParams();
   const stellaId = params?.stellaId as string;
 
-  const [username, setUsername] = useState<string>("");
-  const [bio, setBio] = useState<string>("");
-  const [disabledUsername, setDisabledUsername] = useState(true);
-  const [disabledBio, setDisabledBio] = useState(true);
-
-  // TanStack Query for fetching profile data via backend API
-  const {
-    data: profileResponse,
-    isLoading: isProfileLoading,
-    isError: isProfileError,
-    error: profileError,
-  } = useProfile(stellaId);
-
+  const { data: profileResponse } = useProfile(stellaId);
   const profile = profileResponse?.profile;
 
-  // Backend mutation hooks
+  const { register, handleSubmit, formState, reset } = useForm({
+    defaultValues: { username: "", bio: "" },
+  });
+
+  // Mutation hooks
   const profileImageUpload = useProfileImageUpload();
   const profileImageDelete = useProfileImageDelete();
   const profileBioUpdate = useProfileBioUpdate();
   const profileUsernameUpdate = useProfileUsernameUpdate();
 
-  const handleProfileImageUpdate = async (file: File) => {
-    console.log("handleProfileImageUpdate called with file:", {
-      name: file.name,
-      size: file.size,
-      type: file.type,
-    });
+  // Reset form when profile loads
+  useEffect(() => {
+    if (profile) {
+      reset({
+        username: profile.username ?? "",
+        bio: profile.bio ?? "",
+      });
+    }
+  }, [profile, reset]);
 
-    try {
-      // Validate file before upload
-      if (!file || file.size === 0) {
-        throw new Error("Invalid file: file is empty or undefined");
-      }
+  // Handle successful updates
+  useEffect(() => {
+    if (profileBioUpdate.isSuccess || profileUsernameUpdate.isSuccess) {
+      parent.postMessage(
+        {
+          type: "SET_LAYOUT",
+          payload: {
+            basePathname: `/profile/${stellaId}?update=${Date.now()}`,
+            modalVisible: false,
+          },
+        },
+        `${process.env.NEXT_PUBLIC_STELLA_REACT_NATIVE_FOR_WEB_HOST}`
+      );
+    }
+  }, [profileBioUpdate.isSuccess, profileUsernameUpdate.isSuccess]);
 
-      if (file.size > 10 * 1024 * 1024) {
-        // 10MB limit
-        throw new Error("File too large: maximum size is 10MB");
-      }
+  const handleImageChange = (file: File | null) => {
+    if (!stellaId) return;
 
-      // Create FormData for file upload
+    if (file) {
+      if (file.size > 10 * 1024 * 1024) return; // 10MB limit
+
       const formData = new FormData();
       formData.append("profileImage", file, file.name);
       formData.append("stellaId", stellaId);
-
-      // Use the backend API via mutation hook
-      profileImageUpload.mutate({
-        stellaId: stellaId,
-        formData,
-      });
-    } catch (error) {
-      console.error("Failed to update ProfileImage:", error);
-    }
-  };
-
-  const handleProfileImageDelete = async () => {
-    // Only proceed if there's a stellaId
-    if (!stellaId) {
-      console.warn("No stellaId found for deletion");
-      return;
-    }
-
-    try {
-      // Use the backend API via mutation hook
+      profileImageUpload.mutate({ stellaId, formData });
+    } else {
       profileImageDelete.mutate(stellaId);
-    } catch (error) {
-      console.error("Failed to delete ProfileImage:", error);
     }
   };
 
-  const handleBioUpdate = async () => {
-    // Validate required fields
-    if (!stellaId) {
-      console.error("Missing stellaId for bio update");
-      return;
+  const onProfileSubmit = (data: { username: string; bio: string }) => {
+    if (formState.dirtyFields.username) {
+      profileUsernameUpdate.mutate({ stellaId, username: data.username });
     }
-
-    setDisabledBio(true);
-
-    profileBioUpdate.mutate({
-      stellaId: stellaId,
-      bio: bio,
-    });
+    if (formState.dirtyFields.bio) {
+      profileBioUpdate.mutate({ stellaId, bio: data.bio });
+    }
   };
 
-  const handleUsernameUpdate = async () => {
-    // Validate required fields
-    if (!stellaId) {
-      console.error("Missing stellaId for username update");
-      return;
-    }
-
-    setDisabledUsername(true);
-
-    profileUsernameUpdate.mutate({
-      stellaId: stellaId,
-      username: username,
-    });
-  };
+  // Computed state
+  const hasErrors = [
+    profileImageUpload,
+    profileImageDelete,
+    profileBioUpdate,
+    profileUsernameUpdate,
+  ].some((mutation) => mutation.isError);
+  const isImageLoading =
+    profileImageUpload.isPending || profileImageDelete.isPending;
+  const isProfileLoading =
+    profileUsernameUpdate.isPending || profileBioUpdate.isPending;
+  const hasChanges =
+    formState.dirtyFields.username || formState.dirtyFields.bio;
 
   return (
-    <div className={style.signUp}>
-      {/* Error feedback for mutations */}
-      {(profileImageUpload.isError ||
-        profileImageDelete.isError ||
-        profileBioUpdate.isError ||
-        profileUsernameUpdate.isError) && (
+    <form className={style.signUp}>
+      {/* Error feedback */}
+      {hasErrors && (
         <div
           style={{ color: "red", marginBottom: "10px", textAlign: "center" }}
         >
-          {profileImageUpload.isError && "Failed to upload ProfileImage. "}
-          {profileImageDelete.isError && "Failed to delete ProfileImage. "}
-          {profileBioUpdate.isError && "Failed to update bio. "}
-          {profileUsernameUpdate.isError && "Failed to update username. "}
-          Please try again.
+          Failed to update profile. Please try again.
         </div>
       )}
+
       <InputProfileImage
         imageURL={
           profile?.profileImageKey
             ? `${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${profile?.profileImageKey}?wrap=0`
             : null
         }
-        onChange={async (file) => {
-          if (file) {
-            // File object is passed directly, no need for conversion
-            handleProfileImageUpdate(file);
-          } else {
-            handleProfileImageDelete();
-          }
-        }}
+        onChange={handleImageChange}
         className={style.ProfileImage}
       />
 
-      {/* Loading indicator for ProfileImage operations */}
-      {(profileImageUpload.isPending || profileImageDelete.isPending) && (
+      {/* Image loading indicator */}
+      {isImageLoading && (
         <div style={{ textAlign: "center", fontSize: "12px", color: "blue" }}>
-          {profileImageUpload.isPending && "Uploading ProfileImage..."}
-          {profileImageDelete.isPending && "Deleting ProfileImage..."}
+          {profileImageUpload.isPending ? "Uploading..." : "Deleting..."}
         </div>
       )}
 
@@ -163,39 +128,27 @@ const EditProfile = () => {
         className={style.inputText}
         type="text"
         placeholder="Enter Username"
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          setUsername(event.target.value);
-          setDisabledUsername(false);
-        }}
-        value={username}
-        disabled={profileUsernameUpdate.isPending}
+        {...register("username")}
+        disabled={isProfileLoading}
       />
-      <Button
-        variant={"primary"}
-        disabled={disabledUsername || profileUsernameUpdate.isPending}
-        onClick={handleUsernameUpdate}
-      >
-        {profileUsernameUpdate.isPending ? "Updating..." : "Update Username"}
-      </Button>
+
       <InputText
         className={style.inputText}
         type="text"
         placeholder="Enter Bio"
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          setBio(event.target.value);
-          setDisabledBio(false);
-        }}
-        value={bio}
-        disabled={profileBioUpdate.isPending}
+        {...register("bio")}
+        disabled={isProfileLoading}
       />
+
       <Button
         variant={"primary"}
-        disabled={disabledBio || profileBioUpdate.isPending}
-        onClick={handleBioUpdate}
+        disabled={!hasChanges || isProfileLoading}
+        onClick={handleSubmit(onProfileSubmit)}
+        type="button"
       >
-        {profileBioUpdate.isPending ? "Updating..." : "Update Bio"}
+        {isProfileLoading ? "Updating..." : "Update Profile"}
       </Button>
-    </div>
+    </form>
   );
 };
 

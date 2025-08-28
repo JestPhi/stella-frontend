@@ -21,7 +21,7 @@ export async function GET(
 
     // Fetch user's stories from external API
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_NEXT_PUBLIC_STELLA_APP_HOST}/profiles/${stellaId}/stories`,
+      `${process.env.STELLA_APP_HOST}/profiles/${stellaId}/stories`,
       {
         params: { page, limit },
         timeout: 10000,
