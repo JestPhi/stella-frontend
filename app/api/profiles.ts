@@ -1,5 +1,5 @@
 import axios from "axios";
-import { waitForFirebaseToken } from "../hooks/useFirebaseToken";
+import { auth } from "../config/firebase";
 
 export interface Profile {
   stellaId: string;
@@ -23,6 +23,21 @@ export interface UpdateUsernameRequest {
 }
 
 /**
+ * Get Firebase token from current user
+ */
+const getFirebaseToken = async (): Promise<string | undefined> => {
+  const user = auth.currentUser;
+  if (!user) return undefined;
+
+  try {
+    return await user.getIdToken();
+  } catch (error) {
+    console.error("Failed to get Firebase token:", error);
+    return undefined;
+  }
+};
+
+/**
  * Profile API service for backend requests
  */
 export const profileAPI = {
@@ -35,10 +50,19 @@ export const profileAPI = {
   },
 
   /**
+   * Fetch profile by Firebase ID
+   */
+  getByFirebaseId: async (firebaseId: string): Promise<ProfileResponse> => {
+    const { data } = await axios.get(`/api/profiles/firebase/${firebaseId}`);
+    console.log(data);
+    return data;
+  },
+
+  /**
    * Upload profile image
    */
   uploadImage: async (stellaId: string, formData: FormData): Promise<any> => {
-    const token = await waitForFirebaseToken();
+    const token = await getFirebaseToken();
     const { data } = await axios.post(
       `/api/profiles/${stellaId}/images`,
       formData,
@@ -56,7 +80,7 @@ export const profileAPI = {
    * Delete profile image
    */
   deleteImage: async (stellaId: string): Promise<any> => {
-    const token = await waitForFirebaseToken();
+    const token = await getFirebaseToken();
     const { data } = await axios.delete(`/api/profiles/${stellaId}/images`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -69,7 +93,7 @@ export const profileAPI = {
    * Update profile bio
    */
   updateBio: async (stellaId: string, bio: string): Promise<any> => {
-    const token = await waitForFirebaseToken();
+    const token = await getFirebaseToken();
     const { data } = await axios.patch(
       `/api/profiles/${stellaId}/bio`,
       {
@@ -88,7 +112,7 @@ export const profileAPI = {
    * Update profile username
    */
   updateUsername: async (stellaId: string, username: string): Promise<any> => {
-    const token = await waitForFirebaseToken();
+    const token = await getFirebaseToken();
     const { data } = await axios.patch(
       `/api/profiles/${stellaId}/username`,
       {
@@ -108,7 +132,7 @@ export const profileAPI = {
    */
   createProfile: async (firebaseId: string, username: string): Promise<any> => {
     // Get Firebase token for authentication
-    const token = await waitForFirebaseToken();
+    const token = await getFirebaseToken();
 
     const { data } = await axios.post(
       `/api/profiles`,

@@ -1,14 +1,14 @@
 import Bar from "../Bar";
-import ButtonPageMore from "../ButtonPageMore";
+import PageMore from "../Buttons/PageMore";
 import Panels from "../Panels";
 import style from "./style.module.css";
 
 const Page = (props) => {
-  const { pageNumber, panels, id } = props;
+  const { pageNumber, panels, pageId } = props;
   return (
     <div className={style.page}>
       <Bar className={style.bar}>
-        <ButtonPageMore pageId={id} />
+        <PageMore pageId={pageId} />
       </Bar>
       <Panels items={panels} />
       <Bar className={style.pageNumber}>{pageNumber + 1}</Bar>

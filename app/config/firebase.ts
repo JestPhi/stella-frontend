@@ -1,0 +1,17 @@
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+};
+
+// Initialize Firebase app (singleton pattern)
+export const app = initializeApp(firebaseConfig);
+
+// Initialize Firebase Auth (singleton pattern)
+export const auth = getAuth(app);
+
+// Export config for any edge cases that need it
+export { firebaseConfig };

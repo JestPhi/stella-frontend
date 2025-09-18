@@ -1,169 +1,124 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   CreatePageRequest,
   CreateStoryRequest,
   storiesAPI,
-  UpdatePageRequest,
   UpdateStoryRequest,
 } from "../api/stories";
+import { createMutation, createQueryKeys } from "./useMutationFactory";
 
 /**
  * Story mutation hooks for React Query
  */
 
-export const useStoryCreate = () => {
-  const queryClient = useQueryClient();
+export const useStoryCreate = createMutation({
+  mutationFn: ({
+    stellaId,
+    storyData,
+    storyId,
+  }: {
+    stellaId: string;
+    storyData: CreateStoryRequest;
+    storyId: string;
+  }) => storiesAPI.create(stellaId, storyData, storyId),
+  invalidateQueries: (variables) => [
+    createQueryKeys.story(variables.stellaId).all,
+    createQueryKeys.story(variables.stellaId).byUser,
+  ],
+  errorMessage: "creating story",
+});
 
-  return useMutation({
-    mutationFn: ({
-      stellaId,
-      storyData,
-    }: {
-      stellaId: string;
-      storyData: CreateStoryRequest;
-    }) => storiesAPI.create(stellaId, storyData),
-    onSuccess: (data, variables) => {
-      // Invalidate stories queries to refetch updated data
-      queryClient.invalidateQueries({ queryKey: ["stories"] });
-      queryClient.invalidateQueries({
-        queryKey: ["userStories", variables.stellaId],
-      });
-    },
-  });
-};
+export const useStoryUpdate = createMutation({
+  mutationFn: ({
+    stellaId,
+    storyId,
+    updateData,
+  }: {
+    stellaId: string;
+    storyId: string;
+    updateData: Omit<UpdateStoryRequest, "storyId">;
+  }) => storiesAPI.update(stellaId, { ...updateData, storyId }),
+  invalidateQueries: (variables) => {
+    const keys = createQueryKeys.story(variables.stellaId, variables.storyId);
+    return [keys.all, keys.byUser, keys.detail!];
+  },
+  errorMessage: "updating story",
+});
 
-export const useStoryUpdate = () => {
-  const queryClient = useQueryClient();
+export const useStoryDelete = createMutation({
+  mutationFn: ({ stellaId, storyId }: { stellaId: string; storyId: string }) =>
+    storiesAPI.delete(stellaId, storyId),
+  invalidateQueries: (variables) => [
+    createQueryKeys.story(variables.stellaId).all,
+    createQueryKeys.story(variables.stellaId).byUser,
+  ],
+  removeQueries: (variables) => [
+    createQueryKeys.story(variables.stellaId, variables.storyId).detail!,
+  ],
+  errorMessage: "deleting story",
+});
 
-  return useMutation({
-    mutationFn: ({
-      stellaId,
-      updateData,
-    }: {
-      stellaId: string;
-      updateData: UpdateStoryRequest;
-    }) => storiesAPI.update(stellaId, updateData),
-    onSuccess: (data, variables) => {
-      // Invalidate relevant queries
-      queryClient.invalidateQueries({ queryKey: ["stories"] });
-      queryClient.invalidateQueries({
-        queryKey: ["userStories", variables.stellaId],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["story", variables.stellaId, variables.updateData.storyId],
-      });
-    },
-  });
-};
+export const useStoryImageUpload = createMutation({
+  mutationFn: ({
+    stellaId,
+    storyId,
+    formData,
+  }: {
+    stellaId: string;
+    storyId: string;
+    formData: FormData;
+  }) => storiesAPI.uploadImage(stellaId, storyId, formData),
+  invalidateQueries: (variables) => [
+    createQueryKeys.story(variables.stellaId, variables.storyId).detail!,
+  ],
+  errorMessage: "uploading story image",
+});
 
-export const useStoryDelete = () => {
-  const queryClient = useQueryClient();
+export const usePageCreate = createMutation({
+  mutationFn: ({
+    stellaId,
+    storyId,
+    pageData,
+  }: {
+    stellaId: string;
+    storyId: string;
+    pageData: CreatePageRequest;
+  }) => storiesAPI.createPage(stellaId, storyId, pageData),
+  invalidateQueries: (variables) => [
+    createQueryKeys.story(variables.stellaId, variables.storyId).detail!,
+  ],
+  errorMessage: "creating page",
+});
 
-  return useMutation({
-    mutationFn: ({
-      stellaId,
-      storyId,
-    }: {
-      stellaId: string;
-      storyId: string;
-    }) => storiesAPI.delete(stellaId, storyId),
-    onSuccess: (data, variables) => {
-      // Invalidate stories queries and remove the specific story from cache
-      queryClient.invalidateQueries({ queryKey: ["stories"] });
-      queryClient.invalidateQueries({
-        queryKey: ["userStories", variables.stellaId],
-      });
-      queryClient.removeQueries({
-        queryKey: ["story", variables.stellaId, variables.storyId],
-      });
-    },
-  });
-};
+export const usePageUpdateById = createMutation({
+  mutationFn: ({
+    stellaId,
+    storyId,
+    pageId,
+    updateData,
+  }: {
+    stellaId: string;
+    storyId: string;
+    pageId: string;
+    updateData: any;
+  }) => storiesAPI.updatePageById(stellaId, storyId, pageId, updateData),
+  invalidateQueries: (variables) => [
+    createQueryKeys.story(variables.stellaId, variables.storyId).detail!,
+  ],
+  errorMessage: "updating page by ID",
+});
 
-export const useStoryImageUpload = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({
-      stellaId,
-      storyId,
-      formData,
-    }: {
-      stellaId: string;
-      storyId: string;
-      formData: FormData;
-    }) => storiesAPI.uploadImage(stellaId, storyId, formData),
-    onSuccess: (data, variables) => {
-      // Invalidate story query to refetch updated data
-      queryClient.invalidateQueries({
-        queryKey: ["story", variables.stellaId, variables.storyId],
-      });
-    },
-  });
-};
-
-export const usePageCreate = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({
-      stellaId,
-      storyId,
-      pageData,
-    }: {
-      stellaId: string;
-      storyId: string;
-      pageData: CreatePageRequest;
-    }) => storiesAPI.createPage(stellaId, storyId, pageData),
-    onSuccess: (data, variables) => {
-      // Invalidate story query to refetch updated data
-      queryClient.invalidateQueries({
-        queryKey: ["story", variables.stellaId, variables.storyId],
-      });
-    },
-  });
-};
-
-export const usePageUpdate = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({
-      stellaId,
-      storyId,
-      updateData,
-    }: {
-      stellaId: string;
-      storyId: string;
-      updateData: UpdatePageRequest;
-    }) => storiesAPI.updatePage(stellaId, storyId, updateData),
-    onSuccess: (data, variables) => {
-      // Invalidate story query to refetch updated data
-      queryClient.invalidateQueries({
-        queryKey: ["story", variables.stellaId, variables.storyId],
-      });
-    },
-  });
-};
-
-export const usePageDelete = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({
-      stellaId,
-      storyId,
-      pageId,
-    }: {
-      stellaId: string;
-      storyId: string;
-      pageId: string;
-    }) => storiesAPI.deletePage(stellaId, storyId, pageId),
-    onSuccess: (data, variables) => {
-      // Invalidate story query to refetch updated data
-      queryClient.invalidateQueries({
-        queryKey: ["story", variables.stellaId, variables.storyId],
-      });
-    },
-  });
-};
+export const usePageDelete = createMutation({
+  mutationFn: ({
+    stellaId,
+    storyId,
+    pageId,
+  }: {
+    stellaId: string;
+    storyId: string;
+    pageId: string;
+  }) => storiesAPI.deletePage(stellaId, storyId, pageId),
+  invalidateQueries: (variables) => [
+    createQueryKeys.story(variables.stellaId, variables.storyId).detail!,
+  ],
+  errorMessage: "deleting page",
+});

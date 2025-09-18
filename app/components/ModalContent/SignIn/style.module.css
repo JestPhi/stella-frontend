@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.googleIcon {
+  height: 24px;
+  width: 24px;
+  margin-right: 6px;
+}
+
+.continue {
+  align-items: center;
+  background: none;
+  border-color: blue;
+  border-radius: 22px;
+  color: blue;
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  padding: 0 12px;
+}

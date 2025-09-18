@@ -1,13 +1,12 @@
 {
-  "/api/profiles/[stellaId]/bio/route": "app/api/profiles/[stellaId]/bio/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/api/profiles/[stellaId]/route": "app/api/profiles/[stellaId]/route.js",
-  "/api/profiles/[stellaId]/username/route": "app/api/profiles/[stellaId]/username/route.js",
-  "/api/stories/[stellaId]/[storyId]/route": "app/api/stories/[stellaId]/[storyId]/route.js",
-  "/api/stories/[stellaId]/route": "app/api/stories/[stellaId]/route.js",
+  "/api/profiles/[stellaId]/stories/[storyId]/images/route": "app/api/profiles/[stellaId]/stories/[storyId]/images/route.js",
+  "/api/profiles/[stellaId]/stories/[storyId]/pages/[pageId]/route": "app/api/profiles/[stellaId]/stories/[storyId]/pages/[pageId]/route.js",
+  "/api/profiles/[stellaId]/stories/[storyId]/pages/route": "app/api/profiles/[stellaId]/stories/[storyId]/pages/route.js",
+  "/api/profiles/[stellaId]/stories/[storyId]/route": "app/api/profiles/[stellaId]/stories/[storyId]/route.js",
+  "/api/profiles/firebase/[firebaseId]/route": "app/api/profiles/firebase/[firebaseId]/route.js",
   "/api/stories/route": "app/api/stories/route.js",
-  "/create-story/[stellaId]/page": "app/create-story/[stellaId]/page.js",
-  "/edit-profile/[stellaId]/page": "app/edit-profile/[stellaId]/page.js",
   "/page": "app/page.js",
-  "/profile/[stellaId]/page": "app/profile/[stellaId]/page.js",
   "/profile/[stellaId]/story/[storyId]/page": "app/profile/[stellaId]/story/[storyId]/page.js"
 }

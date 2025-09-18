@@ -62,7 +62,10 @@ const InputProfileImage = ({
   };
 
   const handleAddImageClick = () => {
-    inputRef.current?.click();
+    if (inputRef.current) {
+      inputRef.current.value = ""; // Reset input to allow same file selection
+      inputRef.current.click();
+    }
   };
 
   return (
@@ -75,6 +78,7 @@ const InputProfileImage = ({
           <Button
             className={style.buttonAddImage}
             onClick={handleAddImageClick}
+            type="button"
           >
             <Image color="#222" />
           </Button>
@@ -85,10 +89,13 @@ const InputProfileImage = ({
           type="file"
           accept="image/*"
           onChange={(event) => {
+            console.log("File input onChange triggered", event.target.files);
             const file = event.target.files?.[0];
             if (file) {
               handleImageSelect(file);
             }
+            // Reset the input value to allow selecting the same file again
+            event.target.value = "";
           }}
           ref={inputRef}
         />
@@ -107,6 +114,7 @@ const InputProfileImage = ({
           className={style.buttonImageAction}
           onClick={handleAddImageClick}
           variant="fill"
+          type="button"
         >
           <Plus height={16} />
         </Button>

@@ -37,7 +37,6 @@ const PanelItemComponent = memo(
     item,
     isEditMode,
     onItemChange,
-    storyId,
   }: {
     itemKey: string;
     item: PanelItem;
@@ -139,6 +138,9 @@ const PanelItemComponent = memo(
         case "jpg":
           const imageKey = typeof localValue === "string" ? localValue : "";
           const hasImageContent = Boolean(imageKey);
+
+          console.log(imageKey, "imageKey");
+
           return (
             <div className={gridClasses}>
               {hasImageContent && (
@@ -174,6 +176,12 @@ const Panels = ({
   ...rest
 }: PanelsProps) => {
   const dataRef = useRef(items);
+  const getValue = (type: string, value: string | File | null) => {
+    if (type === "jpg") {
+      return { file: value };
+    }
+    return { value };
+  };
   // Handle changes from individual panel items
   const handleItemChange = useCallback(
     (key: string, value: string | File | null) => {
@@ -182,9 +190,10 @@ const Panels = ({
         ...dataRef.current,
         [key]: {
           ...items[key],
-          value,
+          ...getValue(items[key].type, value),
         },
       };
+
       // Notify parent component of changes
       onChange(dataRef.current);
     },
@@ -213,32 +222,3 @@ const Panels = ({
 };
 
 export default Panels;
-
-// Utility function for backward compatibility
-export const getContent = (
-  type: string,
-  value: string | File | null = ""
-): React.ReactNode => {
-  switch (type) {
-    case "text":
-      // Render text content if value is a non-empty string
-      return typeof value === "string" ? (
-        <div className={style.text}>{value}</div>
-      ) : null;
-
-    case "image":
-    case "jpg":
-      // Render image content if value is a valid image key
-      const imageKey = typeof value === "string" ? value : "";
-      return imageKey ? (
-        <img
-          className={style.avatar}
-          src={`${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${imageKey}?wrap=0`}
-          alt="Panel content"
-        />
-      ) : null;
-
-    default:
-      return null;
-  }
-};

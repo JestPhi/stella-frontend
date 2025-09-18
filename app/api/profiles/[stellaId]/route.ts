@@ -19,6 +19,7 @@ export async function GET(
     if (validationError) return validationError;
 
     const apiUrl = getApiUrl();
+    console.log(`${apiUrl}/profiles/${stellaId}`);
     const response = await axios.get(`${apiUrl}/profiles/${stellaId}`, {
       timeout: 10000,
     });

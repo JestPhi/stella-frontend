@@ -2,13 +2,18 @@ import { v4 as uuidv4 } from "uuid";
 
 import { CoverPageData, FileUpload } from "../types/story";
 
-export const getFilesToUpload = (coverPageData: CoverPageData): FileUpload[] =>
-  Object.entries(coverPageData)
+export const getFilesToUpload = (
+  coverPageData: CoverPageData
+): FileUpload[] => {
+  console.log(coverPageData);
+
+  return Object.entries(coverPageData)
     .filter(
-      ([, element]) => element.type === "jpg" && element.value instanceof File
+      ([, element]) => element.type === "jpg" && element.file instanceof File
     )
     .map(([key, element]) => ({
-      file: element.value as File,
+      file: element.file as File,
       imageId: uuidv4(),
       elementKey: key,
     }));
+};

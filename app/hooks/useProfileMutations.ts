@@ -1,95 +1,69 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { profileAPI } from "../api/profiles";
+import { createMutation, createQueryKeys } from "./useMutationFactory";
 
 /**
  * Profile mutation hooks for React Query
  */
 
-export const useProfileImageUpload = () => {
-  const queryClient = useQueryClient();
+export const useProfileImageUpload = createMutation({
+  mutationFn: ({
+    stellaId,
+    formData,
+  }: {
+    stellaId: string;
+    formData: FormData;
+  }) => profileAPI.uploadImage(stellaId, formData),
+  invalidateQueries: (variables) => [
+    createQueryKeys.profile(variables.stellaId).detail,
+  ],
+  errorMessage: "uploading profile image",
+});
 
-  return useMutation({
-    mutationFn: ({
-      stellaId,
-      formData,
-    }: {
-      stellaId: string;
-      formData: FormData;
-    }) => profileAPI.uploadImage(stellaId, formData),
-    onSuccess: (data, variables) => {
-      // Invalidate profile query to refetch updated data
-      queryClient.invalidateQueries({
-        queryKey: ["profile", variables.stellaId],
-      });
-    },
-  });
-};
+export const useProfileImageDelete = createMutation({
+  mutationFn: (stellaId: string) => profileAPI.deleteImage(stellaId),
+  invalidateQueries: (_, stellaId) => [
+    createQueryKeys.profile(stellaId as string).detail,
+  ],
+  errorMessage: "deleting profile image",
+});
 
-export const useProfileImageDelete = () => {
-  const queryClient = useQueryClient();
+export const useProfileBioUpdate = createMutation({
+  mutationFn: ({ stellaId, bio }: { stellaId: string; bio: string }) =>
+    profileAPI.updateBio(stellaId, bio),
+  invalidateQueries: (variables) => [
+    createQueryKeys.profile(variables.stellaId).detail,
+  ],
+  errorMessage: "updating profile bio",
+});
 
-  return useMutation({
-    mutationFn: (stellaId: string) => profileAPI.deleteImage(stellaId),
-    onSuccess: (data, stellaId) => {
-      // Invalidate profile query to refetch updated data
-      queryClient.invalidateQueries({ queryKey: ["profile", stellaId] });
-    },
-  });
-};
+export const useProfileUsernameUpdate = createMutation({
+  mutationFn: ({
+    stellaId,
+    username,
+  }: {
+    stellaId: string;
+    username: string;
+  }) => profileAPI.updateUsername(stellaId, username),
+  invalidateQueries: (variables) => [
+    createQueryKeys.profile(variables.stellaId).detail,
+  ],
+  errorMessage: "updating profile username",
+});
 
-export const useProfileBioUpdate = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({ stellaId, bio }: { stellaId: string; bio: string }) =>
-      profileAPI.updateBio(stellaId, bio),
-    onSuccess: (data, variables) => {
-      // Invalidate profile query to refetch updated data
-      queryClient.invalidateQueries({
-        queryKey: ["profile", variables.stellaId],
-      });
-    },
-  });
-};
-
-export const useProfileUsernameUpdate = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({
-      stellaId,
-      username,
-    }: {
-      stellaId: string;
-      username: string;
-    }) => profileAPI.updateUsername(stellaId, username),
-    onSuccess: (data, variables) => {
-      // Invalidate profile query to refetch updated data
-      queryClient.invalidateQueries({
-        queryKey: ["profile", variables.stellaId],
-      });
-    },
-  });
-};
-
-export const useProfileCreate = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({
-      firebaseId,
-      username,
-    }: {
-      firebaseId: string;
-      username: string;
-    }) => profileAPI.createProfile(firebaseId, username),
-    onSuccess: (data, variables) => {
-      // The response should contain the new stellaId, so we can invalidate queries accordingly
-      if (data.profile?.stellaId) {
-        queryClient.invalidateQueries({
-          queryKey: ["profile", data.profile.stellaId],
-        });
-      }
-    },
-  });
-};
+export const useProfileCreate = createMutation({
+  mutationFn: ({
+    firebaseId,
+    username,
+  }: {
+    firebaseId: string;
+    username: string;
+  }) => profileAPI.createProfile(firebaseId, username),
+  invalidateQueries: (_, data) => {
+    // The response should contain the new stellaId
+    if (data?.profile?.stellaId) {
+      return [createQueryKeys.profile(data.profile.stellaId).detail];
+    }
+    return [];
+  },
+  errorMessage: "creating profile",
+});

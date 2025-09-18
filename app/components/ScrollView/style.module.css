@@ -1,0 +1,8 @@
+.scrollView {
+  height: calc(100vh - 44px);
+  overflow-y: scroll;
+}
+
+.scrollView::-webkit-scrollbar {
+  display: none;
+}
