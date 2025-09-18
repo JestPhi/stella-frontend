@@ -1,9 +1,11 @@
-import { NextResponse } from "next/server";
+import { createRoute, RouteTypes } from "../../utils/routeFactory";
 
-export async function GET() {
-  return NextResponse.json({
+const healthCheck = createRoute(RouteTypes.HEALTH)(async () => {
+  return {
     status: "ok",
     timestamp: new Date().toISOString(),
     service: "stella-web",
-  });
-}
+  };
+});
+
+export const GET = healthCheck;

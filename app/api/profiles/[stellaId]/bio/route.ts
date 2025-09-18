@@ -1,55 +1,14 @@
-import axios from "axios";
-import { NextRequest, NextResponse } from "next/server";
 import {
-  createSuccessResponse,
-  getApiUrl,
-  handleApiError,
-  validateRequiredParams,
-} from "../../../../utils/apiHelpers";
-import {
-  createAuthHeaders,
-  extractFirebaseToken,
-} from "../../../../utils/authHelpers";
+  apiClient,
+  createRoute,
+  RouteTypes,
+} from "../../../../utils/routeFactory";
 
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ stellaId: string }> }
-) {
-  const { stellaId } = await params;
+const updateBio = createRoute({
+  ...RouteTypes.PROTECTED_MODIFY,
+  params: ["stellaId"],
+})(async (request, { params, body, token }) => {
+  return await apiClient.patch(`/profiles/${params.stellaId}/bio`, body, token);
+});
 
-  try {
-    // Validate required parameters
-    const validationError = validateRequiredParams({ stellaId });
-    if (validationError) return validationError;
-
-    const body = await request.json();
-
-    // Extract and validate Firebase token
-    const tokenResult = extractFirebaseToken(request);
-    if (tokenResult instanceof NextResponse) {
-      return tokenResult; // Return error response if token is invalid
-    }
-    const firebaseToken = tokenResult;
-
-    // Get API URL using helper
-    const apiUrl = getApiUrl();
-
-    const response = await axios.patch(
-      `${apiUrl}/profiles/${stellaId}/bio`,
-      body,
-      {
-        headers: createAuthHeaders(firebaseToken),
-        timeout: 10000,
-      }
-    );
-
-    return createSuccessResponse(response.data);
-  } catch (error) {
-    return handleApiError(
-      error,
-      "updating bio",
-      `user ${stellaId}`,
-      "Failed to update bio"
-    );
-  }
-}
+export const PATCH = updateBio;

@@ -1,29 +1,15 @@
-import { NextRequest, NextResponse } from "next/server";
-
 /**
- * Helper function to extract and validate Firebase token from request headers
+ * @deprecated - This file has been replaced by routeFactory.ts
+ *
+ * All authentication helper functions have been migrated to the new route factory pattern.
+ * For new API routes, use createRoute() from routeFactory.ts instead.
+ *
+ * Migration mapping:
+ * - extractFirebaseToken() -> automatic authentication middleware in routeFactory.ts
+ * - createAuthHeaders() -> handled by ApiClient in routeFactory.ts
+ *
+ * @see routeFactory.ts for the new pattern
  */
-export function extractFirebaseToken(
-  request: NextRequest
-): string | NextResponse {
-  const authHeader = request.headers.get("authorization");
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return NextResponse.json(
-      { error: "Firebase token is required" },
-      { status: 401 }
-    );
-  }
-
-  return authHeader.replace("Bearer ", "");
-}
-
-/**
- * Helper function to create axios headers with Firebase token
- */
-export function createAuthHeaders(firebaseToken: string) {
-  return {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${firebaseToken}`,
-  };
-}
+// This file is kept as a placeholder to avoid breaking imports during transition.
+// All functionality has been moved to routeFactory.ts

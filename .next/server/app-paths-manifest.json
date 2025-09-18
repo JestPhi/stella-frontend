@@ -1,12 +1,1 @@
-{
-  "/_not-found/page": "app/_not-found/page.js",
-  "/api/profiles/[stellaId]/route": "app/api/profiles/[stellaId]/route.js",
-  "/api/profiles/[stellaId]/stories/[storyId]/images/route": "app/api/profiles/[stellaId]/stories/[storyId]/images/route.js",
-  "/api/profiles/[stellaId]/stories/[storyId]/pages/[pageId]/route": "app/api/profiles/[stellaId]/stories/[storyId]/pages/[pageId]/route.js",
-  "/api/profiles/[stellaId]/stories/[storyId]/pages/route": "app/api/profiles/[stellaId]/stories/[storyId]/pages/route.js",
-  "/api/profiles/[stellaId]/stories/[storyId]/route": "app/api/profiles/[stellaId]/stories/[storyId]/route.js",
-  "/api/profiles/firebase/[firebaseId]/route": "app/api/profiles/firebase/[firebaseId]/route.js",
-  "/api/stories/route": "app/api/stories/route.js",
-  "/page": "app/page.js",
-  "/profile/[stellaId]/story/[storyId]/page": "app/profile/[stellaId]/story/[storyId]/page.js"
-}
+{}
