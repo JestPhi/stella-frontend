@@ -51,7 +51,9 @@ const EditPage = ({ pageId }: { pageId: string }) => {
     if (pageId === "COVER_PAGE") {
       return storyData?.story?.coverPage;
     }
-    return storyData?.story?.pages?.[pageId]?.panels;
+    // Convert pageId to number for array access
+    const pageIndex = parseInt(pageId, 10);
+    return storyData?.story?.pages?.[pageIndex]?.panels;
   };
 
   // Backend mutation hook
