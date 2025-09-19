@@ -42,33 +42,24 @@ export default function StoryPage() {
     });
   };
 
-  // Show loading state
-  if (isLoading || isProfileLoading) {
-    return <div>Loading story...</div>;
-  }
-
-  // Show error state
-  if (isError || isProfileError) {
-    return (
-      <div>Error loading story: {error?.message || profileError?.message}</div>
-    );
-  }
-
   return (
     <div className="story-container">
       <PageCover
         key={`${storyId}-${story?.updatedAt || "initial"}`}
-        onDelete={() => {
-          router.push(`/${stellaId}`);
-        }}
         profileImageKey={profile?.profileImageKey}
         username={profile?.username}
-        stellaId={stellaId as string}
         storyId={storyId as string}
         panels={story?.coverPage}
       />
-      {story?.pages?.map((page: any) => {
-        return <Page key={page.id} id={page.id} panels={page.panels} />;
+      {Object.keys(story?.pages || {}).map((pageId: any, index) => {
+        return (
+          <Page
+            key={pageId}
+            pageId={pageId}
+            panels={story?.pages?.[pageId].panels}
+            pageNumber={index}
+          />
+        );
       })}
     </div>
   );

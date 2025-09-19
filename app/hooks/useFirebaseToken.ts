@@ -1,22 +1,48 @@
+import { useEffect, useState } from "react";
+import { auth } from "../config/firebase";
+
 /**
- * Returns a promise that resolves when the Firebase token is available.
- * Useful for waiting for the token before making API calls.
+ * Hook that returns the current Firebase token
  */
-export function waitForFirebaseToken(): Promise<string> {
-  return new Promise((resolve) => {
-    const handleMessage = (event: MessageEvent) => {
-      if (event.data && event.data.type === "FIREBASE_TOKEN_RESPONSE") {
-        window.removeEventListener("message", handleMessage);
-        resolve(event.data.token);
+export const useFirebaseToken = () => {
+  const [token, setToken] = useState<string | undefined>(undefined);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getToken = async () => {
+      setLoading(true);
+      const user = auth.currentUser;
+      if (!user) {
+        setToken(undefined);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const firebaseToken = await user.getIdToken();
+        setToken(firebaseToken);
+      } catch (error) {
+        console.error("Failed to get Firebase token:", error);
+        setToken(undefined);
+      } finally {
+        setLoading(false);
       }
     };
 
-    window.addEventListener("message", handleMessage);
+    getToken();
 
-    // Request token from parent
-    window.parent.postMessage(
-      { type: "REQUEST_FIREBASE_TOKEN" },
-      "http://localhost:3015"
-    );
-  });
-}
+    // Listen for auth state changes
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (!user) {
+        setToken(undefined);
+        setLoading(false);
+      } else {
+        getToken();
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  return { token, loading };
+};

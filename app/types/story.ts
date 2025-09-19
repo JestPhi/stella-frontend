@@ -2,7 +2,8 @@ export interface CoverPageElement {
   grid: { c: number; r: number; rs: number; cs: number };
   type: string;
   placeholder?: string;
-  value?: string | File;
+  file?: File;
+  value?: string;
   imageKey?: string;
 }
 

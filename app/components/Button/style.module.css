@@ -16,7 +16,6 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  padding: 4px 12px;
   box-sizing: border-box;
 }
 
@@ -33,7 +32,6 @@
   background: rgb(1, 127, 230, 1);
   border-radius: 32px;
   color: white;
-  font-weight: 600;
   height: 32px;
   padding: 0 16px;
 }
