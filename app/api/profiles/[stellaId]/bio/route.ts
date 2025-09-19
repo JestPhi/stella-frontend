@@ -1,3 +1,4 @@
+import { NextRequest } from "next/server";
 import {
   apiClient,
   createRoute,
@@ -7,8 +8,8 @@ import {
 const updateBio = createRoute({
   ...RouteTypes.PROTECTED_MODIFY,
   params: ["stellaId"],
-})(async (request, { params, body, token }) => {
+})(async (request: NextRequest, { params, body, token }) => {
   return await apiClient.patch(`/profiles/${params.stellaId}/bio`, body, token);
 });
 
-export const PATCH = updateBio;
+export { updateBio as PATCH };

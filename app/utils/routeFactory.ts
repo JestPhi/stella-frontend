@@ -5,9 +5,9 @@ import { NextRequest, NextResponse } from "next/server";
  * Get the external API URL from environment variables
  */
 function getApiUrl(): string {
-  const apiUrl = process.env.STELLA_APP_HOST;
+  const apiUrl = process.env.STELLA_BACKEND_HOST;
   if (!apiUrl) {
-    throw new Error("STELLA_APP_HOST environment variable is not set");
+    throw new Error("STELLA_BACKEND_HOST environment variable is not set");
   }
   return apiUrl;
 }
@@ -452,7 +452,7 @@ export const ValidationSchemas = {
  * Create a global API client instance
  */
 export const apiClient = new ApiClient(
-  process.env.STELLA_APP_HOST || "http://localhost:3000"
+  process.env.STELLA_BACKEND_HOST || "http://localhost:3000"
 );
 
 /**
