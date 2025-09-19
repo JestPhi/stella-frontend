@@ -44,8 +44,8 @@ const nextConfig = {
     NEXT_PUBLIC_FIREBASE_PROJECT_ID:
       process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
 
-    // Remove NEXT_PUBLIC_STELLA_APP_HOST - this should only be used server-side
-    // Use STELLA_APP_HOST (without NEXT_PUBLIC_) for server-side API calls
+    // Remove NEXT_PUBLIC_STELLA_BACKEND_HOST - this should only be used server-side
+    // Use STELLA_BACKEND_HOST (without NEXT_PUBLIC_) for server-side API calls
   },
   // Security headers
   async headers() {

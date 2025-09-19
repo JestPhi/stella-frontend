@@ -60,7 +60,7 @@ gcloud builds triggers create github \
     --repo-owner=JestPhi \
     --branch-pattern="^main$" \
     --build-config=cloudbuild.yaml \
-    --substitutions=_STELLA_APP_HOST="https://your-backend-api.com",_FIREBASE_API_KEY="your-api-key",_FIREBASE_AUTH_DOMAIN="your-project.firebaseapp.com",_FIREBASE_PROJECT_ID_PUBLIC="your-project-id",_STORJ_PUBLIC_URL="https://your-storj-url.com",_REACT_NATIVE_HOST="https://your-app-domain.com"
+    --substitutions=_STELLA_BACKEND_HOST="https://your-backend-api.com",_FIREBASE_API_KEY="your-api-key",_FIREBASE_AUTH_DOMAIN="your-project.firebaseapp.com",_FIREBASE_PROJECT_ID_PUBLIC="your-project-id",_STORJ_PUBLIC_URL="https://your-storj-url.com",_REACT_NATIVE_HOST="https://your-app-domain.com"
 ```
 
 ### Option B: Using Google Cloud Console
@@ -83,7 +83,7 @@ In your Cloud Build trigger, set these substitution variables:
 ### Required Variables:
 
 ```
-_STELLA_APP_HOST = https://your-backend-api.com
+_STELLA_BACKEND_HOST = https://your-backend-api.com
 _FIREBASE_API_KEY = AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 _FIREBASE_AUTH_DOMAIN = your-project.firebaseapp.com
 _FIREBASE_PROJECT_ID_PUBLIC = your-firebase-project-id
@@ -153,7 +153,7 @@ These are baked into the client-side bundle and are publicly visible:
 
 These are only available on the server and should be kept secret:
 
-- `STELLA_APP_HOST` - Your backend API URL
+- `STELLA_BACKEND_HOST` - Your backend API URL
 - `FIREBASE_PROJECT_ID` - Firebase project ID for admin SDK
 - `FIREBASE_CLIENT_EMAIL` - Firebase service account email
 - `FIREBASE_PRIVATE_KEY` - Firebase service account private key

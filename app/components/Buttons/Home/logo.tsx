@@ -1,4 +1,6 @@
-const Logo = (props) => {
+import { SVGProps } from "react";
+
+const Logo = (props: SVGProps<SVGSVGElement>) => {
   return (
     <svg
       {...props}
