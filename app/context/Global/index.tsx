@@ -20,6 +20,7 @@ type State = {
   modalVisible?: boolean;
   modalHeight?: string;
   modalContent?: ReactNode;
+  modalOnClose?: () => void;
 };
 
 // Define all possible actions
@@ -36,7 +37,9 @@ type Action =
 // Context type
 type ContextType = { state: State; dispatch: Dispatch<Action> };
 
-const initalState: State = {};
+const initalState: State = {
+  menu: null,
+};
 
 const GlobalContext = createContext<ContextType | undefined>(undefined);
 

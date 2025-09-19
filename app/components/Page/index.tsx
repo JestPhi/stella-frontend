@@ -3,7 +3,13 @@ import PageMore from "../Buttons/PageMore";
 import Panels from "../Panels";
 import style from "./style.module.css";
 
-const Page = (props) => {
+interface PageProps {
+  pageNumber: number;
+  panels: any;
+  pageId: string;
+}
+
+const Page = (props: PageProps) => {
   const { pageNumber, panels, pageId } = props;
   return (
     <div className={style.page}>

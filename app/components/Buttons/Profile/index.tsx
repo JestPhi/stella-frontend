@@ -21,18 +21,24 @@ const Profile = ({}) => {
   );
 
   useEffect(() => {
-    if (!isSuccess) {
+    if (!isSuccess || !profileResponse?.profile) {
       return;
     }
 
+    const profile = profileResponse.profile;
     dispatch({
       type: "SET_PROFILE",
-      payload: profileResponse,
+      payload: {
+        stellaId: profile.stellaId,
+        username: profile.username,
+        bio: profile.bio,
+        globalImageKey: profile.profileImageKey,
+      },
     });
-  }, [profileResponse?.stellaId, isSuccess]);
+  }, [profileResponse?.profile?.stellaId, isSuccess]);
 
   useEffect(() => {
-    if (!profileResponse && firebaseId && isSuccess) {
+    if (!profileResponse?.profile && firebaseId && isSuccess) {
       dispatch({
         type: "SET_MODAL",
         payload: {
@@ -42,7 +48,7 @@ const Profile = ({}) => {
         },
       });
     }
-  }, [state?.stellaId, firebaseId, isSuccess]);
+  }, [profileResponse?.profile?.stellaId, firebaseId, isSuccess]);
 
   return (
     <>

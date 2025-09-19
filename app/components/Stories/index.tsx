@@ -1,11 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
 import Masonry from "react-responsive-masonry";
+import { Story } from "../../api/stories";
 import styles from "./style.module.css";
-
-interface Story {
-  title: string;
-}
 
 interface StoriesProps {
   stories: Array<Story>;

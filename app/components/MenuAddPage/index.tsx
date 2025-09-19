@@ -23,6 +23,7 @@ const initalState = {
       cs: 0,
     },
     skeleton: "text",
+    type: "text",
   },
 };
 

@@ -23,7 +23,10 @@ const EditProfile = () => {
     state,
   } = useGlobalContext();
 
-  const { stellaId } = useParams();
+  const params = useParams();
+  const stellaId = Array.isArray(params.stellaId)
+    ? params.stellaId[0]
+    : params.stellaId || "";
   const { data: profileResponse } = useProfile(stellaId);
   const profile = profileResponse?.profile;
 
@@ -62,11 +65,14 @@ const EditProfile = () => {
     }
   };
 
-  const onProfileSubmit = (data: { username: string; bio: string }) => {
-    if (formState.dirtyFields.username) {
+  const onProfileSubmit = (data: {
+    username: string | undefined;
+    bio: string | undefined;
+  }) => {
+    if (formState.dirtyFields.username && data.username) {
       profileUsernameUpdate.mutate({ stellaId, username: data.username });
     }
-    if (formState.dirtyFields.bio) {
+    if (formState.dirtyFields.bio && data.bio) {
       profileBioUpdate.mutate({ stellaId, bio: data.bio });
     }
   };

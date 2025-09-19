@@ -9,7 +9,7 @@ import style from "./style.module.css";
 const Profile = () => {
   const {
     dispatch,
-    state: { stellaId, bio, username, profileImageKey },
+    state: { stellaId, bio, username, globalImageKey },
   } = useGlobalContext();
 
   return (
@@ -32,9 +32,9 @@ const Profile = () => {
       </Bar>
       <Avatar
         src={
-          profileImageKey
-            ? `${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${profileImageKey}?wrap=0`
-            : undefined
+          globalImageKey
+            ? `${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${globalImageKey}?wrap=0`
+            : ""
         }
       />
       <div className={style.name}>{username || "Unknown User"}</div>

@@ -1,6 +1,11 @@
+import { ReactNode } from "react";
 import styles from "./style.module.css";
 
-const ScrollView = ({ children }) => {
+interface ScrollViewProps {
+  children: ReactNode;
+}
+
+const ScrollView = ({ children }: ScrollViewProps) => {
   return <div className={styles.scrollView}>{children}</div>;
 };
 

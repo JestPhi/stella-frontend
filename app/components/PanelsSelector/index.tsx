@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
-import style from "./style.module.css";
-import { useGlobalContext } from "../../context/context";
+import { useState } from "react";
 import Bar from "../Bar";
 import Panels from "../Panels";
+import style from "./style.module.css";
 
 const panelsSelections = [
   {
@@ -41,10 +40,14 @@ const panelsSelections = [
   },
 ];
 
-const PanelsSelector = ({ onChange = () => {} }) => {
+interface PanelsSelectorProps {
+  onChange?: (data: any) => void;
+}
+
+const PanelsSelector = ({ onChange = () => {} }: PanelsSelectorProps) => {
   const [selected, setSelected] = useState(0);
 
-  const handleClick = (index) => {
+  const handleClick = (index: number) => {
     const a = Object.values(panelsSelections[index]).reduce(
       (prev, curr, index) => {
         return {
@@ -63,16 +66,21 @@ const PanelsSelector = ({ onChange = () => {} }) => {
     <div>
       <Bar className={style.bar}>
         {panelsSelections.map((panel, index) => {
+          // Filter out undefined values and ensure all items have required properties
+          const validItems = Object.fromEntries(
+            Object.entries(panel).filter(([key, item]) => item !== undefined)
+          );
+
           return (
-            <Panels
-              isEditMode={false}
+            <div
               key={index}
               className={index === selected ? style.selected : ""}
-              items={panel}
               onClick={() => {
                 handleClick(index);
               }}
-            />
+            >
+              <Panels isEditMode={false} items={validItems} />
+            </div>
           );
         })}
       </Bar>

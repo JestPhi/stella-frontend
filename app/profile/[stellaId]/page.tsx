@@ -69,11 +69,7 @@ export default function ProfilePage() {
   return (
     <>
       <div className="profile">
-        <ProfileComponent
-          profileImageKey={profile?.profileImageKey}
-          bio={profile?.bio}
-          username={profile?.username}
-        />
+        <ProfileComponent />
         <Stories stories={stories} />
       </div>
     </>
