@@ -9,7 +9,7 @@ import style from "./style.module.css";
 const Profile = () => {
   const {
     dispatch,
-    state: { stellaId, bio, username, globalImageKey },
+    state: { bio, username, globalImageKey },
   } = useGlobalContext();
 
   return (

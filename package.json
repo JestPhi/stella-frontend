@@ -21,6 +21,7 @@
     "events": "^3.3.0",
     "feather-icons": "^4.29.2",
     "firebase": "^11.8.1",
+    "firebase-admin": "^12.1.0",
     "next": "^15.4.5",
     "pouchdb": "^9.0.0",
     "pouchdb-browser": "^9.0.0",

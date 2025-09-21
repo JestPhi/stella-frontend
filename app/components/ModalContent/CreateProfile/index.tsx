@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useGlobalContext } from "../../../context/Global";
 import useAuth from "../../../hooks/useAuth";
-import { useProfile } from "../../../hooks/useProfile";
 import { useProfileCreate } from "../../../hooks/useProfileMutations";
 import Bar from "../../Bar";
 import Button from "../../Button";
@@ -18,14 +17,7 @@ const CreateProfile = () => {
   const router = useRouter();
 
   // TanStack Query for fetching profile data via backend API
-  const {
-    data: profileResponse,
-    isLoading: isProfileLoading,
-    isError: isProfileError,
-    error: profileError,
-  } = useProfile(firebaseId || "");
 
-  const profile = profileResponse?.profile;
   const { state, dispatch } = useGlobalContext();
 
   // Backend mutation hooks

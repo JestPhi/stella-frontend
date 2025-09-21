@@ -20,12 +20,15 @@ const Profile = ({}) => {
     firebaseId || ""
   );
 
+  console.log(state);
+
   useEffect(() => {
-    if (!isSuccess || !profileResponse?.profile) {
+    if (!isSuccess || !profileResponse) {
       return;
     }
 
-    const profile = profileResponse.profile;
+    const profile = profileResponse;
+
     dispatch({
       type: "SET_PROFILE",
       payload: {
@@ -38,7 +41,7 @@ const Profile = ({}) => {
   }, [profileResponse?.profile?.stellaId, isSuccess]);
 
   useEffect(() => {
-    if (!profileResponse?.profile && firebaseId && isSuccess) {
+    if (!profileResponse && firebaseId && isSuccess) {
       dispatch({
         type: "SET_MODAL",
         payload: {
@@ -48,7 +51,7 @@ const Profile = ({}) => {
         },
       });
     }
-  }, [profileResponse?.profile?.stellaId, firebaseId, isSuccess]);
+  }, [profileResponse?.stellaId, firebaseId, isSuccess]);
 
   return (
     <>
