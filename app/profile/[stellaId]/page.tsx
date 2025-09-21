@@ -50,7 +50,7 @@ export default function ProfilePage() {
     error: profileError,
   } = useProfile(stellaId);
 
-  const profile = profileResponse?.profile;
+  const profile = profileResponse;
 
   // Show loading state
   if (isLoading || isProfileLoading) {

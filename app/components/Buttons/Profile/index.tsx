@@ -20,14 +20,14 @@ const Profile = ({}) => {
     firebaseId || ""
   );
 
-  console.log(state);
-
   useEffect(() => {
     if (!isSuccess || !profileResponse) {
       return;
     }
 
     const profile = profileResponse;
+
+    console.log(profile);
 
     dispatch({
       type: "SET_PROFILE",
@@ -38,7 +38,7 @@ const Profile = ({}) => {
         globalImageKey: profile.profileImageKey,
       },
     });
-  }, [profileResponse?.profile?.stellaId, isSuccess]);
+  }, [profileResponse?.stellaId, firebaseId, isSuccess, dispatch]);
 
   useEffect(() => {
     if (!profileResponse && firebaseId && isSuccess) {
@@ -51,7 +51,7 @@ const Profile = ({}) => {
         },
       });
     }
-  }, [profileResponse?.stellaId, firebaseId, isSuccess]);
+  }, [profileResponse?.stellaId, firebaseId, isSuccess, dispatch]);
 
   return (
     <>

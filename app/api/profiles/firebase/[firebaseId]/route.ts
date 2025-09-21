@@ -10,11 +10,11 @@ const getProfileByFirebaseId = createRoute({
 })(async (request, { params }) => {
   try {
     const data = await apiClient.get(`/profiles/firebase/${params.firebaseId}`);
-    return data;
+    return data; // Return profile data directly
   } catch (error: any) {
-    // Handle 404 specially - return null profile instead of error
+    // Handle 404 specially - return null for consistency
     if (error.response?.status === 404) {
-      return { profile: null };
+      return null;
     }
     throw error;
   }

@@ -32,7 +32,7 @@ export default function StoryPage() {
     error: profileError,
   } = useProfile(stellaId as string);
 
-  const profile = profileResponse?.profile;
+  const profile = profileResponse;
 
   const handleRefetch = async () => {
     console.log("Invalidating and refetching story data");

@@ -28,7 +28,7 @@ const EditProfile = () => {
     ? params.stellaId[0]
     : params.stellaId || "";
   const { data: profileResponse } = useProfile(stellaId);
-  const profile = profileResponse?.profile;
+  const profile = profileResponse;
 
   const { register, handleSubmit, formState } = useForm({
     defaultValues: { username: username, bio: bio },

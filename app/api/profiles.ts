@@ -6,13 +6,14 @@ export interface Profile {
   username?: string;
   bio?: string;
   profileImageKey?: string;
+  firebaseId?: string;
   createdAt?: string;
   updatedAt?: string;
+  success?: boolean;
 }
 
-export interface ProfileResponse {
-  profile: Profile | null;
-}
+// The API returns profile data directly (or null for not found)
+export type ProfileResponse = Profile | null;
 
 export interface UpdateBioRequest {
   bio: string;
