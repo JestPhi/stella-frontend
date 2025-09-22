@@ -18,7 +18,6 @@ const PageCover = ({
   username,
   storyId,
 }: PageCoverProps) => {
-  console.log(panels);
   return (
     <div className={style.pageCover}>
       <Bar className={style.topBar} variant="bottom-border">
@@ -29,7 +28,7 @@ const PageCover = ({
               src={`${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${profileImageKey}?wrap=0`}
             />
           )}
-          {username || "Unknown User"}
+          {username}
         </div>
         <div className={style.actions}>
           <PageMore pageId="COVER_PAGE" />

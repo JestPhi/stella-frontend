@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { User } from "react-feather";
 
+import { useModalContext } from "@/context/Modal";
 import { useGlobalContext } from "../../../context/Global";
 import useAuth from "../../../hooks/useAuth";
 import { useProfileByFirebaseId } from "../../../hooks/useProfile";
@@ -13,6 +14,7 @@ import SignIn from "../../ModalContent/SignIn";
 import styles from "./style.module.css";
 
 const Profile = ({}) => {
+  const { dispatch: modalDispatch } = useModalContext();
   const { dispatch, state } = useGlobalContext();
   const { firebaseId, signOut } = useAuth();
 
@@ -27,8 +29,6 @@ const Profile = ({}) => {
 
     const profile = profileResponse;
 
-    console.log(profile);
-
     dispatch({
       type: "SET_PROFILE",
       payload: {
@@ -42,12 +42,11 @@ const Profile = ({}) => {
 
   useEffect(() => {
     if (!profileResponse && firebaseId && isSuccess) {
-      dispatch({
-        type: "SET_MODAL",
+      modalDispatch({
+        type: "SHOW_MODAL",
         payload: {
-          modalContent: <CreateProfile />,
-          modalVisible: true,
-          modalHeight: "400px",
+          content: <CreateProfile />,
+          height: "400px",
         },
       });
     }
@@ -58,12 +57,11 @@ const Profile = ({}) => {
       {state.stellaId && (
         <Button
           onClick={() => {
-            dispatch({
-              type: "SET_MODAL",
+            modalDispatch({
+              type: "SHOW_MODAL",
               payload: {
-                modalVisible: true,
-                modalHeight: `240px`,
-                modalContent: <ProfileContent />,
+                height: `240px`,
+                content: <ProfileContent />,
               },
             });
           }}
@@ -76,12 +74,11 @@ const Profile = ({}) => {
       {!state.stellaId && (
         <Button
           onClick={() => {
-            dispatch({
-              type: "SET_MODAL",
+            modalDispatch({
+              type: "SHOW_MODAL",
               payload: {
-                modalVisible: true,
-                modalHeight: `240px`,
-                modalContent: <SignIn />,
+                height: `240px`,
+                content: <SignIn />,
                 modalOnClose: signOut,
               },
             });

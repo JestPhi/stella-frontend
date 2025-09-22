@@ -1,8 +1,8 @@
 "use client";
 
+import { useModalContext } from "@/context/Modal";
 import { useParams } from "next/navigation";
 import { Plus } from "react-feather";
-import { useGlobalContext } from "../../../context/Global";
 import Button from "../../Button";
 import CreateStoryContent from "../../ModalContent/CreateStory";
 
@@ -10,7 +10,7 @@ const CreateStory = ({}) => {
   const params = useParams();
   const stellaId = params?.stellaId as string;
   const storyId = params?.storyId as string;
-  const { state, dispatch } = useGlobalContext();
+  const { state, dispatch } = useModalContext();
 
   if (stellaId && storyId) {
     return null;
@@ -20,11 +20,10 @@ const CreateStory = ({}) => {
     <Button
       onClick={() => {
         dispatch({
-          type: "SET_MODAL",
+          type: "SHOW_MODAL",
           payload: {
-            modalHeight: "calc(100vh - 44px)",
-            modalVisible: true,
-            modalContent: <CreateStoryContent />,
+            height: "calc(100vh - 44px)",
+            content: <CreateStoryContent />,
           },
         });
       }}

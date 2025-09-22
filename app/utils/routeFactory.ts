@@ -105,22 +105,22 @@ function createAuthHeaders(firebaseToken: string) {
  */
 const RATE_LIMITS = {
   // Public read-only routes (higher limits)
-  PUBLIC_READ: { maxRequests: 200, windowMs: 60000 }, // 200/min
+  PUBLIC_READ: { maxRequests: 2000, windowMs: 60000 }, // 200/min
 
   // Health check (very high limits)
   HEALTH: { maxRequests: 1000, windowMs: 60000 }, // 1000/min
 
   // Authentication routes (moderate limits)
-  AUTH: { maxRequests: 30, windowMs: 60000 }, // 30/min
+  AUTH: { maxRequests: 300, windowMs: 60000 }, // 30/min
 
   // Profile creation (strict limits)
-  PROFILE_CREATE: { maxRequests: 5, windowMs: 60000 }, // 5/min
+  PROFILE_CREATE: { maxRequests: 50, windowMs: 60000 }, // 5/min
 
   // Content modification (moderate limits)
-  CONTENT_MODIFY: { maxRequests: 60, windowMs: 60000 }, // 60/min
+  CONTENT_MODIFY: { maxRequests: 600, windowMs: 60000 }, // 60/min
 
   // Image uploads (strict limits)
-  IMAGE_UPLOAD: { maxRequests: 20, windowMs: 60000 }, // 20/min
+  IMAGE_UPLOAD: { maxRequests: 200, windowMs: 60000 }, // 20/min
 
   // General API (default)
   DEFAULT: { maxRequests: 100, windowMs: 60000 }, // 100/min

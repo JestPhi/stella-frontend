@@ -17,22 +17,21 @@ type State = {
   bio?: string;
   globalImageKey?: string;
   showGlobalCreationModal?: boolean;
-  modalVisible?: boolean;
-  modalHeight?: string;
-  modalContent?: ReactNode;
+  visible?: boolean;
+  height?: string;
+  content?: ReactNode;
   modalOnClose?: () => void;
 };
 
 // Define all possible actions
 type Action =
   | { type: "CLEAR_STATE" }
-  | { type: "HIDE_MODAL" }
-  | { type: "SET_MODAL"; payload: any }
   | { type: "CLEAR_PROFILE" }
   | { type: "SET_FIREBASE_ID"; payload: string }
   | { type: "SET_STELLA_ID"; payload: string }
   | { type: "SET_PROFILE"; payload: Partial<State> }
-  | { type: "SHOW_PROFILE_CREATION_MODAL" };
+  | { type: "SHOW_PROFILE_CREATION_MODAL" }
+  | { type: "HIDE_MODAL" };
 
 // Context type
 type ContextType = { state: State; dispatch: Dispatch<Action> };
@@ -75,20 +74,13 @@ function globalReducer(state: State, action: Action): State {
         ...state,
         showGlobalCreationModal: true,
       };
-    case "SET_MODAL": {
+    case "HIDE_MODAL":
       return {
         ...state,
-        ...action.payload,
+        visible: false,
+        content: undefined,
+        showGlobalCreationModal: false,
       };
-    }
-    case "HIDE_MODAL": {
-      return {
-        ...state,
-        modalHeight: undefined,
-        modalContent: undefined,
-        modalVisible: false,
-      };
-    }
     default:
       throw new Error(`Unhandled action type: ${(action as any).type}`);
   }

@@ -1,4 +1,5 @@
 "use client";
+import { useModalContext } from "@/context/Modal";
 import { useEffect } from "react";
 import { useGlobalContext } from "../../../context/Global";
 import useAuth from "../../../hooks/useAuth";
@@ -6,12 +7,13 @@ import styles from "./style.module.css";
 
 const SignIn = () => {
   const { state, dispatch } = useGlobalContext();
+  const { dispatch: modalDispatch } = useModalContext();
 
   const { signIn } = useAuth();
 
   useEffect(() => {
     if (state?.stellaId) {
-      dispatch({
+      modalDispatch({
         type: "HIDE_MODAL",
       });
     }

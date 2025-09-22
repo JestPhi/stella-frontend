@@ -1,13 +1,15 @@
 "use client";
 
+import { useGlobalContext } from "@/context/Global";
+import { useModalContext } from "@/context/Modal";
 import { useParams } from "next/navigation";
 import { MoreHorizontal } from "react-feather";
-import { useGlobalContext } from "../../../context/Global";
 import Button from "../../Button";
 import StoryActions from "../../ModalContent/StoryActions";
 
 const PageMore = ({ pageId }: { pageId: string }) => {
-  const { dispatch, state } = useGlobalContext();
+  const { dispatch } = useModalContext();
+  const { state } = useGlobalContext();
   const params = useParams();
   const isOwner = state.stellaId === params.stellaId;
 
@@ -15,11 +17,10 @@ const PageMore = ({ pageId }: { pageId: string }) => {
     <Button
       onClick={() => {
         dispatch({
-          type: "SET_MODAL",
+          type: "SHOW_MODAL",
           payload: {
-            modalVisible: true,
-            modalContent: <StoryActions pageId={pageId} />,
-            modalHeight: "400px",
+            content: <StoryActions pageId={pageId} />,
+            height: "400px",
           },
         });
       }}

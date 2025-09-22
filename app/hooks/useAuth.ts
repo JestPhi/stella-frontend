@@ -43,7 +43,7 @@ const useAuth = () => {
       }
     });
   }, []);
-  console.log(firebaseIdState);
+
   return { firebaseId: firebaseIdState, signIn, signOut };
 };
 

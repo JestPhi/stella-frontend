@@ -1,3 +1,4 @@
+import { useModalContext } from "@/context/Modal";
 import { Edit2 } from "react-feather";
 import { useGlobalContext } from "../../context/Global";
 import Avatar from "../Avatar";
@@ -12,17 +13,18 @@ const Profile = () => {
     state: { bio, username, globalImageKey },
   } = useGlobalContext();
 
+  const { dispatch: modalDispatch } = useModalContext();
+
   return (
     <div className={style.profile}>
       <Bar className={style.bar} variant="secondary">
         <Button
           onClick={() => {
-            dispatch({
-              type: "SET_MODAL",
+            modalDispatch({
+              type: "SHOW_MODAL",
               payload: {
-                modalVisible: true,
-                modalContent: <EditProfile />,
-                modalHeight: "400px",
+                content: <EditProfile />,
+                height: "400px",
               },
             });
           }}
@@ -37,7 +39,7 @@ const Profile = () => {
             : ""
         }
       />
-      <div className={style.name}>{username || "Unknown User"}</div>
+      <div className={style.name}>{username}</div>
       <div className={style.bio}>{bio || ""}</div>
     </div>
   );

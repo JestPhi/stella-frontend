@@ -1,14 +1,14 @@
 "use client";
 
+import { useModalContext } from "@/context/Modal";
 import { useParams } from "next/navigation";
 import { Plus } from "react-feather";
-import { useGlobalContext } from "../../../context/Global";
-import CreatePageContent from "../../ModalContent/CreatePage";
 
 import Button from "../../Button";
+import CreatePageContent from "../../ModalContent/CreatePage";
 
 const CreatePage = ({}) => {
-  const { dispatch } = useGlobalContext();
+  const { dispatch } = useModalContext();
   const params = useParams();
   const storyId = params?.storyId as string;
 
@@ -20,11 +20,10 @@ const CreatePage = ({}) => {
     <Button
       onClick={() => {
         dispatch({
-          type: "SET_MODAL",
+          type: "SHOW_MODAL",
           payload: {
-            modalHeight: "calc(100vh - 44px)",
-            modalVisible: true,
-            modalContent: <CreatePageContent />,
+            height: "calc(100vh - 44px)",
+            content: <CreatePageContent />,
           },
         });
       }}

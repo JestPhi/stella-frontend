@@ -1,10 +1,10 @@
 "use client";
 
-import { useGlobalContext } from "../../context/Global";
+import { useModalContext } from "../../context/Modal";
 import styles from "./style.module.css";
 
 const Modal = () => {
-  const { state, dispatch } = useGlobalContext();
+  const { state, dispatch } = useModalContext();
 
   const handleClose = () => {
     dispatch({
@@ -16,7 +16,7 @@ const Modal = () => {
     }
   };
 
-  if (!state.modalVisible) {
+  if (!state.visible) {
     return null;
   }
 
@@ -25,9 +25,9 @@ const Modal = () => {
       <div className={styles.backdrop} onClick={handleClose} />
       <div
         className={styles.content}
-        style={{ height: state.modalHeight || "100vh" }}
+        style={{ height: state.height || "100vh" }}
       >
-        {state.modalContent}
+        {state.content}
       </div>
     </div>
   );

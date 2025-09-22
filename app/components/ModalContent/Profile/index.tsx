@@ -1,3 +1,4 @@
+import { useModalContext } from "@/context/Modal";
 import { useRouter } from "next/navigation";
 import { LogOut, User } from "react-feather";
 import { useGlobalContext } from "../../../context/Global";
@@ -10,6 +11,7 @@ const Profile = () => {
   const router = useRouter();
   const { signOut } = useAuth();
   const { dispatch, state } = useGlobalContext();
+  const { dispatch: modalDispatch } = useModalContext();
 
   return (
     <div>
@@ -21,7 +23,7 @@ const Profile = () => {
           className={styles.button}
           onClick={() => {
             router.push(`/profile/${state.stellaId}`);
-            dispatch({ type: "HIDE_MODAL" });
+            modalDispatch({ type: "HIDE_MODAL" });
           }}
         >
           <div className={styles.innerButton}>
@@ -33,7 +35,7 @@ const Profile = () => {
           className={styles.button}
           onClick={() => {
             signOut();
-            dispatch({
+            modalDispatch({
               type: "HIDE_MODAL",
             });
             dispatch({

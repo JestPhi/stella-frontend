@@ -139,8 +139,6 @@ const PanelItemComponent = memo(
           const imageKey = typeof localValue === "string" ? localValue : "";
           const hasImageContent = Boolean(imageKey);
 
-          console.log(imageKey, "imageKey");
-
           return (
             <div className={gridClasses}>
               {hasImageContent && (

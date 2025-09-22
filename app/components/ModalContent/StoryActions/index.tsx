@@ -1,7 +1,7 @@
 "use client";
 
+import { useModalContext } from "@/context/Modal";
 import { useParams, useRouter } from "next/navigation";
-import { useGlobalContext } from "../../../context/Global";
 import {
   usePageDelete,
   useStoryDelete,
@@ -16,7 +16,7 @@ const StoryActions = ({ pageId }: { pageId: string }) => {
     storyId: string;
   };
   const router = useRouter();
-  const { dispatch } = useGlobalContext();
+  const { dispatch } = useModalContext();
 
   // Backend mutation hooks
   const deletePageMutation = usePageDelete();
@@ -57,11 +57,10 @@ const StoryActions = ({ pageId }: { pageId: string }) => {
 
   const handleEditPage = (pageId: string) => {
     dispatch({
-      type: "SET_MODAL",
+      type: "SHOW_MODAL",
       payload: {
-        modalContent: <EditPage pageId={pageId} />,
-        modalHeight: "calc(100vh - 44px)",
-        modalVisible: true,
+        content: <EditPage pageId={pageId} />,
+        height: "calc(100vh - 44px)",
       },
     });
   };

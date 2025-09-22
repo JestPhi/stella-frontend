@@ -55,7 +55,7 @@ export const profileAPI = {
    */
   getByFirebaseId: async (firebaseId: string): Promise<ProfileResponse> => {
     const { data } = await axios.get(`/api/profiles/firebase/${firebaseId}`);
-    console.log(data);
+
     return data;
   },
 

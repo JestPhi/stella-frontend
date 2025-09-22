@@ -1,5 +1,6 @@
 "use client";
 
+import { useModalContext } from "@/context/Modal";
 import { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useGlobalContext } from "../../../context/Global";
@@ -31,6 +32,7 @@ const CreateStory = () => {
     dispatch,
     state: { stellaId },
   } = useGlobalContext();
+  const { dispatch: modalDispatch } = useModalContext();
 
   // Backend mutation hooks
   const router = useRouter();
@@ -55,7 +57,7 @@ const CreateStory = () => {
       // Upload files if any
       for (const fileUpload of filesToUpload) {
         const formData = new FormData();
-        console.log(fileUpload);
+
         formData.append("file", fileUpload.file);
         formData.append("imageKey", fileUpload.imageKey);
 
@@ -87,7 +89,7 @@ const CreateStory = () => {
         },
         {
           onSuccess: (response) => {
-            dispatch({
+            modalDispatch({
               type: "HIDE_MODAL",
             });
             router.push(`/profile/${stellaId}/story/${currentStoryId}`);

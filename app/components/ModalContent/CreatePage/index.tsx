@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { useRef } from "react";
 
-import { useGlobalContext } from "../../../context/Global";
+import { useModalContext } from "../../../context/Modal";
 import {
   usePageCreate,
   useStoryImageUpload,
@@ -35,7 +35,7 @@ const CreatePage = () => {
   const pageCreate = usePageCreate();
   const storyImageUpload = useStoryImageUpload();
 
-  const { dispatch, state } = useGlobalContext();
+  const { dispatch } = useModalContext();
 
   const handleSave = async (data: Record<string, any>) => {
     try {
