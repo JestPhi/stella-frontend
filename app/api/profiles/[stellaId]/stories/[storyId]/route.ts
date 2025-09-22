@@ -16,39 +16,40 @@ const getStory = createRoute({
 });
 
 const updateStory = createRoute({
-  ...RouteTypes.PROTECTED_MODIFY,
-  params: ["stellaId", "storyId"],
+  requireAuth: true,
+  rateLimit: { maxRequests: 20, windowMs: 60000 },
   timeout: 15000,
-})(async (request, { params, token }) => {
-  const body = await request.json();
+  params: ["stellaId", "storyId"],
+})(async (request, { params, token, body }) => {
   return await apiClient.patch(
     `/profiles/${params.stellaId}/stories/${params.storyId}`,
     body,
-    token,
+    token, // Pass token to backend
     15000
   );
 });
 
 const deleteStory = createRoute({
-  ...RouteTypes.PROTECTED_MODIFY,
+  requireAuth: true,
+  rateLimit: { maxRequests: 20, windowMs: 60000 },
   params: ["stellaId", "storyId"],
 })(async (request, { params, token }) => {
   return await apiClient.delete(
     `/profiles/${params.stellaId}/stories/${params.storyId}`,
-    token
+    token // Pass token to backend
   );
 });
 
 const createStory = createRoute({
-  ...RouteTypes.PROTECTED_MODIFY,
-  params: ["stellaId", "storyId"],
+  requireAuth: true,
+  rateLimit: { maxRequests: 20, windowMs: 60000 },
   timeout: 15000,
-})(async (request, { params, token }) => {
-  const body = await request.json();
+  params: ["stellaId", "storyId"],
+})(async (request, { params, token, body }) => {
   return await apiClient.post(
     `/profiles/${params.stellaId}/stories/${params.storyId}`,
     body,
-    token,
+    token, // Pass token to backend
     15000
   );
 });

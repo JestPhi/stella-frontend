@@ -13,7 +13,7 @@ export const getFilesToUpload = (
     )
     .map(([key, element]) => ({
       file: element.file as File,
-      imageId: uuidv4(),
+      imageKey: uuidv4(),
       elementKey: key,
     }));
 };

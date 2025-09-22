@@ -52,20 +52,6 @@ export default function ProfilePage() {
 
   const profile = profileResponse;
 
-  // Show loading state
-  if (isLoading || isProfileLoading) {
-    return <div>Loading profile...</div>;
-  }
-
-  // Show error state
-  if (isError || isProfileError) {
-    return (
-      <div>
-        Error loading profile: {error?.message || profileError?.message}
-      </div>
-    );
-  }
-
   return (
     <>
       <div className="profile">

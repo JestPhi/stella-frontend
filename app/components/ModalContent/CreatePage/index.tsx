@@ -46,7 +46,7 @@ const CreatePage = () => {
       for (const fileUpload of filesToUpload) {
         const formData = new FormData();
         formData.append("file", fileUpload.file);
-        formData.append("imageId", fileUpload.imageId);
+        formData.append("imageKey", fileUpload.imageKey);
 
         const result = await new Promise<any>((resolve, reject) => {
           storyImageUpload.mutate(
@@ -58,7 +58,7 @@ const CreatePage = () => {
           );
         });
 
-        const imageKey = result.key || result.url || fileUpload.imageId;
+        const imageKey = result.key || result.url || fileUpload.imageKey;
         updatedData[fileUpload.elementKey] = {
           ...updatedData[fileUpload.elementKey],
           value: imageKey,

@@ -57,7 +57,7 @@ const CreateStory = () => {
         const formData = new FormData();
         console.log(fileUpload);
         formData.append("file", fileUpload.file);
-        formData.append("imageId", fileUpload.imageId);
+        formData.append("imageKey", fileUpload.imageKey);
 
         const result = await new Promise<any>((resolve, reject) => {
           storyImageUpload.mutate(
@@ -69,7 +69,7 @@ const CreateStory = () => {
           );
         });
 
-        const imageKey = result.key || result.url || fileUpload.imageId;
+        const imageKey = result.key || result.url || fileUpload.imageKey;
         updatedData[fileUpload.elementKey] = {
           ...updatedData[fileUpload.elementKey],
           value: imageKey, // Set the uploaded image key/URL

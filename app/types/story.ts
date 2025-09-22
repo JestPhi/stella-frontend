@@ -13,6 +13,6 @@ export interface CoverPageData {
 
 export interface FileUpload {
   file: File;
-  imageId: string;
+  imageKey: string;
   elementKey: string;
 }

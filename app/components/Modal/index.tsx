@@ -1,15 +1,20 @@
 "use client";
 
+import useModalStore from "@/hooks/useModalStore";
 import { useGlobalContext } from "../../context/Global";
 import styles from "./style.module.css";
 
 const Modal = () => {
   const { state, dispatch } = useGlobalContext();
+  const modal = useModalStore();
 
   const handleClose = () => {
     dispatch({
       type: "HIDE_MODAL",
     });
+    
+    
+
     if (typeof state.modalOnClose === "function") {
       state?.modalOnClose();
     }
