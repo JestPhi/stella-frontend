@@ -16,6 +16,7 @@ body {
   overflow-x: hidden;
   margin: 0;
   scrollbar-width: none;
+  overscroll-behavior: none;
 }
 
 button,
