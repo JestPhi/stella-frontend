@@ -5,7 +5,7 @@ export interface Story {
   storyId: string;
   stellaId: string;
   coverPage: Record<string, any>;
-  pages?: any[];
+  pages?: Record<string, { panels: Record<string, any> }>;
   createdAt: string;
   updatedAt: string;
 }
