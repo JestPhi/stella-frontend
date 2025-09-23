@@ -1,5 +1,5 @@
 import axios from "axios";
-import { auth } from "../config/firebase";
+import { createApiHeaders, getFirebaseToken } from "../utils/apiHelpers";
 
 export interface Profile {
   stellaId: string;
@@ -22,21 +22,6 @@ export interface UpdateBioRequest {
 export interface UpdateUsernameRequest {
   username: string;
 }
-
-/**
- * Get Firebase token from current user
- */
-const getFirebaseToken = async (): Promise<string | undefined> => {
-  const user = auth.currentUser;
-  if (!user) return undefined;
-
-  try {
-    return await user.getIdToken();
-  } catch (error) {
-    console.error("Failed to get Firebase token:", error);
-    return undefined;
-  }
-};
 
 /**
  * Profile API service for backend requests
@@ -68,10 +53,7 @@ export const profileAPI = {
       `/api/profiles/${stellaId}/images`,
       formData,
       {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: createApiHeaders(token, true), // true for FormData
       }
     );
     return data;
