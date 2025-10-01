@@ -10,7 +10,8 @@ import style from "./style.module.css";
 const Profile = () => {
   const {
     dispatch,
-    state: { bio, username, globalImageKey },
+    state,
+    state: { bio, username, profileImageKey },
   } = useGlobalContext();
 
   const { dispatch: modalDispatch } = useModalContext();
@@ -34,8 +35,8 @@ const Profile = () => {
       </Bar>
       <Avatar
         src={
-          globalImageKey
-            ? `${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${globalImageKey}?wrap=0`
+          profileImageKey
+            ? `${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${profileImageKey}?wrap=0`
             : ""
         }
       />

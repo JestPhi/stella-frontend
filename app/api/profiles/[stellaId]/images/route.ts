@@ -7,8 +7,10 @@ import {
 const uploadImage = createRoute({
   ...RouteTypes.IMAGE_UPLOAD,
   params: ["stellaId"],
-})(async (request, { params, token }) => {
-  const formData = await request.formData();
+})(async (request, { params, token, formData }) => {
+  if (!formData) {
+    throw new Error("No form data provided");
+  }
   return await apiClient.post(
     `/profiles/${params.stellaId}/images`,
     formData,

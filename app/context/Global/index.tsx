@@ -15,7 +15,7 @@ type State = {
   stellaId?: string;
   username?: string;
   bio?: string;
-  globalImageKey?: string;
+  profileImageKey?: string;
   showGlobalCreationModal?: boolean;
   visible?: boolean;
   height?: string;
@@ -51,7 +51,7 @@ function globalReducer(state: State, action: Action): State {
         stellaId: "",
         username: "",
         bio: "",
-        globalImageKey: "",
+        profileImageKey: "",
         showGlobalCreationModal: false,
       };
     case "SET_FIREBASE_ID":

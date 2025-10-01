@@ -35,7 +35,7 @@ const Profile = ({}) => {
         stellaId: profile.stellaId,
         username: profile.username,
         bio: profile.bio,
-        globalImageKey: profile.profileImageKey,
+        profileImageKey: profile.profileImageKey,
       },
     });
   }, [profileResponse?.stellaId, firebaseId, isSuccess, dispatch]);

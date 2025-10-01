@@ -105,8 +105,8 @@ const EditProfile = () => {
       )}
       <InputProfileImage
         imageURL={
-          profile?.profileImageKey
-            ? `${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${profile?.profileImageKey}?wrap=0`
+          state?.profileImageKey
+            ? `${process.env.NEXT_PUBLIC_STORJ_PUBLIC_URL}/${state?.profileImageKey}?wrap=0`
             : null
         }
         onChange={handleImageChange}
