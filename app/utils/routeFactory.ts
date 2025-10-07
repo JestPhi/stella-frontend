@@ -58,10 +58,15 @@ function validateRequiredParams(
 }
 
 /**
- * Create a standardized success response with optional caching
+ * Create a standardized success response with optional caching and ETags
  */
 function createSuccessResponse(data: any, cacheMaxAge?: number) {
   const headers: Record<string, string> = {};
+
+  // Generate ETag from content hash
+  const dataString = JSON.stringify(data);
+  const etag = `"${simpleHash(dataString)}"`;
+  headers["ETag"] = etag;
 
   if (cacheMaxAge) {
     headers[
@@ -72,6 +77,19 @@ function createSuccessResponse(data: any, cacheMaxAge?: number) {
   }
 
   return NextResponse.json(data, { status: 200, headers });
+}
+
+/**
+ * Simple hash function for ETag generation
+ */
+function simpleHash(str: string): string {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return Math.abs(hash).toString(36);
 }
 
 /**
@@ -339,6 +357,28 @@ export function createRoute(config: RouteConfig = {}) {
           return NextResponse.json({ success: true });
         }
 
+        // Check for conditional requests (If-None-Match)
+        if (request.method === "GET") {
+          const dataString = JSON.stringify(result);
+          const etag = `"${simpleHash(dataString)}"`;
+          const ifNoneMatch = request.headers.get("if-none-match");
+
+          if (ifNoneMatch === etag) {
+            // Content hasn't changed - return 304 Not Modified
+            return new NextResponse(null, {
+              status: 304,
+              headers: {
+                ETag: etag,
+                "Cache-Control": config.cache
+                  ? `public, s-maxage=${
+                      config.cache
+                    }, stale-while-revalidate=${Math.floor(config.cache / 5)}`
+                  : "",
+              },
+            });
+          }
+        }
+
         // Format response
         if (config.cache) {
           return createSuccessResponse(result, config.cache);
@@ -365,9 +405,13 @@ export function createRoute(config: RouteConfig = {}) {
 }
 
 /**
- * HTTP client for external API calls
+ * HTTP client for external API calls with request deduplication and caching
  */
 export class ApiClient {
+  private inflightRequests = new Map<string, Promise<any>>();
+  private queryCache = new Map<string, { data: any; timestamp: number }>();
+  private readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
   constructor(
     private baseUrl: string,
     private defaultTimeout: number = 10000
@@ -385,12 +429,65 @@ export class ApiClient {
     };
   }
 
+  private getCacheKey(path: string, token?: string): string {
+    return `${path}:${token || "public"}`;
+  }
+
+  private getFromCache(key: string): any | null {
+    const cached = this.queryCache.get(key);
+    if (!cached) return null;
+
+    const now = Date.now();
+    if (now - cached.timestamp > this.CACHE_TTL) {
+      this.queryCache.delete(key);
+      return null;
+    }
+
+    return cached.data;
+  }
+
+  private setCache(key: string, data: any): void {
+    this.queryCache.set(key, { data, timestamp: Date.now() });
+
+    // Clean up old cache entries (simple LRU - keep last 100)
+    if (this.queryCache.size > 100) {
+      const firstKey = this.queryCache.keys().next().value;
+      if (firstKey) {
+        this.queryCache.delete(firstKey);
+      }
+    }
+  }
+
   async get(path: string, token?: string, timeout?: number) {
-    const response = await axios.get(
-      `${this.baseUrl}${path}`,
-      this.createConfig(token, timeout)
-    );
-    return response.data;
+    const cacheKey = this.getCacheKey(path, token);
+
+    // Check cache first
+    const cached = this.getFromCache(cacheKey);
+    if (cached !== null) {
+      return cached;
+    }
+
+    // Check for in-flight request
+    const inflightKey = cacheKey;
+    if (this.inflightRequests.has(inflightKey)) {
+      return this.inflightRequests.get(inflightKey);
+    }
+
+    // Make new request
+    const promise = axios
+      .get(`${this.baseUrl}${path}`, this.createConfig(token, timeout))
+      .then((response) => {
+        this.inflightRequests.delete(inflightKey);
+        this.setCache(cacheKey, response.data);
+        return response.data;
+      })
+      .catch((error) => {
+        this.inflightRequests.delete(inflightKey);
+        throw error;
+      });
+
+    this.inflightRequests.set(inflightKey, promise);
+    return promise;
   }
 
   async post(path: string, data: any, token?: string, timeout?: number) {
@@ -404,11 +501,19 @@ export class ApiClient {
       };
     }
 
+    // Invalidate cache for this path on POST
+    const cacheKey = this.getCacheKey(path, token);
+    this.queryCache.delete(cacheKey);
+
     const response = await axios.post(`${this.baseUrl}${path}`, data, config);
     return response.data;
   }
 
   async patch(path: string, data: any, token?: string, timeout?: number) {
+    // Invalidate cache for this path on PATCH
+    const cacheKey = this.getCacheKey(path, token);
+    this.queryCache.delete(cacheKey);
+
     const response = await axios.patch(
       `${this.baseUrl}${path}`,
       data,
@@ -418,11 +523,21 @@ export class ApiClient {
   }
 
   async delete(path: string, token?: string, timeout?: number) {
+    // Invalidate cache for this path on DELETE
+    const cacheKey = this.getCacheKey(path, token);
+    this.queryCache.delete(cacheKey);
+
     const response = await axios.delete(
       `${this.baseUrl}${path}`,
       this.createConfig(token, timeout)
     );
     return response.data;
+  }
+
+  // Clear all caches (useful for logout or force refresh)
+  clearCache(): void {
+    this.queryCache.clear();
+    this.inflightRequests.clear();
   }
 }
 

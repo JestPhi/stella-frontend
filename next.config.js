@@ -3,6 +3,8 @@ const nextConfig = {
   reactStrictMode: true,
   // Enable standalone output for Docker optimization
   output: "standalone",
+  // Enable gzip/brotli compression for better performance
+  compress: true,
   // Configure request body size limits for file uploads
   experimental: {
     serverComponentsExternalPackages: [],
