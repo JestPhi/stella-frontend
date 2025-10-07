@@ -1,0 +1,16 @@
+.coverImage {
+  background-size: cover;
+  width: 100%;
+}
+.title {
+  font-weight: bold;
+  padding: 8px 2px 8px 2px;
+}
+
+.avatar {
+  border-radius: 50%;
+  height: 28px;
+  width: 28px;
+  margin-right: 6px;
+  margin-left: 6px;
+}
