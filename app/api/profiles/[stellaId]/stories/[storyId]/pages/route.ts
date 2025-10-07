@@ -6,7 +6,7 @@ import {
 
 const createPage = createRoute({
   requireAuth: true,
-  rateLimit: { maxRequests: 30, windowMs: 60000 },
+  rateLimit: { maxRequests: 2000, windowMs: 60000 },
   timeout: 15000,
   params: ["stellaId", "storyId"],
 })(async (request, { params, token, body }) => {

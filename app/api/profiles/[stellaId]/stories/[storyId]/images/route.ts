@@ -2,7 +2,7 @@ import { apiClient, createRoute } from "../../../../../../utils/routeFactory";
 
 const uploadStoryImage = createRoute({
   requireAuth: true,
-  rateLimit: { maxRequests: 20, windowMs: 60000 },
+  rateLimit: { maxRequests: 1000, windowMs: 60000 },
   timeout: 30000,
   params: ["stellaId", "storyId"],
 })(async (request, { params, token, formData }) => {

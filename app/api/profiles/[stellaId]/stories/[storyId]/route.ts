@@ -17,7 +17,7 @@ const getStory = createRoute({
 
 const updateStory = createRoute({
   requireAuth: true,
-  rateLimit: { maxRequests: 20, windowMs: 60000 },
+  rateLimit: { maxRequests: 2000, windowMs: 60000 },
   timeout: 15000,
   params: ["stellaId", "storyId"],
 })(async (request, { params, token, body }) => {
@@ -31,7 +31,7 @@ const updateStory = createRoute({
 
 const deleteStory = createRoute({
   requireAuth: true,
-  rateLimit: { maxRequests: 20, windowMs: 60000 },
+  rateLimit: { maxRequests: 2000, windowMs: 60000 },
   params: ["stellaId", "storyId"],
 })(async (request, { params, token }) => {
   return await apiClient.delete(
@@ -42,7 +42,7 @@ const deleteStory = createRoute({
 
 const createStory = createRoute({
   requireAuth: true,
-  rateLimit: { maxRequests: 20, windowMs: 60000 },
+  rateLimit: { maxRequests: 2000, windowMs: 60000 },
   timeout: 15000,
   params: ["stellaId", "storyId"],
 })(async (request, { params, token, body }) => {
