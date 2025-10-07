@@ -410,7 +410,7 @@ export function createRoute(config: RouteConfig = {}) {
 export class ApiClient {
   private inflightRequests = new Map<string, Promise<any>>();
   private queryCache = new Map<string, { data: any; timestamp: number }>();
-  private readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+  private readonly CACHE_TTL = 10 * 60 * 1000; // Increased to 10 minutes (aggressive)
 
   constructor(
     private baseUrl: string,
@@ -449,8 +449,8 @@ export class ApiClient {
   private setCache(key: string, data: any): void {
     this.queryCache.set(key, { data, timestamp: Date.now() });
 
-    // Clean up old cache entries (simple LRU - keep last 100)
-    if (this.queryCache.size > 100) {
+    // Aggressive caching - keep last 500 entries instead of 100
+    if (this.queryCache.size > 500) {
       const firstKey = this.queryCache.keys().next().value;
       if (firstKey) {
         this.queryCache.delete(firstKey);

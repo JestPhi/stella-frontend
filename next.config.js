@@ -5,10 +5,13 @@ const nextConfig = {
   output: "standalone",
   // Enable gzip/brotli compression for better performance
   compress: true,
+  // Moved from experimental in Next.js 15+
+  serverExternalPackages: [],
   // Configure request body size limits for file uploads
   experimental: {
-    serverComponentsExternalPackages: [],
-    bodySizeLimit: "5mb", // Set maximum request body size to 5MB
+    serverActions: {
+      bodySizeLimit: "5mb", // Set maximum request body size to 5MB
+    },
   },
   images: {
     // Restrict to specific trusted domains for security

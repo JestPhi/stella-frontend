@@ -8,7 +8,7 @@ export function useStories(params: StoriesParams = {}) {
   return useQuery({
     queryKey: ["stories", params],
     queryFn: () => storiesAPI.getAll(params),
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 15 * 60 * 1000, // Aggressive: 15 minutes
     retry: 3,
   });
 }
@@ -21,7 +21,7 @@ export function useUserStories(stellaId: string, params: StoriesParams = {}) {
     queryKey: ["stories", stellaId, params],
     queryFn: () => storiesAPI.getByUser(stellaId, params),
     enabled: !!stellaId,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 15 * 60 * 1000, // Aggressive: 15 minutes
     retry: 3,
   });
 }
@@ -34,7 +34,7 @@ export function useStory(stellaId: string, storyId: string) {
     queryKey: ["story", stellaId, storyId],
     queryFn: () => storiesAPI.getById(stellaId, storyId),
     enabled: !!stellaId && !!storyId,
-    staleTime: 2 * 60 * 1000, // 2 minutes (stories can be updated more frequently)
+    staleTime: 10 * 60 * 1000, // Aggressive: 10 minutes
     retry: 3,
   });
 }

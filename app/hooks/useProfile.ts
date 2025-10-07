@@ -9,7 +9,7 @@ export function useProfile(stellaId: string) {
     queryKey: ["profile", stellaId],
     queryFn: () => profileAPI.getById(stellaId),
     enabled: !!stellaId,
-    staleTime: 10 * 60 * 1000, // 10 minutes (profiles change less frequently)
+    staleTime: 20 * 60 * 1000, // Aggressive: 20 minutes (profiles rarely change)
     retry: 3,
   });
 }
@@ -22,7 +22,7 @@ export function useProfileByFirebaseId(firebaseId: string) {
     queryKey: ["profile", "firebase", firebaseId],
     queryFn: () => profileAPI.getByFirebaseId(firebaseId),
     enabled: !!firebaseId,
-    staleTime: 10 * 60 * 1000, // 10 minutes (profiles change less frequently)
+    staleTime: 20 * 60 * 1000, // Aggressive: 20 minutes (profiles rarely change)
     retry: 3,
   });
 }
