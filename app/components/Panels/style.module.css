@@ -20,8 +20,35 @@
   width: 100%;
 }
 
+.textFeedback {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 8px;
+  font-size: 12px;
+  gap: 2px;
+}
+
+.charCount {
+  color: #666;
+  font-weight: 500;
+}
+
+.charCount.warning {
+  color: #ff9500;
+}
+
+.charCount.error {
+  color: #ff3b30;
+}
+
+.errorMessage {
+  color: #ff3b30;
+  font-weight: 500;
+}
+
 .item {
   display: flex;
+  flex-direction: column;
 }
 
 .item:global(img) {

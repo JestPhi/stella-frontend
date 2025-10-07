@@ -49,7 +49,7 @@ export interface UpdateStoryRequest {
 
 export interface CreatePageRequest {
   pageType?: string;
-  content?: Record<string, any>;
+  panels?: Record<string, any>;
   order?: number;
 }
 

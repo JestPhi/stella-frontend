@@ -5,7 +5,7 @@ import { CoverPageData, FileUpload } from "../types/story";
 export const getFilesToUpload = (
   coverPageData: CoverPageData
 ): FileUpload[] => {
-  console.log(coverPageData);
+
 
   return Object.entries(coverPageData)
     .filter(

@@ -3,6 +3,11 @@ const nextConfig = {
   reactStrictMode: true,
   // Enable standalone output for Docker optimization
   output: "standalone",
+  // Configure request body size limits for file uploads
+  experimental: {
+    serverComponentsExternalPackages: [],
+    bodySizeLimit: "5mb", // Set maximum request body size to 5MB
+  },
   images: {
     // Restrict to specific trusted domains for security
     domains: [

@@ -24,3 +24,14 @@
 .pageActionsHeading {
   margin-top: 16px;
 }
+
+.error {
+  color: #ff3b30;
+  background: #ffebee;
+  border: 1px solid #ffcdd2;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 14px;
+}

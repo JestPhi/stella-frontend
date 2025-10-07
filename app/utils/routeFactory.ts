@@ -105,25 +105,25 @@ function createAuthHeaders(firebaseToken: string) {
  */
 const RATE_LIMITS = {
   // Public read-only routes (higher limits)
-  PUBLIC_READ: { maxRequests: 2000, windowMs: 60000 }, // 200/min
+  PUBLIC_READ: { maxRequests: 6000, windowMs: 60000 }, // 6000/min (increased from 2000)
 
   // Health check (very high limits)
-  HEALTH: { maxRequests: 1000, windowMs: 60000 }, // 1000/min
+  HEALTH: { maxRequests: 10000, windowMs: 60000 }, // 10000/min (increased from 1000)
 
   // Authentication routes (moderate limits)
-  AUTH: { maxRequests: 300, windowMs: 60000 }, // 30/min
+  AUTH: { maxRequests: 1000, windowMs: 60000 }, // 1000/min (increased from 300)
 
-  // Profile creation (strict limits)
-  PROFILE_CREATE: { maxRequests: 50, windowMs: 60000 }, // 5/min
+  // Profile creation (relaxed limits)
+  PROFILE_CREATE: { maxRequests: 500, windowMs: 60000 }, // 500/min (increased from 50)
 
-  // Content modification (moderate limits)
-  CONTENT_MODIFY: { maxRequests: 600, windowMs: 60000 }, // 60/min
+  // Content modification (higher limits)
+  CONTENT_MODIFY: { maxRequests: 2000, windowMs: 60000 }, // 2000/min (increased from 600)
 
-  // Image uploads (strict limits)
-  IMAGE_UPLOAD: { maxRequests: 200, windowMs: 60000 }, // 20/min
+  // Image uploads (relaxed limits)
+  IMAGE_UPLOAD: { maxRequests: 1000, windowMs: 60000 }, // 1000/min (increased from 200)
 
   // General API (default)
-  DEFAULT: { maxRequests: 100, windowMs: 60000 }, // 100/min
+  DEFAULT: { maxRequests: 1000, windowMs: 60000 }, // 1000/min (increased from 100)
 } as const;
 
 /**
