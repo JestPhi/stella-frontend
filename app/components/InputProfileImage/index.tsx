@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Image, Plus, Trash } from "react-feather";
-import Button from "../Button";
+import Button from "../ButtonWrapper";
 import style from "./style.module.css";
 
 type InputProfileImageProps = {

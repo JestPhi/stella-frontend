@@ -48,6 +48,11 @@ export interface UpdateStoryRequest {
 }
 
 export interface CreatePageRequest {
+  page?: {
+    pageType?: string;
+    panels?: Record<string, any>;
+    order?: number;
+  };
   pageType?: string;
   panels?: Record<string, any>;
   order?: number;

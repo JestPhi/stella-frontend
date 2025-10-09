@@ -7,7 +7,7 @@ import { useModalContext } from "@/context/Modal";
 import { useGlobalContext } from "../../../context/Global";
 import useAuth from "../../../hooks/useAuth";
 import { useProfileByFirebaseId } from "../../../hooks/useProfile";
-import Button from "../../Button";
+import Button from "../../ButtonWrapper";
 import CreateProfile from "../../ModalContent/CreateProfile";
 import ProfileContent from "../../ModalContent/Profile";
 import SignIn from "../../ModalContent/SignIn";

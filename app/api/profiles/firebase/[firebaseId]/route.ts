@@ -7,6 +7,7 @@ import {
 const getProfileByFirebaseId = createRoute({
   ...RouteTypes.PUBLIC_READ,
   params: ["firebaseId"],
+  cache: 0, // Disable caching
 })(async (request, { params }) => {
   try {
     const data = await apiClient.get(`/profiles/firebase/${params.firebaseId}`);

@@ -5,7 +5,7 @@
 }
 
 .addStory {
-  margin-right: 16px;
+  margin-right: 6px;
 }
 
 .addStoryWrapper :global(.inputImage) {

@@ -4,13 +4,14 @@ import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
+import PrimaryButton from "@/components/Buttons/Primary";
 import { useModalContext } from "@/context/Modal";
 import { useGlobalContext } from "../../../context/Global";
 import { usePageEditor } from "../../../hooks/usePageEditor";
 import { usePageValidation } from "../../../hooks/usePageValidation";
 import { CoverPageData } from "../../../types/story";
 import Bar from "../../Bar";
-import Button from "../../Button";
+import ButtonWrapper from "../../ButtonWrapper";
 import Panels from "../../Panels";
 
 import style from "./style.module.css";
@@ -61,21 +62,23 @@ const CreateStory = () => {
   }, []);
 
   // Validate page data
-  const { isValid } = usePageValidation(pageData);
+  const { isValid, errors: validationErrors } = usePageValidation(pageData);
   const canSave = isValid && !isLoading;
 
   return (
     <div className={style.addStoryWrapper}>
       <Bar className={style.createStory}>
         {canSave && (
-          <Button
-            className={style.addStory}
+          <ButtonWrapper
+            className={[style.addStory, "mr6"].join(" ")}
             variant="primary"
             onClick={handleSave}
             disabled={!canSave}
           >
-            {isLoading ? "Creating..." : "Create Story"}
-          </Button>
+            <PrimaryButton>
+              {isLoading ? "Creating..." : "Create Story"}
+            </PrimaryButton>
+          </ButtonWrapper>
         )}
       </Bar>
 

@@ -41,13 +41,7 @@ const PanelItemComponent = memo(
     }, [item.value]);
 
     // Extract item properties
-    const {
-      grid = {},
-      skeleton,
-      type,
-      className: itemClassName,
-      placeholder,
-    } = item;
+    const { grid = {}, skeleton, type, placeholder } = item;
 
     // Extract grid properties with defaults
     const { c = 0, r = 0, cs = 0, rs = 0 } = grid;
@@ -70,7 +64,6 @@ const PanelItemComponent = memo(
         style[`r${r}`],
         style[`c${c}`],
         skeleton && style[skeleton],
-        itemClassName,
       ]
         .filter(Boolean)
         .join(" ");
@@ -84,7 +77,6 @@ const PanelItemComponent = memo(
           <PanelTextItem
             value={typeof localValue === "string" ? localValue : ""}
             placeholder={placeholder}
-            className={itemClassName}
             gridClasses={gridClasses}
             isEditMode={isEditMode}
             onChange={handleValueChange}
@@ -96,7 +88,6 @@ const PanelItemComponent = memo(
         return (
           <PanelImageItem
             value={localValue}
-            className={itemClassName}
             gridClasses={gridClasses}
             isEditMode={isEditMode}
             onChange={handleValueChange}

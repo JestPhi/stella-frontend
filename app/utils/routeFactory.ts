@@ -410,7 +410,7 @@ export function createRoute(config: RouteConfig = {}) {
 export class ApiClient {
   private inflightRequests = new Map<string, Promise<any>>();
   private queryCache = new Map<string, { data: any; timestamp: number }>();
-  private readonly CACHE_TTL = 10 * 60 * 1000; // Increased to 10 minutes (aggressive)
+  private readonly CACHE_TTL = 0; // Disable caching (was 10 minutes)
 
   constructor(
     private baseUrl: string,

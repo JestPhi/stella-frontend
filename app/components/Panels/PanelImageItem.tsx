@@ -11,7 +11,6 @@ type PanelImageItemProps = {
 
 const PanelImageItem = ({
   value,
-  className,
   gridClasses,
   isEditMode,
   onChange,
@@ -19,7 +18,11 @@ const PanelImageItem = ({
   if (isEditMode) {
     return (
       <div className={gridClasses}>
-        <InputImage className={className} value={value} onChange={onChange} />
+        <InputImage
+          className={style.inputImage}
+          value={value}
+          onChange={onChange}
+        />
       </div>
     );
   }

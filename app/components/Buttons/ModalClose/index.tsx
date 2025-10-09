@@ -1,6 +1,6 @@
 import { X } from "react-feather";
 import { useGlobalContext } from "../../../context/Global";
-import Button from "../../Button";
+import Button from "../../ButtonWrapper";
 
 const ModalClose = () => {
   const { dispatch } = useGlobalContext();

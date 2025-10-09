@@ -11,6 +11,6 @@ export default function Home() {
   } = useStories({ limit: 50 });
 
   const stories = storiesResponse?.stories || [];
-  console.log(stories);
+
   return <Stories stories={stories} />;
 }

@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Image } from "react-feather";
 import Bar from "../Bar";
-import Button from "../Button";
+import ButtonWrapper from "../ButtonWrapper";
+import SecondaryButton from "../Buttons/Secondary";
 import style from "./style.module.css";
 
 const getImage = (image: any) => {
@@ -45,24 +46,23 @@ const InputImage = ({
       )}
       {imageFileState && (
         <Bar className={style.bar}>
-          <Button
+          <ButtonWrapper
             className={style.buttonRemoveImage}
             onClick={() => {
               setImageFileState(null);
             }}
-            variant="fill"
           >
-            Remove Image
-          </Button>
+            <SecondaryButton>Remove Image</SecondaryButton>
+          </ButtonWrapper>
         </Bar>
       )}
       {!imageFileState && (
-        <Button
+        <ButtonWrapper
           className={style.buttonAddImage}
           onClick={() => inputRef.current?.click()}
         >
           <Image color="#222" />
-        </Button>
+        </ButtonWrapper>
       )}
       <input
         className={style.input}

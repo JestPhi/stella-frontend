@@ -8,7 +8,7 @@ import { usePageEditor } from "../../../hooks/usePageEditor";
 import { useStory } from "../../../hooks/useStories";
 import { CoverPageData } from "../../../types/story";
 import Bar from "../../Bar";
-import Button from "../../Button";
+import Button from "../../ButtonWrapper";
 import Panels from "../../Panels";
 
 import style from "./style.module.css";

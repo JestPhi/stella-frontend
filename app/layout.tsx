@@ -5,8 +5,9 @@ import { ReactNode } from "react";
 import Modal from "./components/Modal";
 import Navigation from "./components/Navigation";
 import ScrollView from "./components/ScrollView";
-import "./globals.css";
+import "./global.css";
 import { Providers } from "./providers";
+import "./util.css";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
