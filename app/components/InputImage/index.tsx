@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Image } from "react-feather";
+import { Image, Trash2 } from "react-feather";
 import Bar from "../Bar";
 import ButtonWrapper from "../ButtonWrapper";
 import SecondaryButton from "../Buttons/Secondary";
@@ -52,7 +52,10 @@ const InputImage = ({
               setImageFileState(null);
             }}
           >
-            <SecondaryButton>Remove Image</SecondaryButton>
+            <SecondaryButton>
+              Remove Image
+              <Trash2 />
+            </SecondaryButton>
           </ButtonWrapper>
         </Bar>
       )}
