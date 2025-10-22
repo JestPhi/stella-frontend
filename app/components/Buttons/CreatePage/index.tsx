@@ -4,7 +4,7 @@ import { useModalContext } from "@/context/Modal";
 import { useParams } from "next/navigation";
 import { Plus } from "react-feather";
 
-import Button from "../../ButtonWrapper";
+import Button from "../../Button";
 import CreatePageContent from "../../ModalContent/CreatePage";
 
 const CreatePage = ({}) => {

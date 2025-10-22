@@ -3,7 +3,7 @@
 import { useModalContext } from "@/context/Modal";
 import { useParams } from "next/navigation";
 import { Plus } from "react-feather";
-import Button from "../../ButtonWrapper";
+import Button from "../../Button";
 import CreateStoryContent from "../../ModalContent/CreateStory";
 
 const CreateStory = ({}) => {

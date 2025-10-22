@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Image, Trash2 } from "react-feather";
 
 import Bar from "../Bar";
-import ButtonWrapper from "../ButtonWrapper";
+import Button from "../Button";
 import SecondaryButton from "../Buttons/Secondary";
 import style from "./style.module.css";
 
@@ -48,7 +48,7 @@ const InputImage = ({
       )}
       {imageFileState && (
         <Bar className={style.bar}>
-          <ButtonWrapper
+          <Button
             className={style.buttonRemoveImage}
             onClick={() => {
               setImageFileState(null);
@@ -58,16 +58,16 @@ const InputImage = ({
               Remove Image
               <Trash2 />
             </SecondaryButton>
-          </ButtonWrapper>
+          </Button>
         </Bar>
       )}
       {!imageFileState && (
-        <ButtonWrapper
+        <Button
           className={style.buttonAddImage}
           onClick={() => inputRef.current?.click()}
         >
           <Image color="#222" />
-        </ButtonWrapper>
+        </Button>
       )}
       <input
         className={style.input}

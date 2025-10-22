@@ -22,12 +22,10 @@ export default function Story({ coverPage, storyId, stellaId }: StoryProps) {
   const router = useRouter();
 
   return (
-    <div
+    <a
       key={storyId}
       className="story"
-      onClick={() => {
-        router.push(`/profile/${stellaId}/story/${storyId}`);
-      }}
+      href={`/profile/${stellaId}/story/${storyId}`}
     >
       <Bar>
         <img
@@ -45,6 +43,6 @@ export default function Story({ coverPage, storyId, stellaId }: StoryProps) {
         loading="lazy"
       />
       <div className={styles.title}>{coverPage?.[`1`]?.value}</div>
-    </div>
+    </a>
   );
 }

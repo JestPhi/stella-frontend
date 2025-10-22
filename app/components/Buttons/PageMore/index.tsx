@@ -4,7 +4,7 @@ import { useGlobalContext } from "@/context/Global";
 import { useModalContext } from "@/context/Modal";
 import { useParams } from "next/navigation";
 import { MoreHorizontal } from "react-feather";
-import Button from "../../ButtonWrapper";
+import Button from "../../Button";
 import StoryActions from "../../ModalContent/StoryActions";
 
 const PageMore = ({ pageId }: { pageId: string }) => {

@@ -1,19 +1,17 @@
 "use client";
 import { useRouter } from "next/navigation";
-import Button from "../../ButtonWrapper";
+import Anchor from "../../Anchor";
 import Logo from "./logo";
 import styles from "./style.module.css";
 
 const Home = () => {
   const router = useRouter();
   return (
-    <Button
-      onClick={() => {
-        router.push("/");
-      }}
+    <Anchor
+      href="/"
     >
       <Logo className={styles.home} />
-    </Button>
+    </Anchor>
   );
 };
 

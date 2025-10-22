@@ -11,7 +11,7 @@ import {
   useProfileImageUpload,
   useProfileUsernameUpdate,
 } from "../../../hooks/useProfileMutations";
-import Button from "../../ButtonWrapper";
+import Button from "../../Button";
 import InputProfileImage from "../../InputProfileImage";
 import InputText from "../../InputText";
 import style from "./style.module.css";

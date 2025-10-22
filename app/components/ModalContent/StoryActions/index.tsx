@@ -6,7 +6,7 @@ import {
   usePageDelete,
   useStoryDelete,
 } from "../../../hooks/useStoryMutations";
-import Button from "../../ButtonWrapper";
+import Button from "../../Button";
 import EditPage from "../../ModalContent/EditPage";
 import style from "./style.module.css";
 

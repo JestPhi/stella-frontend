@@ -11,7 +11,7 @@ import { usePageEditor } from "../../../hooks/usePageEditor";
 import { usePageValidation } from "../../../hooks/usePageValidation";
 import { CoverPageData } from "../../../types/story";
 import Bar from "../../Bar";
-import ButtonWrapper from "../../ButtonWrapper";
+import Button from "../../Button";
 import Panels from "../../Panels";
 
 import style from "./style.module.css";
@@ -69,7 +69,7 @@ const CreateStory = () => {
     <div className={style.addStoryWrapper}>
       <Bar className={style.createStory}>
         {canSave && (
-          <ButtonWrapper
+          <Button
             className={[style.addStory, "mr6"].join(" ")}
             variant="primary"
             onClick={handleSave}
@@ -78,7 +78,7 @@ const CreateStory = () => {
             <PrimaryButton>
               {isLoading ? "Creating..." : "Create Story"}
             </PrimaryButton>
-          </ButtonWrapper>
+          </Button>
         )}
       </Bar>
 

@@ -3,7 +3,7 @@ import { Edit2 } from "react-feather";
 import { useGlobalContext } from "../../context/Global";
 import Avatar from "../Avatar";
 import Bar from "../Bar";
-import Button from "../ButtonWrapper";
+import Button from "../Button";
 import EditProfile from "../ModalContent/EditProfile";
 import style from "./style.module.css";
 

@@ -1,0 +1,11 @@
+.anchor {
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  min-width: 44px;
+  padding: 0;
+}

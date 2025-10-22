@@ -9,7 +9,7 @@ import { usePageEditor } from "../../../hooks/usePageEditor";
 import { usePageValidation } from "../../../hooks/usePageValidation";
 import { CoverPageData } from "../../../types/story";
 import Bar from "../../Bar";
-import ButtonWrapper from "../../ButtonWrapper";
+import Button from "../../Button";
 import Panels from "../../Panels";
 
 import style from "./style.module.css";
@@ -57,14 +57,14 @@ const CreatePage = () => {
     <div className={style.addStoryWrapper}>
       <Bar className={style.bar} variant="default">
         {canSave && (
-          <ButtonWrapper variant="primary" onClick={handleSave}>
+          <Button variant="primary" onClick={handleSave}>
             <PrimaryButton
               className={style.addStory}
               disabled={!stellaId || !canSave}
             >
               {isLoading ? "Saving..." : "Add Page"}
             </PrimaryButton>
-          </ButtonWrapper>
+          </Button>
         )}
       </Bar>
 

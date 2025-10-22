@@ -4,19 +4,19 @@ import style from "./style.module.css";
 type ButtonProps = {
   children?: ReactNode;
   variant?: keyof typeof style;
-} & HTMLAttributes<HTMLDivElement>;
+} & HTMLAttributes<HTMLButtonElement>;
 
-const ButtonWrapper = ({
+const Button = ({
   children,
   className = "",
   variant,
   ...rest
 }: ButtonProps) => {
   return (
-    <div className={[style.button, className].join(" ")} {...rest}>
+    <button className={[style.button, className].join(" ")} {...rest}>
       {children}
-    </div>
+    </button>
   );
 };
 
-export default ButtonWrapper;
+export default Button;
