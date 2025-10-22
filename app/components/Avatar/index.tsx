@@ -1,7 +1,9 @@
 import style from "./style.module.css";
-import image from "./image.jpg";
 
 const Avatar = ({ src }: { src: string }) => {
+  if (!src) {
+    return null;
+  }
   return <img className={style.image} src={src} />;
 };
 

@@ -1,18 +1,21 @@
+import { useModalContext } from "@/context/Modal";
 import { X } from "react-feather";
-import { useGlobalContext } from "../../../context/Global";
-import Button from "../../ButtonWrapper";
+import ButtonWrapper from "../../ButtonWrapper";
+import styles from "./style.module.css";
 
 const ModalClose = () => {
-  const { dispatch } = useGlobalContext();
+  const { dispatch } = useModalContext();
 
   return (
-    <Button
+    <ButtonWrapper
       onClick={() => {
         dispatch({ type: "HIDE_MODAL" });
       }}
     >
-      <X />
-    </Button>
+      <button className={styles.closeButton}>
+        <X />
+      </button>
+    </ButtonWrapper>
   );
 };
 

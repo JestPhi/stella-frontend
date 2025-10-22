@@ -1,10 +1,12 @@
 "use client";
 
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useModalContext } from "../../context/Modal";
 import styles from "./style.module.css";
 
 const Modal = () => {
   const { state, dispatch } = useModalContext();
+  const modalRef = useFocusTrap<HTMLDivElement>(state.visible);
 
   const handleClose = () => {
     dispatch({
@@ -21,7 +23,7 @@ const Modal = () => {
   }
 
   return (
-    <div className={styles.modal}>
+    <div className={styles.modal} ref={modalRef}>
       <div className={styles.backdrop} onClick={handleClose} />
       <div
         className={styles.content}

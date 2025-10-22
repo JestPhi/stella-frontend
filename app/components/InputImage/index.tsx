@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Image, Trash2 } from "react-feather";
+
 import Bar from "../Bar";
 import ButtonWrapper from "../ButtonWrapper";
 import SecondaryButton from "../Buttons/Secondary";
@@ -30,6 +31,7 @@ const InputImage = ({
   const [imageFileState, setImageFileState] = useState<File | string | null>(
     value
   );
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {

@@ -18,8 +18,9 @@ const Profile = ({}) => {
   const { dispatch, state } = useGlobalContext();
   const { firebaseId, signOut } = useAuth();
 
+  // Only fetch profile when firebaseId exists
   const { data: profileResponse, isSuccess } = useProfileByFirebaseId(
-    firebaseId || ""
+    firebaseId as string
   );
 
   useEffect(() => {

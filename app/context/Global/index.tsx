@@ -10,17 +10,11 @@ import {
 
 // Define the shape of your state
 type State = {
-  menu: any;
   firebaseId?: string;
   stellaId?: string;
   username?: string;
   bio?: string;
   profileImageKey?: string;
-  showGlobalCreationModal?: boolean;
-  visible?: boolean;
-  height?: string;
-  content?: ReactNode;
-  modalOnClose?: () => void;
 };
 
 // Define all possible actions
@@ -29,16 +23,12 @@ type Action =
   | { type: "CLEAR_PROFILE" }
   | { type: "SET_FIREBASE_ID"; payload: string }
   | { type: "SET_STELLA_ID"; payload: string }
-  | { type: "SET_PROFILE"; payload: Partial<State> }
-  | { type: "SHOW_PROFILE_CREATION_MODAL" }
-  | { type: "HIDE_MODAL" };
+  | { type: "SET_PROFILE"; payload: Partial<State> };
 
 // Context type
 type ContextType = { state: State; dispatch: Dispatch<Action> };
 
-const initalState: State = {
-  menu: null,
-};
+const initialState: State = {};
 
 const GlobalContext = createContext<ContextType | undefined>(undefined);
 
@@ -52,7 +42,6 @@ function globalReducer(state: State, action: Action): State {
         username: "",
         bio: "",
         profileImageKey: "",
-        showGlobalCreationModal: false,
       };
     case "SET_FIREBASE_ID":
       return {
@@ -67,27 +56,15 @@ function globalReducer(state: State, action: Action): State {
     case "SET_PROFILE":
       return { ...state, ...action.payload };
     case "CLEAR_STATE": {
-      return initalState;
+      return initialState;
     }
-    case "SHOW_PROFILE_CREATION_MODAL":
-      return {
-        ...state,
-        showGlobalCreationModal: true,
-      };
-    case "HIDE_MODAL":
-      return {
-        ...state,
-        visible: false,
-        content: undefined,
-        showGlobalCreationModal: false,
-      };
     default:
       throw new Error(`Unhandled action type: ${(action as any).type}`);
   }
 }
 
 const GlobalProvider = ({ children }: { children: ReactNode }) => {
-  const [state, dispatch] = useReducer(globalReducer, initalState);
+  const [state, dispatch] = useReducer(globalReducer, initialState);
   const value = { state, dispatch };
 
   return (
