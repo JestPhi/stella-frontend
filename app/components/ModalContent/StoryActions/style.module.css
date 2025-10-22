@@ -5,7 +5,7 @@
 
 .action {
   justify-content: flex-start;
-  margin-bottom: 8px;
+  margin-left: 16px;
   width: 100%;
 }
 
@@ -17,8 +17,7 @@
 
 .actions {
   text-align: left;
-  margin-bottom: 8px;
-  padding: 32px;
+  padding: 0 16px;
 }
 
 .delete {
@@ -30,7 +29,6 @@
   color: #444;
   font-size: 16px;
   margin-bottom: 16px;
-  margin-left: 12px;
 }
 
 .pageActionsHeading {

@@ -71,7 +71,7 @@ const StoryActions = ({ pageId }: { pageId: string }) => {
       <Bar>
         <ModalClose />
       </Bar>
-      <div className={style.actions}>
+      <div className={[style.actions, "mt16"].join(" ")}>
         <div className={style.heading}>
           {isCoverPage && "Cover "}Page Actions
         </div>
