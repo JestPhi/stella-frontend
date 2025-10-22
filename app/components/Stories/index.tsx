@@ -1,4 +1,5 @@
 "use client";
+
 import { Story } from "@/api/stories";
 import StoryComponent from "@/components/Story";
 import { useRouter } from "next/navigation";

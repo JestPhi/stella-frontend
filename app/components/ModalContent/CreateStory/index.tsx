@@ -5,7 +5,6 @@ import { useCallback, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import Bar from "@/components/Bar";
-import Button from "@/components/Button";
 import ModalClose from "@/components/Buttons/ModalClose";
 import PrimaryButton from "@/components/Buttons/Primary";
 import Panels from "@/components/Panels";
@@ -71,21 +70,17 @@ const CreateStory = () => {
       <Bar className={style.createStory}>
         <ModalClose />
         {canSave && (
-          <Button
+          <PrimaryButton
             className={[style.addStory, "mr6"].join(" ")}
             variant="primary"
             onClick={handleSave}
             disabled={!canSave}
           >
-            <PrimaryButton>
-              {isLoading ? "Creating..." : "Create Story"}
-            </PrimaryButton>
-          </Button>
+            {isLoading ? "Creating..." : "Create Story"}
+          </PrimaryButton>
         )}
       </Bar>
-
       {error && <div className={style.error}>{error}</div>}
-
       <Panels
         items={pageData}
         isEditMode
