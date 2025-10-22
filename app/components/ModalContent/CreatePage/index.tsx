@@ -4,7 +4,6 @@ import { useParams } from "next/navigation";
 import { useCallback, useState } from "react";
 
 import Bar from "@/components/Bar";
-import Button from "@/components/Button";
 import ModalClose from "@/components/Buttons/ModalClose";
 import PrimaryButton from "@/components/Buttons/Primary";
 import Panels from "@/components/Panels";
@@ -57,14 +56,13 @@ const CreatePage = () => {
       <Bar className={style.bar} variant="default">
         <ModalClose />
         {canSave && (
-          <Button variant="primary" onClick={handleSave}>
-            <PrimaryButton
-              className={style.addStory}
-              disabled={!stellaId || !canSave}
-            >
-              {isLoading ? "Saving..." : "Add Page"}
-            </PrimaryButton>
-          </Button>
+          <PrimaryButton
+            className={style.addStory}
+            disabled={!stellaId || !canSave}
+            onClick={handleSave}
+          >
+            {isLoading ? "Saving..." : "Add Page"}
+          </PrimaryButton>
         )}
       </Bar>
 
