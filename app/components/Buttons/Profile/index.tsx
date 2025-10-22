@@ -3,14 +3,14 @@
 import { useEffect } from "react";
 import { User } from "react-feather";
 
+import Button from "@/components/Button";
+import CreateProfile from "@/components/ModalContent/CreateProfile";
+import ProfileContent from "@/components/ModalContent/Profile";
+import SignIn from "@/components/ModalContent/SignIn";
+import { useGlobalContext } from "@/context/Global";
 import { useModalContext } from "@/context/Modal";
-import { useGlobalContext } from "../../../context/Global";
-import useAuth from "../../../hooks/useAuth";
-import { useProfileByFirebaseId } from "../../../hooks/useProfile";
-import Button from "../../Button";
-import CreateProfile from "../../ModalContent/CreateProfile";
-import ProfileContent from "../../ModalContent/Profile";
-import SignIn from "../../ModalContent/SignIn";
+import useAuth from "@/hooks/useAuth";
+import { useProfileByFirebaseId } from "@/hooks/useProfile";
 import styles from "./style.module.css";
 
 const Profile = ({}) => {

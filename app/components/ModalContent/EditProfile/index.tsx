@@ -1,19 +1,19 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useGlobalContext } from "../../../context/Global";
-import { useProfile } from "../../../hooks/useProfile";
+import Button from "@/components/Button";
+import InputProfileImage from "@/components/InputProfileImage";
+import InputText from "@/components/InputText";
+import { useGlobalContext } from "@/context/Global";
+import { useProfile } from "@/hooks/useProfile";
 import {
   useProfileBioUpdate,
   useProfileImageDelete,
   useProfileImageUpload,
   useProfileUsernameUpdate,
-} from "../../../hooks/useProfileMutations";
-import Button from "../../Button";
-import InputProfileImage from "../../InputProfileImage";
-import InputText from "../../InputText";
+} from "@/hooks/useProfileMutations";
+import { useParams } from "next/navigation";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import style from "./style.module.css";
 
 const EditProfile = () => {

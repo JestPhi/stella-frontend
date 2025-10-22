@@ -1,13 +1,10 @@
 "use client";
 
+import Button from "@/components/Button";
+import EditPage from "@/components/ModalContent/EditPage";
 import { useModalContext } from "@/context/Modal";
+import { usePageDelete, useStoryDelete } from "@/hooks/useStoryMutations";
 import { useParams, useRouter } from "next/navigation";
-import {
-  usePageDelete,
-  useStoryDelete,
-} from "../../../hooks/useStoryMutations";
-import Button from "../../Button";
-import EditPage from "../../ModalContent/EditPage";
 import style from "./style.module.css";
 
 const StoryActions = ({ pageId }: { pageId: string }) => {

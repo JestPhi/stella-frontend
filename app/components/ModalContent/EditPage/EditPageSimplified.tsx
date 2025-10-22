@@ -3,13 +3,13 @@
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
+import Bar from "@/components/Bar";
+import Button from "@/components/Button";
+import Panels from "@/components/Panels";
 import { useModalContext } from "@/context/Modal";
-import { usePageEditor } from "../../../hooks/usePageEditor";
-import { useStory } from "../../../hooks/useStories";
-import { CoverPageData } from "../../../types/story";
-import Bar from "../../Bar";
-import Button from "../../Button";
-import Panels from "../../Panels";
+import { usePageEditor } from "@/hooks/usePageEditor";
+import { useStory } from "@/hooks/useStories";
+import { CoverPageData } from "@/types/story";
 
 import style from "./style.module.css";
 

@@ -1,10 +1,10 @@
 "use client";
 
+import Button from "@/components/Button";
+import CreateStoryContent from "@/components/ModalContent/CreateStory";
 import { useModalContext } from "@/context/Modal";
 import { useParams } from "next/navigation";
 import { Plus } from "react-feather";
-import Button from "../../Button";
-import CreateStoryContent from "../../ModalContent/CreateStory";
 
 const CreateStory = ({}) => {
   const params = useParams();

@@ -1,8 +1,8 @@
 "use client";
 
+import Bar from "@/components/Bar";
 import { useProfile } from "@/hooks/useProfile";
 import { useRouter } from "next/navigation";
-import Bar from "../Bar";
 import styles from "./style.module.css";
 
 interface StoryProps {

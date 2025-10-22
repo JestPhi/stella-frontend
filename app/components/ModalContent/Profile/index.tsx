@@ -1,10 +1,10 @@
+import Bar from "@/components/Bar";
+import ModalClose from "@/components/Buttons/ModalClose";
+import { useGlobalContext } from "@/context/Global";
 import { useModalContext } from "@/context/Modal";
+import useAuth from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { LogOut, User } from "react-feather";
-import { useGlobalContext } from "../../../context/Global";
-import useAuth from "../../../hooks/useAuth";
-import Bar from "../../Bar";
-import ModalClose from "../../Buttons/ModalClose";
 import styles from "./style.module.css";
 
 const Profile = () => {

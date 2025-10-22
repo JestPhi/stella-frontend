@@ -4,15 +4,15 @@ import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
+import Bar from "@/components/Bar";
+import Button from "@/components/Button";
 import PrimaryButton from "@/components/Buttons/Primary";
+import Panels from "@/components/Panels";
+import { useGlobalContext } from "@/context/Global";
 import { useModalContext } from "@/context/Modal";
-import { useGlobalContext } from "../../../context/Global";
-import { usePageEditor } from "../../../hooks/usePageEditor";
-import { usePageValidation } from "../../../hooks/usePageValidation";
-import { CoverPageData } from "../../../types/story";
-import Bar from "../../Bar";
-import Button from "../../Button";
-import Panels from "../../Panels";
+import { usePageEditor } from "@/hooks/usePageEditor";
+import { usePageValidation } from "@/hooks/usePageValidation";
+import { CoverPageData } from "@/types/story";
 
 import style from "./style.module.css";
 

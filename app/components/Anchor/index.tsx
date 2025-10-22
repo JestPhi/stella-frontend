@@ -1,9 +1,9 @@
-import { HTMLAttributes, ReactNode } from "react";
+import { AnchorHTMLAttributes, ReactNode } from "react";
 import style from "./style.module.css";
 
 type AnchorProps = {
   children?: ReactNode;
-} & HTMLAttributes<HTMLAnchorElement>;
+} & AnchorHTMLAttributes<HTMLAnchorElement>;
 
 const Anchor = ({ children, className = "", ...rest }: AnchorProps) => {
   return (

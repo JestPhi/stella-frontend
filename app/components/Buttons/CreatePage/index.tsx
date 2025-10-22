@@ -4,8 +4,8 @@ import { useModalContext } from "@/context/Modal";
 import { useParams } from "next/navigation";
 import { Plus } from "react-feather";
 
-import Button from "../../Button";
-import CreatePageContent from "../../ModalContent/CreatePage";
+import Button from "@/components/Button";
+import CreatePageContent from "@/components/ModalContent/CreatePage";
 
 const CreatePage = ({}) => {
   const { dispatch } = useModalContext();

@@ -1,6 +1,6 @@
-import Bar from "../Bar";
-import PageMore from "../Buttons/PageMore";
-import Panels from "../Panels";
+import Bar from "@/components/Bar";
+import PageMore from "@/components/Buttons/PageMore";
+import Panels from "@/components/Panels";
 import style from "./style.module.css";
 
 interface PageProps {

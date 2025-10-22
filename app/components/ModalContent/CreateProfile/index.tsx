@@ -1,13 +1,13 @@
 "use client";
 
+import Bar from "@/components/Bar";
+import Button from "@/components/Button";
+import InputText from "@/components/InputText";
+import { useGlobalContext } from "@/context/Global";
+import useAuth from "@/hooks/useAuth";
+import { useProfileCreate } from "@/hooks/useProfileMutations";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useGlobalContext } from "../../../context/Global";
-import useAuth from "../../../hooks/useAuth";
-import { useProfileCreate } from "../../../hooks/useProfileMutations";
-import Bar from "../../Bar";
-import Button from "../../Button";
-import InputText from "../../InputText";
 import style from "./style.module.css";
 
 const CreateProfile = () => {

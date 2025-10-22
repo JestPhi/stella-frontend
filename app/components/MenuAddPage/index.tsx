@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import Panels from "../Panels";
+import Panels from "@/components/Panels";
 
-import PanelsSelector from "../PanelsSelector";
+import PanelsSelector from "@/components/PanelsSelector";
 
 const initalState = {
   "0": {
@@ -29,7 +29,6 @@ const initalState = {
 
 const MenuAddPage = () => {
   const [grid, setGrid] = useState(initalState);
-  console.log(grid, "changed");
   return (
     <div>
       <PanelsSelector

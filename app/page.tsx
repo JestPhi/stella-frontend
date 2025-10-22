@@ -1,7 +1,7 @@
 "use client";
 
-import Stories from "./components/Stories";
-import { useStories } from "./hooks/useStories";
+import Stories from "@/components/Stories";
+import { useStories } from "@/hooks/useStories";
 
 export default function Home() {
   const {

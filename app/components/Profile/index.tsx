@@ -1,10 +1,10 @@
+import Avatar from "@/components/Avatar";
+import Bar from "@/components/Bar";
+import Button from "@/components/Button";
+import EditProfile from "@/components/ModalContent/EditProfile";
+import { useGlobalContext } from "@/context/Global";
 import { useModalContext } from "@/context/Modal";
 import { Edit2 } from "react-feather";
-import { useGlobalContext } from "../../context/Global";
-import Avatar from "../Avatar";
-import Bar from "../Bar";
-import Button from "../Button";
-import EditProfile from "../ModalContent/EditProfile";
 import style from "./style.module.css";
 
 const Profile = () => {

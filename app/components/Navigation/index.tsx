@@ -1,8 +1,8 @@
-import { useGlobalContext } from "../../context/Global";
-import CreatePage from "../Buttons/CreatePage";
-import CreateStory from "../Buttons/CreateStory";
-import Home from "../Buttons/Home";
-import Profile from "../Buttons/Profile";
+import CreatePage from "@/components/Buttons/CreatePage";
+import CreateStory from "@/components/Buttons/CreateStory";
+import Home from "@/components/Buttons/Home";
+import Profile from "@/components/Buttons/Profile";
+import { useGlobalContext } from "@/context/Global";
 import styles from "./style.module.css";
 
 const Navigation = () => {

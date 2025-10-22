@@ -1,8 +1,8 @@
 "use client";
+import { useGlobalContext } from "@/context/Global";
 import { useModalContext } from "@/context/Modal";
+import useAuth from "@/hooks/useAuth";
 import { useEffect } from "react";
-import { useGlobalContext } from "../../../context/Global";
-import useAuth from "../../../hooks/useAuth";
 import styles from "./style.module.css";
 
 const SignIn = () => {

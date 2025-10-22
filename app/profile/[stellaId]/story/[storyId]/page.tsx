@@ -1,11 +1,11 @@
 "use client";
 
+import Page from "@/components/Page";
+import PageCover from "@/components/PageCover";
+import { useProfile } from "@/hooks/useProfile";
+import { useStory } from "@/hooks/useStories";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
-import Page from "../../../../components/Page";
-import PageCover from "../../../../components/PageCover";
-import { useProfile } from "../../../../hooks/useProfile";
-import { useStory } from "../../../../hooks/useStories";
 
 export default function StoryPage() {
   const params = useParams();
