@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import PanelImageItem from "./PanelImageItem";
 import PanelTextItem from "./PanelTextItem";
 import style from "./style.module.css";
@@ -28,80 +28,81 @@ type PanelItemComponentProps = {
   storyId?: string | null;
 };
 
-const PanelItemComponent = memo(
-  ({ itemKey, item, isEditMode, onItemChange }: PanelItemComponentProps) => {
-    // Local state for immediate UI updates
-    const [localValue, setLocalValue] = useState<string | File | null>(
-      item.value ?? null
-    );
+const PanelItemComponent = ({
+  itemKey,
+  item,
+  isEditMode,
+  onItemChange,
+}: PanelItemComponentProps) => {
+  // Local state for immediate UI updates
+  const [localValue, setLocalValue] = useState<string | File | null>(
+    item.value ?? null
+  );
 
-    // Sync local state when parent value changes
-    useEffect(() => {
-      setLocalValue(item.value ?? null);
-    }, [item.value]);
+  // Sync local state when parent value changes
+  useEffect(() => {
+    setLocalValue(item.value ?? null);
+  }, [item.value]);
 
-    // Extract item properties
-    const { grid = {}, skeleton, type, placeholder } = item;
+  // Extract item properties
+  const { grid = {}, skeleton, type, placeholder } = item;
 
-    // Extract grid properties with defaults
-    const { c = 1, r = 1, cs = 1, rs = 1 } = grid;
+  // Extract grid properties with defaults
+  const { c = 1, r = 1, cs = 1, rs = 1 } = grid;
 
-    // Handle value changes (update both local and parent state)
-    const handleValueChange = useCallback(
-      (newValue: string | File | null) => {
-        setLocalValue(newValue);
-        onItemChange(itemKey, newValue);
-      },
-      [itemKey, onItemChange]
-    );
+  // Handle value changes (update both local and parent state)
+  const handleValueChange = useCallback(
+    (newValue: string | File | null) => {
+      setLocalValue(newValue);
 
-    // Generate CSS classes for grid positioning
-    const generateGridClasses = () =>
-      [
-        style.item,
-        style[`rs${rs}`],
-        style[`cs${cs}`],
-        style[`r${r}`],
-        style[`c${c}`],
-        skeleton && style[skeleton],
-      ]
-        .filter(Boolean)
-        .join(" ");
+      onItemChange(itemKey, newValue);
+    },
+    [itemKey, onItemChange]
+  );
 
-    const gridClasses = generateGridClasses();
+  // Generate CSS classes for grid positioning
+  const generateGridClasses = () =>
+    [
+      style.item,
+      style[`rs${rs}`],
+      style[`cs${cs}`],
+      style[`r${r}`],
+      style[`c${c}`],
+      skeleton && style[skeleton],
+    ]
+      .filter(Boolean)
+      .join(" ");
 
-    // Render appropriate component based on type
-    switch (type) {
-      case "text":
-        return (
-          <PanelTextItem
-            value={typeof localValue === "string" ? localValue : ""}
-            placeholder={placeholder}
-            gridClasses={gridClasses}
-            isEditMode={isEditMode}
-            onChange={handleValueChange}
-          />
-        );
+  const gridClasses = generateGridClasses();
 
-      case "jpg":
-      case "image":
-        return (
-          <PanelImageItem
-            value={localValue}
-            gridClasses={gridClasses}
-            isEditMode={isEditMode}
-            onChange={handleValueChange}
-          />
-        );
+  // Render appropriate component based on type
+  switch (type) {
+    case "text":
+      return (
+        <PanelTextItem
+          value={typeof localValue === "string" ? localValue : ""}
+          placeholder={placeholder}
+          gridClasses={gridClasses}
+          isEditMode={isEditMode}
+          onChange={handleValueChange}
+        />
+      );
 
-      default:
-        return <div className={gridClasses} />;
-    }
+    case "jpg":
+    case "image":
+      return (
+        <PanelImageItem
+          value={localValue}
+          gridClasses={gridClasses}
+          isEditMode={isEditMode}
+          onChange={handleValueChange}
+        />
+      );
+
+    default:
+      return <div className={gridClasses} />;
   }
-);
-
-// Add display name for React DevTools
-PanelItemComponent.displayName = "PanelItemComponent";
+};
 
 export default PanelItemComponent;
 export type { GridConfig, PanelItem };

@@ -4,7 +4,8 @@ import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 import Bar from "@/components/Bar";
-import Button from "@/components/Button";
+import ModalClose from "@/components/Buttons/ModalClose";
+import PrimaryButton from "@/components/Buttons/Primary";
 import Panels from "@/components/Panels";
 import { useModalContext } from "@/context/Modal";
 import { usePageEditor } from "@/hooks/usePageEditor";
@@ -67,6 +68,17 @@ const EditPage = ({ pageId }: EditPageProps) => {
 
   return (
     <div className={style.addStoryWrapper}>
+      <Bar className={style.bar} variant="default">
+        <ModalClose />
+        <PrimaryButton
+          className={style.updatePage}
+          variant="primary"
+          onClick={handleSave}
+          disabled={!stellaId || isLoading}
+        >
+          Update Page
+        </PrimaryButton>
+      </Bar>
       {error && <div className={style.error}>{error}</div>}
 
       <Panels
@@ -75,17 +87,6 @@ const EditPage = ({ pageId }: EditPageProps) => {
         className={style.panels}
         onChange={handlePanelsChange}
       />
-
-      <Bar className={style.bar} variant="default">
-        <Button
-          className={style.addStory}
-          variant="primary"
-          onClick={handleSave}
-          disabled={!stellaId || isLoading}
-        >
-          {getButtonText()}
-        </Button>
-      </Bar>
     </div>
   );
 };

@@ -35,7 +35,7 @@ const Panels = ({
     (key: string, value: string | File | null) => {
       // Create updated items object with new value
       dataRef.current = {
-        ...dataRef.current,
+        ...items,
         [key]: {
           ...items[key],
           ...getValue(items[key].type, value),

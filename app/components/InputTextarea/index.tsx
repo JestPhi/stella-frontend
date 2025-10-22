@@ -8,9 +8,7 @@ const Textarea = React.forwardRef<
   return (
     <textarea
       ref={ref}
-      className={[style.textarea, "textarea", className]
-        .filter(Boolean)
-        .join(" ")}
+      className={[style.textarea, className].filter(Boolean).join(" ")}
       {...rest}
     />
   );

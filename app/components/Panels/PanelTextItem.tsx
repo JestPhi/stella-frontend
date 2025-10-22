@@ -56,7 +56,7 @@ const PanelTextItem = ({
           value={value}
           onChange={(e) => handleValueChange(e.target.value)}
         />
-        <div className={style.textFeedback}>
+        {/* <div className={style.textFeedback}>
           <span
             className={`${style.charCount} ${
               remainingChars < 0
@@ -71,7 +71,7 @@ const PanelTextItem = ({
           {validationError && (
             <span className={style.errorMessage}>{validationError}</span>
           )}
-        </div>
+        </div> */}
       </div>
     );
   }

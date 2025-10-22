@@ -48,17 +48,16 @@ const InputImage = ({
       )}
       {imageFileState && (
         <Bar className={style.bar}>
-          <Button
-            className={style.buttonRemoveImage}
-            onClick={() => {
-              setImageFileState(null);
-            }}
-          >
-            <SecondaryButton>
+          <div className={style.buttonRemoveImage}>
+            <SecondaryButton
+              onClick={() => {
+                setImageFileState(null);
+              }}
+            >
               Remove Image
               <Trash2 />
             </SecondaryButton>
-          </Button>
+          </div>
         </Bar>
       )}
       {!imageFileState && (

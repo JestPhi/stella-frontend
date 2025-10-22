@@ -14,6 +14,10 @@
   width: 100%;
 }
 
+.updatePage {
+  margin-right: 6px;
+}
+
 .heading {
   color: #666;
   font-size: 12px;
@@ -23,6 +27,10 @@
 
 .pageActionsHeading {
   margin-top: 16px;
+}
+
+.bar {
+  justify-content: space-between;
 }
 
 .error {
