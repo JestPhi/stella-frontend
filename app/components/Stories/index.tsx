@@ -2,7 +2,6 @@
 
 import { Story } from "@/api/stories";
 import StoryComponent from "@/components/Story";
-import { useRouter } from "next/navigation";
 import Masonry from "react-responsive-masonry";
 
 interface StoriesProps {
@@ -10,7 +9,6 @@ interface StoriesProps {
 }
 
 export default function Stories({ stories = [] }: StoriesProps) {
-  const router = useRouter();
   return (
     <div className="stories">
       <Masonry columnsCount={2} gutter="8px">
