@@ -1,7 +1,7 @@
 "use client";
-
 import Bar from "@/components/Bar";
 import { useProfile } from "@/hooks/useProfile";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "./style.module.css";
 
@@ -22,7 +22,7 @@ export default function Story({ coverPage, storyId, stellaId }: StoryProps) {
   const router = useRouter();
 
   return (
-    <a
+    <Link
       key={storyId}
       className="story"
       href={`/profile/${stellaId}/story/${storyId}`}
@@ -43,6 +43,6 @@ export default function Story({ coverPage, storyId, stellaId }: StoryProps) {
         loading="lazy"
       />
       <div className={styles.title}>{coverPage?.[`1`]?.value}</div>
-    </a>
+    </Link>
   );
 }

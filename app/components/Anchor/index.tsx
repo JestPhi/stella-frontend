@@ -1,15 +1,17 @@
-import { AnchorHTMLAttributes, ReactNode } from "react";
+import Link from "next/link";
+import { ComponentProps, ReactNode } from "react";
 import style from "./style.module.css";
 
 type AnchorProps = {
   children?: ReactNode;
-} & AnchorHTMLAttributes<HTMLAnchorElement>;
+  className?: string;
+} & Omit<ComponentProps<typeof Link>, "className">;
 
 const Anchor = ({ children, className = "", ...rest }: AnchorProps) => {
   return (
-    <a className={[style.anchor, className].join(" ")} {...rest}>
+    <Link className={[style.anchor, className].join(" ")} {...rest}>
       {children}
-    </a>
+    </Link>
   );
 };
 
