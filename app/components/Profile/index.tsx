@@ -9,8 +9,6 @@ import style from "./style.module.css";
 
 const Profile = () => {
   const {
-    dispatch,
-    state,
     state: { bio, username, profileImageKey },
   } = useGlobalContext();
 
