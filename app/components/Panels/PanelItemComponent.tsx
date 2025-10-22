@@ -44,7 +44,7 @@ const PanelItemComponent = memo(
     const { grid = {}, skeleton, type, placeholder } = item;
 
     // Extract grid properties with defaults
-    const { c = 0, r = 0, cs = 0, rs = 0 } = grid;
+    const { c = 1, r = 1, cs = 1, rs = 1 } = grid;
 
     // Handle value changes (update both local and parent state)
     const handleValueChange = useCallback(

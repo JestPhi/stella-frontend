@@ -6,7 +6,6 @@ import InputText from "@/components/InputText";
 import { useGlobalContext } from "@/context/Global";
 import useAuth from "@/hooks/useAuth";
 import { useProfileCreate } from "@/hooks/useProfileMutations";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import style from "./style.module.css";
 
@@ -14,7 +13,6 @@ const CreateProfile = () => {
   const { firebaseId } = useAuth();
   const [username, setUsername] = useState<string>("");
   const [disabledUsername, setDisabledUsername] = useState(true);
-  const router = useRouter();
 
   // TanStack Query for fetching profile data via backend API
 

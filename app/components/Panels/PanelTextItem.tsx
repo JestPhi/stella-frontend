@@ -78,7 +78,7 @@ const PanelTextItem = ({
 
   // Display mode
   return (
-    <div className={gridClasses}>
+    <div className={[gridClasses, style.textWrapper].join(" ")}>
       {value && <div className={style.text}>{value}</div>}
     </div>
   );

@@ -5,13 +5,13 @@ import { useCallback, useState } from "react";
 
 import Bar from "@/components/Bar";
 import Button from "@/components/Button";
+import ModalClose from "@/components/Buttons/ModalClose";
 import PrimaryButton from "@/components/Buttons/Primary";
 import Panels from "@/components/Panels";
 import { useModalContext } from "@/context/Modal";
 import { usePageEditor } from "@/hooks/usePageEditor";
 import { usePageValidation } from "@/hooks/usePageValidation";
 import { CoverPageData } from "@/types/story";
-
 import style from "./style.module.css";
 
 const INITIAL_PAGE_STATE = {
@@ -55,6 +55,7 @@ const CreatePage = () => {
   return (
     <div className={style.addStoryWrapper}>
       <Bar className={style.bar} variant="default">
+        <ModalClose />
         {canSave && (
           <Button variant="primary" onClick={handleSave}>
             <PrimaryButton

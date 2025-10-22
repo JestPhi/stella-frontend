@@ -19,7 +19,7 @@
   margin-right: 8px;
 }
 .pageCover {
-  height: calc(100dvh - 88px);
+  height: calc(100dvh - 44px);
   align-items: center;
   box-sizing: border-box;
   display: flex;
@@ -29,9 +29,7 @@
   scroll-snap-stop: always;
   width: 100dvw;
 }
-.pageCoverPanel :global(img) {
-  border-bottom: 1px solid #ccc;
-}
+
 .profile {
   display: flex;
   align-items: center;

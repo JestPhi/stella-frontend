@@ -21,7 +21,7 @@
   display: flex;
   flex: none;
   flex-direction: column;
-  height: calc(100dvh - 88px);
+  height: calc(100dvh - 44px);
   padding: 0 0 0;
   position: relative;
   scroll-snap-align: start;

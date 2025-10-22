@@ -1,6 +1,8 @@
 "use client";
 
+import Bar from "@/components/Bar";
 import Button from "@/components/Button";
+import ModalClose from "@/components/Buttons/ModalClose";
 import EditPage from "@/components/ModalContent/EditPage";
 import { useModalContext } from "@/context/Modal";
 import { usePageDelete, useStoryDelete } from "@/hooks/useStoryMutations";
@@ -66,10 +68,14 @@ const StoryActions = ({ pageId }: { pageId: string }) => {
 
   return (
     <div className={style.container}>
+      <Bar>
+        <ModalClose />
+      </Bar>
       <div className={style.actions}>
         <div className={style.heading}>
           {isCoverPage && "Cover "}Page Actions
         </div>
+
         <Button
           className={style.action}
           onClick={() => {

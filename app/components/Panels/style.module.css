@@ -2,11 +2,11 @@
   aspect-ratio: 3/4;
   box-sizing: border-box;
   display: grid;
+  height: calc(100vh - 50vh);
   gap: 4px;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(12, 1fr);
   width: 100%;
-  max-height: calc(100dvh - 176px);
 }
 
 .panels :global(img) {
@@ -15,9 +15,21 @@
   width: 100%;
 }
 
+.panelItemComponentWrapper {
+  display: flex;
+  align-items: center;
+  height: calc(100vh - 44px);
+  width: 100%;
+}
+
 .text {
   padding: 12px;
-  width: 100%;
+  max-width: 420px;
+}
+
+.textWrapper {
+  align-items: center;
+  display: flex;
 }
 
 .textFeedback {
@@ -69,12 +81,21 @@
   border-radius: 4px;
 }
 
+.image {
+  height: 100%;
+}
+
 .inputImage {
   height: 100%;
 }
 
+.imageWrapper {
+  display: flex;
+  justify-content: center;
+}
+
 .rs0 {
-  grid-row-start: 0;
+  grid-row-start: 1;
 }
 .rs1 {
   grid-row-start: 1;
@@ -114,7 +135,7 @@
 }
 
 .cs0 {
-  grid-column-start: 0;
+  grid-column-start: 1;
 }
 .cs1 {
   grid-column-start: 1;
