@@ -12,8 +12,10 @@ export interface Profile {
   success?: boolean;
 }
 
-// The API returns profile data directly (or null for not found)
-export type ProfileResponse = Profile | null;
+// The API returns { profile: Profile | null }
+export type ProfileResponse = {
+  profile: Profile | null;
+};
 
 export interface UpdateBioRequest {
   bio: string;
