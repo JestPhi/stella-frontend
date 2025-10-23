@@ -2,7 +2,7 @@
   aspect-ratio: 3/4;
   box-sizing: border-box;
   display: grid;
-  height: calc(100vh - 50vh);
+  height: 70vh;
   gap: 4px;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(12, 1fr);
