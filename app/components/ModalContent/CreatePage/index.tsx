@@ -18,7 +18,7 @@ const INITIAL_PAGE_STATE = {
   "1": {
     grid: { c: 12, r: 2, rs: 10, cs: 0 },
     type: "text",
-    placeholder: "Enter a title",
+    placeholder: "Enter in page text",
     value: "",
   },
 };
